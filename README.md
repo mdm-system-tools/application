@@ -59,8 +59,6 @@ internal/domain   # Entidades (DDD)
 internal/handler  # Handlers e controladores HTTP
 internal/service  # Lógica e manipulação de dados
 test/             # Testes unitários e de integração
-schema.sql        # Esquema SQL das tabelas
-queries.sql       # Comandos SQL
 ```
 
 ### Chatbot
@@ -69,5 +67,6 @@ em processo de desenvolvimento...
 ```
 
 ### Rodar aplicação
-```npx expo start
+``` bash
+npx expo start
 ```
