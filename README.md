@@ -13,7 +13,7 @@
 
 ## 📁 Estrutura do Repositório
 
-### 🖼️ Aplicativo (Expo / React Native)
+### 🖼️ Aplicativo
 
 ```
 src/app          # O main da aplicação
