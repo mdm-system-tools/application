@@ -1,7 +1,7 @@
 
 ## ✅ Telas Principais
 
-- [ ] Cadastro de Pessoas / Agenda  
+- [ ] Cadastro de Pessoas / Agenda --Progresso 
 - [ ] Perfil das Pessoas  
 - [ ] Marcar Reunião  
 - [ ] Filtro  
