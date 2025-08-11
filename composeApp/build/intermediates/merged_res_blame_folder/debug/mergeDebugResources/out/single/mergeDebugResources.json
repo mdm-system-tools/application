@@ -1,0 +1,62 @@
+[
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/drawable_outline_person_24.xml.flat",
+        "source": "org.mdmsystemtools.application.composeApp-main-61:/drawable/outline_person_24.xml"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/drawable_ic_launcher_background.xml.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/drawable-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "org.mdmsystemtools.application.composeApp-debug-57:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "org.mdmsystemtools.application.composeApp-androidMain-59:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    }
+]
