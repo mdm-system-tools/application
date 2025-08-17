@@ -1,11 +1,8 @@
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Album
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.People
-import androidx.compose.material.icons.filled.PlaylistAddCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
@@ -23,10 +20,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import org.mdmsystemtools.application.Telas.CadastrosScreen
-import org.mdmsystemtools.application.Telas.CameraScreen
-import org.mdmsystemtools.application.Telas.DetalhesScreen
-import org.mdmsystemtools.application.Telas.ReuniaoScreen
+import org.mdmsystemtools.application.Telas.Cadastro.CadastrosScreen
+import org.mdmsystemtools.application.Telas.Camera.CameraScreen
+import org.mdmsystemtools.application.Telas.Reunião.ReuniaoScreen
 
 enum class Destination(
   val route: String,
@@ -34,8 +30,8 @@ enum class Destination(
   val icon: ImageVector,
   val contentDescription: String
 ) {
-  CADASTROS("Cadastros", "cadatros", Icons.Default.People, "Cadastros"),
-  CAMERA("Camera", "Camera", Icons.Default.CameraAlt, "camera"),
+  CADASTROS("Cadastros", "Cadastros", Icons.Default.People, "Cadastros"),
+  CAMERA("Camera", "Camera", Icons.Default.CameraAlt, "Camera"),
   REUNIAO("Reuniao", "Reuniao", Icons.Default.CalendarToday, "Reuniao"),
 }
 
@@ -61,33 +57,34 @@ fun AppNavHost(
   }
 }
 
-
 @Composable
-fun NavigatorBarWidget(modifier: Modifier = Modifier, bottomBar: () -> Unit) {
+fun NavigatorBarWidget(modifier: Modifier = Modifier) {
   val navController = rememberNavController()
   val startDestination = Destination.CADASTROS
   var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
 
-  Scaffold(modifier = modifier, bottomBar = {
-    NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
-      Destination.entries.forEachIndexed { index, destination ->
-        NavigationBarItem(
-          selected = selectedDestination == index,
-          onClick = {
-            navController.navigate(route = destination.route)
-            selectedDestination = index
-          },
-          icon = {
-            Icon(
-              destination.icon,
-              contentDescription = destination.contentDescription
-            )
-          },
-          label = { Text(destination.label) }
-        )
+  Scaffold(
+    modifier = modifier,
+    bottomBar = {
+      NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
+        Destination.entries.forEachIndexed { index, destination ->
+          NavigationBarItem(
+            selected = selectedDestination == index,
+            onClick = {
+              navController.navigate(route = destination.route)
+              selectedDestination = index
+            },
+            icon = {
+              Icon(
+                destination.icon,
+                contentDescription = destination.contentDescription
+              )
+            },
+            label = { Text(destination.label) }
+          )
+        }
       }
     }
-  }
   ) { contentPadding ->
     AppNavHost(navController, startDestination, modifier = Modifier.padding(contentPadding))
   }
