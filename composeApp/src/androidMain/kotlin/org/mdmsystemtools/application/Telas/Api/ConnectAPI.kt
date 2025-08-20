@@ -33,17 +33,21 @@ import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import org.mdmsystemtools.application.componentes.ButtonFormAdd
 import kotlin.collections.emptyList
 
 
-@Serializable
 object ApiService {
 	private val client = HttpClient(Android) {
 		install(ContentNegotiation) {
@@ -58,10 +62,11 @@ object ApiService {
 	suspend fun getAllAssociated(): List<Associated> {
 		try {
 			val httpResponse: HttpResponse = client.get("$BASE_URL/associated")
-			if (httpResponse.status.value in 300..600) {
-				Log.e("ConnectAPI", "Failed to get response")
+			if (httpResponse.status.value == HttpStatusCode.Conflict.value) {
+				Log.e("ConnectAPI", "Failed to get response: ${httpResponse.body() as String}")
+				return emptyList()
 			}
-			if (httpResponse.status.value in 200..299) {
+			if (httpResponse.status.value == HttpStatusCode.OK.value)  {
 				Log.i("ConnectAPI", "Success to Get response")
 			}
 			return httpResponse.body() as List<Associated>
@@ -69,6 +74,32 @@ object ApiService {
 			Log.e("ConnectAPI", "Failed to get response", e)
 			e.printStackTrace()
 			return emptyList()
+		}
+	}
+
+	suspend fun postAssociated(associated: Associated): Boolean {
+		try {
+			val httpResponse: HttpResponse = client.post("$BASE_URL/associated") {
+				contentType(ContentType.Application.Json)
+				setBody(associated)
+			}
+			if (httpResponse.status.value == HttpStatusCode.Conflict.value) {
+				Log.e("ConnectAPI", "Failed to get response: ${httpResponse.body() as String}")
+				return false
+			}
+			if (httpResponse.status.value == HttpStatusCode.BadRequest.value) {
+				Log.e("ConnectAPI", "Failed to get response: ${httpResponse.body() as String}")
+				return false
+			}
+			if (httpResponse.status.value == HttpStatusCode.OK.value) {
+				Log.i("ConnectAPI", "Success to Get response")
+				return true
+			}
+			return true
+		} catch (e: Exception) {
+			Log.e("ConnectAPI", "Failed to get response", e)
+			e.printStackTrace()
+			return false
 		}
 	}
 }
@@ -113,16 +144,30 @@ fun ConnectAPI(modifier: Modifier = Modifier) {
 		loadAssociated()
 	}
 
-	Scaffold(modifier = modifier) { paddingValues ->
+	Scaffold(modifier = modifier, bottomBar = {
+		ButtonFormAdd(modifier, onClick = {
+			val newAssociated = Associated(
+				name = "test",
+				groupId = 11,
+				numberCard = 15
+			)
+			scope.launch {
+				if (ApiService.postAssociated(newAssociated)) {
+					loadAssociated()
+				}
+			}
+		})
+	}
+	) { paddingValues ->
 		Column(
 			modifier = Modifier
-				.fillMaxSize()
-				.padding(paddingValues)
+        .fillMaxSize()
+        .padding(paddingValues)
 		) {
 			Row(
 				modifier = Modifier
-					.fillMaxWidth()
-					.padding(8.dp),
+          .fillMaxWidth()
+          .padding(8.dp),
 				horizontalArrangement = Arrangement.End
 			) {
 				IconButton(
@@ -140,8 +185,8 @@ fun ConnectAPI(modifier: Modifier = Modifier) {
 
 			Box(
 				modifier = Modifier
-					.fillMaxSize()
-					.weight(1f),
+          .fillMaxSize()
+          .weight(1f),
 				contentAlignment = Alignment.Center
 			) {
 				when {
@@ -173,6 +218,7 @@ fun ConnectAPI(modifier: Modifier = Modifier) {
 					}
 				}
 			}
+
 		}
 	}
 }
