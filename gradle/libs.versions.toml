@@ -2,24 +2,40 @@
 agp = "8.12.1"
 android-compileSdk = "36"
 android-minSdk = "24"
+#noinspection OldTargetApi
 android-targetSdk = "35"
 androidx-activity = "1.10.1"
 androidx-appcompat = "1.7.1"
-androidx-core = "1.16.0"
-androidx-espresso = "3.6.1"
-androidx-lifecycle = "2.9.1"
-androidx-testExt = "1.2.1"
+androidx-core = "1.17.0"
+androidx-espresso = "3.7.0"
+androidx-lifecycle = "2.9.2"
+androidx-testExt = "1.3.0"
 coilCompose = "3.3.0"
 composeMultiplatform = "1.8.2"
 junit = "4.13.2"
-kotlin = "2.2.0"
+kotlin = "2.2.10"
 kotlinxSerializationJson = "1.9.0"
 ktorClientCore = "3.2.3"
 materialIconsExtended = "1.7.3"
 navigationComposeJvmstubs = "2.9.3"
+roomCompiler = "2.7.2"
+room = "2.7.2"
+sqlite = "2.5.2"
+ksp = "2.0.21-1.0.27"
+constraintlayout = "2.2.1"
 
 [libraries]
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+# Optional SQLite Wrapper available in version 2.8.0 and higher
+androidx-room-sqlite-wrapper = { module = "androidx.room:room-sqlite-wrapper", version.ref = "room" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeJvmstubs" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
+androidx-room-guava = { module = "androidx.room:room-guava", version.ref = "roomCompiler" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCompiler" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomCompiler" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCompiler" }
+androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "roomCompiler" }
+androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomCompiler" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -39,8 +55,11 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientCore" }
 material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 [plugins]
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+androidx-room = { id = "androidx.room", version.ref = "room" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
