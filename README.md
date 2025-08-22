@@ -1,3 +1,15 @@
+## ✅ Telas Principais
+
+- [ ] Cadastro de Pessoas / Agenda
+- [ ] Perfil das Pessoas
+- [ ] Marcar Reunião
+- [ ] Filtro
+- [ ] Pesquisa por Nome / Chamada
+- [ ] Exportação de dados `.xlsx`
+- [ ] Banco em Cache
+
+---
+
 This is a Kotlin Multiplatform project targeting Android.
 
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
