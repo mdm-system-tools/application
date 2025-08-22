@@ -6,7 +6,6 @@ plugins {
   alias(libs.plugins.androidApplication)
   alias(libs.plugins.composeMultiplatform)
   alias(libs.plugins.composeCompiler)
-  id("org.jetbrains.kotlin.plugin.serialization") version "2.2.10"
 }
 
 kotlin {
@@ -21,6 +20,11 @@ kotlin {
     androidMain.dependencies {
       implementation(compose.preview)
       implementation(libs.androidx.activity.compose)
+      implementation(libs.androidx.lifecycle.viewmodelCompose)
+      implementation(libs.androidx.lifecycle.runtimeCompose)
+      implementation(libs.androidx.navigation.compose)
+      implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.2") // Verifique a última versão
+      //implementation(libs.androidx.room.sqlite.wrapper)
     }
     commonMain.dependencies {
       implementation(compose.runtime)
@@ -29,18 +33,20 @@ kotlin {
       implementation(compose.ui)
       implementation(compose.components.resources)
       implementation(compose.components.uiToolingPreview)
-      implementation(libs.androidx.lifecycle.viewmodelCompose)
-      implementation(libs.androidx.lifecycle.runtimeCompose)
-      implementation(libs.androidx.navigation.compose)
       implementation(libs.material.icons.extended)
       implementation(libs.coil.compose)
       implementation(libs.coil.network.okhttp)
+
       // Ktor client
       implementation(libs.ktor.client.core)
       implementation(libs.ktor.client.android)
       implementation(libs.ktor.client.content.negotiation)
       implementation(libs.ktor.serialization.kotlinx.json)
       implementation(libs.kotlinx.serialization.json)
+
+      // room
+      implementation(libs.androidx.room.runtime)
+      implementation(libs.androidx.sqlite.bundled)
     }
     commonTest.dependencies {
       implementation(libs.kotlin.test)
