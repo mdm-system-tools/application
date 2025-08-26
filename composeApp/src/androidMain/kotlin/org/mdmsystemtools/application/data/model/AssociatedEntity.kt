@@ -1,4 +1,4 @@
-package org.mdmsystemtools.application.Telas.Api
+package org.mdmsystemtools.application.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

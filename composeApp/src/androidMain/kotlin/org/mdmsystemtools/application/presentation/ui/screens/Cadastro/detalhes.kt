@@ -1,4 +1,4 @@
-package org.mdmsystemtools.application.Telas.Camera
+package org.mdmsystemtools.application.presentation.ui.screens.Cadastro
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,11 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun CameraScreen(modifier: Modifier = Modifier) {
+fun DetalhesScreen() {
   Box(
     modifier = Modifier.fillMaxSize(),
     contentAlignment = Alignment.Center
   ) {
-    Text("CAMERA!!!")
+    Text("Detalhes do associado")
   }
 }

@@ -1,4 +1,4 @@
-package org.mdmsystemtools.application.Telas.Cadastro
+package org.mdmsystemtools.application.presentation.ui.screens.Reunião
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,11 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun DetalhesScreen() {
+fun ReuniaoScreen(modifier: Modifier = Modifier) {
   Box(
     modifier = Modifier.fillMaxSize(),
     contentAlignment = Alignment.Center
   ) {
-    Text("Detalhes do associado")
+    Text("Agenda")
   }
 }

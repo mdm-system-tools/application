@@ -1,4 +1,4 @@
-package org.mdmsystemtools.application.componentes
+package org.mdmsystemtools.application.presentation.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

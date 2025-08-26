@@ -23,7 +23,7 @@ kotlin {
       implementation(libs.androidx.lifecycle.viewmodelCompose)
       implementation(libs.androidx.lifecycle.runtimeCompose)
       implementation(libs.androidx.navigation.compose)
-      implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.2") // Verifique a última versão
+      implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.2")
       //implementation(libs.androidx.room.sqlite.wrapper)
     }
     commonMain.dependencies {

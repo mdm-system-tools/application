@@ -1,4 +1,4 @@
-package org.mdmsystemtools.application.Telas.Testes
+package org.mdmsystemtools.application
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth

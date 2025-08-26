@@ -1,4 +1,4 @@
-package org.mdmsystemtools.application.Telas.Cadastro
+package org.mdmsystemtools.application.presentation.ui.screens.Cadastro
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,12 +9,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import org.mdmsystemtools.application.componentes.ButtonFormAdd
-import org.mdmsystemtools.application.componentes.QuickAccessButtons
-import org.mdmsystemtools.application.componentes.SearchBar
+import androidx.navigation.NavHostController
+import org.mdmsystemtools.application.presentation.ui.components.ButtonFormAdd
+import org.mdmsystemtools.application.presentation.ui.components.QuickAccessButtons
+import org.mdmsystemtools.application.presentation.ui.components.SearchBar
 
 @Composable
-fun CadastrosScreen() {
+fun CadastrosScreen(navController: NavHostController) {
   var showDialog by remember { mutableStateOf(false) }
 	val modifier: Modifier = Modifier
 
@@ -34,11 +35,14 @@ fun CadastrosScreen() {
       )
     }
 
-    Formulario(
-      showDialog = showDialog,
-      onDismiss = { showDialog = false }
-    )
+    //Formulario(
+    //  showDialog = showDialog,
+    //  onDismiss = { showDialog = false }
+    //)
 
-    ButtonFormAdd(Modifier.fillMaxSize(), onClick = { showDialog = true })
+    ButtonFormAdd(Modifier.fillMaxSize(), onClick = {
+			navController.navigate("Formulario")
+
+		})
   }
 }
