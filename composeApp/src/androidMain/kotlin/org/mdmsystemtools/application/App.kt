@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,12 +12,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import org.mdmsystemtools.application.data.model.AssociatedDto
 import org.mdmsystemtools.application.presentation.ui.screens.telaPrincipal.TelaPrincipal
@@ -40,7 +42,7 @@ class MainActivity : ComponentActivity() {
 		setContent {
 			MaterialTheme {
 				Surface {
-					CadastrosViewModel()
+					CadastrosScreen()
 				}
 			}
 		}
@@ -48,63 +50,43 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun CadastrosViewModel() {
+fun CadastrosScreen(
+	viewModel: ListAssociatedViewModel = viewModel()
+) {
+
+	//val listAssociateds = remember { mutableStateListOf<AssociatedDto>() }
+	viewModel.getListAssociateds()
+
+	val listAssociateds by viewModel.listAssociateds.collectAsState()
+
 	Surface() {
-		Column(
+		LazyColumn(
 			Modifier
                 .padding(start = 8.dp, top = 40.dp, end = 16.dp, bottom = 16.dp)
                 .fillMaxHeight()
                 .fillMaxWidth()
-                .verticalScroll(
-                    ScrollState(0)
-                ),
-			verticalArrangement = Arrangement.spacedBy(16.dp),
+		) {
+			item {
+				Text("Tamanho da lista: " + listAssociateds.size)
+			}
 
-			) {
-			Text("hello")
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
-			AssociatedProfile()
+			items(listAssociateds) { associated ->
+				AssociatedProfile(associated)
+			}
 		}
-
 	}
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun CadastrosViewModelPreview() {
-	CadastrosViewModel()
+private fun CadastrosScreenPreview() {
+	CadastrosScreen()
 }
 
 @Composable
-private fun AssociatedProfile() {
-	val associated = AssociatedDto(10000, 10000, "Jose Maria")
+private fun AssociatedProfile(associated: AssociatedDto) {
 	Row(
-		verticalAlignment = Alignment.CenterVertically,
-		modifier = Modifier
+		verticalAlignment = Alignment.CenterVertically, modifier = Modifier
             .height(64.dp)
             .width(270.dp)
 	) {
@@ -117,15 +99,13 @@ private fun AssociatedProfile() {
 		)
 		Column(Modifier.padding(start = 8.dp)) {
 			Text(
-				LoremIpsum(50).values.first(),
-				fontSize = 18.sp,
-				fontWeight = FontWeight(500),
-				maxLines = 2
+				LoremIpsum(50).values.first(), fontSize = 18.sp, fontWeight = FontWeight(500), maxLines = 2
 			)
 			Row {
 				Text(
 					"Grupo: ${associated.groupId} Carterinha: ${associated.numberCard}",
-					fontSize = 12.sp, fontWeight = FontWeight(400)
+					fontSize = 12.sp,
+					fontWeight = FontWeight(400)
 				)
 			}
 		}
