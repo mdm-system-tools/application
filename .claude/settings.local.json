@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(set JAVA_HOME=C:Program FilesJavajdk-24)"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}
