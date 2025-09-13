@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import org.mdmsystemtools.application.presentation.ui.screens.Cadastro.CadastrosScreen
 import org.mdmsystemtools.application.presentation.ui.screens.Cadastro.Formulario
 import org.mdmsystemtools.application.presentation.ui.screens.Camera.CameraScreen
-import org.mdmsystemtools.application.presentation.ui.screens.Reunião.ReuniaoScreen
+import org.mdmsystemtools.application.presentation.ui.screens.Reunião.ReuniaoNavigation
 
 enum class Destination(
   val route: String,
@@ -39,7 +39,7 @@ fun AppNavHost(
         when (destination) {
           Destination.CADASTROS -> CadastrosScreen(navController)
           Destination.CAMERA -> CameraScreen()
-          Destination.REUNIAO -> ReuniaoScreen()
+          Destination.REUNIAO -> ReuniaoNavigation()
         }
       }
     }
