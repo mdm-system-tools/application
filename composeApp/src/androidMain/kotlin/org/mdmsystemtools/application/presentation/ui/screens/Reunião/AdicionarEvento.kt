@@ -36,6 +36,18 @@ data class CalendarDate(
 	val year: Int,
 	val isCurrentMonth: Boolean
 )
+
+// TODO BUG é possivel coloca horario fim antes do inicio exemplo inicio 09:00 fim 6:00
+// TODO BUG usando o botão de voltar do proprio celular volta para a tela anterior mas não muda o navigatorbar
+// TODO FEATURE adicionar botão para apagar evento
+// TODO FEATURE adicionar efeitos de voltar e fechar tela
+// TODO VISUAL acho que coloca o botão de salvar em baixo é mais natural
+// TODO VISUAL adicionar espaçamento do topo da tela para não deixa o titulo colado 
+// TODO VISUAL botão de adicionar ou clica no dia, os dois é estranho
+// TODO VISUAL deslizar o dedo para mudar o mês é mais natural do que aperta nas setas
+// TODO REFACTORING alterar nomes das variveis, funções e do arquivos para serem mais clara e bem definidas, não é legal misturar inglês com português
+// TODO REFACTORING tentar quebrar as funções em pequenas funções seguindo o Princípio de SRP
+// TODO REFACTORING Usar interfaces para não ter acoplamento da tela com a classe de dados em memoria
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdicionarEventoScreen(
