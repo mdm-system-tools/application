@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,7 +32,7 @@ enum class MeusCampos(val label: String, var data: String = "") {
 }
 
 
-// TODO Transformar o formulario em uma tela
+// TODO Transformar o dialog em uma tela
 @Composable
 fun FormScreen(
 	showDialog: Boolean = false,
@@ -39,6 +40,12 @@ fun FormScreen(
 	title: String = "Cadastro",
 	buttonText: String = "Salvar"
 ) {
+	Box(
+		modifier = Modifier.fillMaxSize(),
+		contentAlignment = Alignment.Center
+	) {
+		Text("TODO Implementar uma tela de formulario")
+	}
 	if (showDialog) {
 		var nome by remember { mutableStateOf("") }
 		var email by remember { mutableStateOf("") }
