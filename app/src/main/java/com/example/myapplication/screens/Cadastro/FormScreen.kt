@@ -31,10 +31,11 @@ enum class MeusCampos(val label: String, var data: String = "") {
 }
 
 
+// TODO Transformar o formulario em uma tela
 @Composable
-fun Formulario(
-	showDialog: Boolean,
-	onDismiss: () -> Unit,
+fun FormScreen(
+	showDialog: Boolean = false,
+	onDismiss: () -> Unit = {},
 	title: String = "Cadastro",
 	buttonText: String = "Salvar"
 ) {
