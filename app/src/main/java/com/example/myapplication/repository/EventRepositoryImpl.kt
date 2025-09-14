@@ -5,6 +5,8 @@ import com.example.myapplication.model.CalendarDateDto
 import com.example.myapplication.model.EventDto
 import com.example.myapplication.repository.EventRepository
 
+// TODO REFACTORING a implementação está sendo usando em varios lugares, ela deve ser usando apenas uma vez
+// TODO REFACTORING usar singleton
 class EventRepositoryImpl : EventRepository {
 	private val _eventos = mutableStateListOf<EventDto>()
 	val eventos: List<EventDto> get() = _eventos.toList()
@@ -33,6 +35,7 @@ class EventRepositoryImpl : EventRepository {
 		return _eventos.sortedBy { it.criadoEm }
 	}
 
+	//TODO REFACTORING pelo o que entendi da implementação, o comportamento de remember lembra o viewmodel
 	companion object {
 		// Instância única compartilhada
 		private var _instance: EventRepositoryImpl? = null

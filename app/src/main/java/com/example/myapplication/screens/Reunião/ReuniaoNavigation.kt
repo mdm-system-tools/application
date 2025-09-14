@@ -13,6 +13,7 @@ enum class ReuniaoScreens {
 fun ReuniaoNavigation(modifier: Modifier = Modifier) {
 	var currentScreen by remember { mutableStateOf(ReuniaoScreens.CALENDAR) }
 	var selectedDate by remember { mutableStateOf<CalendarDateDto?>(null) }
+	// TODO REFACTORING troca a implementação pela interface
 	val eventRepositoryImpl = EventRepositoryImpl.rememberEventManager()
 
 	when (currentScreen) {
