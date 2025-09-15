@@ -1,3 +1,3 @@
-Entenda a estrutura do projeto antes de contribuir, para evitar confusão nos commits.
+Entenda a estrutura do projeto antes de contribuir.
 
 [Estrutura do Projeto](doc/structure.md)
