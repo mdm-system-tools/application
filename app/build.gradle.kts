@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.myapplication"
+    namespace = "com.MdmSystemTools.Application"
     compileSdk = 36
 
     defaultConfig {
