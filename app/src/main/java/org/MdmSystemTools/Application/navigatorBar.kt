@@ -10,10 +10,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import org.mdmsystemtools.application.presentation.ui.screens.Cadastro.ProfilesListScreen
-import org.mdmsystemtools.application.presentation.ui.screens.Cadastro.FormScreen
-import org.mdmsystemtools.application.presentation.ui.screens.Camera.SettingsScreen
-import org.mdmsystemtools.application.presentation.ui.screens.Reunião.ReuniaoNavigation
+import org.MdmSystemTools.Application.view.screens.Registration.ProfilesListScreen
+import org.MdmSystemTools.Application.view.screens.Registration.FormScreen
+import org.MdmSystemTools.Application.view.screens.Settings.SettingsScreen
+import org.MdmSystemTools.Application.view.screens.Meeting.ReuniaoNavigation
 
 enum class Destination(
 	val route: String,

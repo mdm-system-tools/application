@@ -1,8 +1,12 @@
-package org.mdmsystemtools.application.presentation.ui.screens.Reunião
+package org.MdmSystemTools.Application.view.screens.Meeting
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
+import org.MdmSystemTools.Application.viewmodel.Meeting.MeetingViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import org.MdmSystemTools.Application.view.screens.Meeting.ReuniaoScreen
 
 enum class ReuniaoScreens {
 	CALENDAR,
@@ -10,17 +14,15 @@ enum class ReuniaoScreens {
 }
 
 @Composable
-fun ReuniaoNavigation(modifier: Modifier = Modifier) {
+fun ReuniaoNavigation(modifier: Modifier = Modifier, viewModel: MeetingViewModel = hiltViewModel()) {
 	var currentScreen by remember { mutableStateOf(ReuniaoScreens.CALENDAR) }
 	var selectedDate by remember { mutableStateOf<CalendarDateDto?>(null) }
-	// TODO REFACTORING troca a implementação pela interface
-	val eventRepositoryImpl = EventRepositoryImpl.rememberEventManager()
 
 	when (currentScreen) {
 		ReuniaoScreens.CALENDAR -> {
 			ReuniaoScreen(
 				modifier = modifier,
-				eventRepositoryImpl = eventRepositoryImpl,
+				viewModel = viewModel,
 				onNavigateToAddEvent = { date ->
 					selectedDate = date
 					currentScreen = ReuniaoScreens.ADD_EVENT
@@ -29,13 +31,17 @@ fun ReuniaoNavigation(modifier: Modifier = Modifier) {
 		}
 
 		ReuniaoScreens.ADD_EVENT -> {
+			BackHandler {
+				currentScreen = ReuniaoScreens.CALENDAR
+			}
+
 			AdicionarEventoScreen(
 				selectedDate = selectedDate,
 				onNavigateBack = {
 					currentScreen = ReuniaoScreens.CALENDAR
 				},
 				onEventSaved = { evento ->
-					eventRepositoryImpl.adicionarEvento(evento)
+					viewModel.adicionarEvento(evento)
 					currentScreen = ReuniaoScreens.CALENDAR
 				}
 			)

@@ -1,4 +1,4 @@
-package org.mdmsystemtools.application.presentation.ui.screens.Cadastro
+package org.MdmSystemTools.Application.view.screens.Registration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

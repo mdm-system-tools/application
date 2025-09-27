@@ -1,26 +1,33 @@
-package org.mdmsystemtools.application.presentation.ui.screens.Reunião
+package org.MdmSystemTools.Application.model.repository
 
-import androidx.compose.runtime.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.DTO.EventDto
 import org.MdmSystemTools.Application.model.repository.EventRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
-// TODO REFACTORING a implementação está sendo usando em varios lugares, ela deve ser usando apenas uma vez
-// TODO REFACTORING usar singleton
-class EventRepositoryImpl : EventRepository {
-	private val _eventos = mutableStateListOf<EventDto>()
-	val eventos: List<EventDto> get() = _eventos.toList()
+@Singleton
+class EventRepositoryImpl @Inject constructor() : EventRepository {
+	private val _eventos = MutableStateFlow<List<EventDto>>(emptyList())
+	val eventos: StateFlow<List<EventDto>> = _eventos.asStateFlow()
 
 	override fun adicionarEvento(evento: EventDto) {
-		_eventos.add(evento)
+		val currentList = _eventos.value.toMutableList()
+		currentList.add(evento)
+		_eventos.value = currentList
 	}
 
 	override fun removerEvento(eventoId: String) {
-		_eventos.removeAll { it.id == eventoId }
+		val currentList = _eventos.value.toMutableList()
+		currentList.removeAll { it.id == eventoId }
+		_eventos.value = currentList
 	}
 
 	override fun obterEventosPorData(data: CalendarDateDto): List<EventDto> {
-		return _eventos.filter { evento ->
+		return _eventos.value.filter { evento ->
 			evento.data.day == data.day &&
 				evento.data.month == data.month &&
 				evento.data.year == data.year
@@ -32,22 +39,9 @@ class EventRepositoryImpl : EventRepository {
 	}
 
 	override fun obterTodosEventos(): List<EventDto> {
-		return _eventos.sortedBy { it.criadoEm }
+		return _eventos.value.sortedBy { it.criadoEm }
 	}
 
-	//TODO REFACTORING pelo o que entendi da implementação, o comportamento de remember lembra o viewmodel
-	companion object {
-		// Instância única compartilhada
-		private var _instance: EventRepositoryImpl? = null
-
-		@Composable
-		fun rememberEventManager(): EventRepositoryImpl {
-			if (_instance == null) {
-				_instance = EventRepositoryImpl()
-			}
-			return remember { _instance!! }
-		}
-	}
 }
 
 // Extension functions para facilitar o uso

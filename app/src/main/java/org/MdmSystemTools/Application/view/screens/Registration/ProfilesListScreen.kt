@@ -1,4 +1,4 @@
-package org.mdmsystemtools.application.presentation.ui.screens.Cadastro
+package org.MdmSystemTools.Application.view.screens.Registration
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -14,9 +14,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import org.MdmSystemTools.Application.view.components.AssociatedProfile
 import org.MdmSystemTools.Application.viewmodel.Registration.ListAssociatedViewModel
-import org.mdmsystemtools.application.presentation.ui.components.ButtonFormAdd
-import org.mdmsystemtools.application.presentation.ui.components.QuickAccessButtons
-import org.mdmsystemtools.application.presentation.ui.components.SearchBar
+import org.MdmSystemTools.Application.view.components.ButtonFormAdd
+import org.MdmSystemTools.Application.view.components.QuickAccessButtons
+import org.MdmSystemTools.Application.view.components.SearchBar
 
 @Composable
 fun ProfilesListScreen(

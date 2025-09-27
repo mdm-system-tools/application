@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.MdmSystemTools.Application.R
+import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.DTO.AssociatedDto
 
 @Composable

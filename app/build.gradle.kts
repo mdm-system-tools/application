@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.MdmSystemTools.Application"
+    namespace = "org.MdmSystemTools.Application"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.myapplication"
+        applicationId = "org.MdmSystemTools.Application"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -32,6 +32,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
+    }
+    kotlinOptions {
+        jvmTarget = "21"
     }
     buildFeatures {
         compose = true

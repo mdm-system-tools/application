@@ -1,4 +1,4 @@
-package org.mdmsystemtools.application.presentation.ui.screens.Camera
+package org.MdmSystemTools.Application.view.screens.Settings
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

@@ -2,7 +2,7 @@ package org.MdmSystemTools.Application.model.repository
 
 import android.app.Application
 import org.MdmSystemTools.Application.model.DTO.AssociatedDto
-import com.MdmSystemTools.Application.R
+import org.MdmSystemTools.Application.R
 
 class ListAssociatedRepositoryImpl(private val appContext: Application) : ListAssociatedRepository {
   init {

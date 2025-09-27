@@ -1,4 +1,4 @@
-package org.mdmsystemtools.application.presentation.ui.components
+package org.MdmSystemTools.Application.view.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
