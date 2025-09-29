@@ -76,7 +76,7 @@ fun ReuniaoScreen(
 		// Botão flutuante se não há eventos no mês
 		ShowFloatingButtonIfNeeded(
 			hasEvents = eventos.any {
-				it.data.month == currentMonth && it.data.year == currentYear
+				it.date.month == currentMonth && it.date.year == currentYear
 			},
 			onNavigateToAddEvent = onNavigateToAddEvent
 		)
