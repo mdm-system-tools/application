@@ -23,7 +23,7 @@ import org.MdmSystemTools.Application.model.DTO.GetListGroups
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GrupoSelector(
+fun GroupSelector(
 	selectedGrupo: GroupDto?,
 	onGrupoChange: (GroupDto?) -> Unit,
 	modifier: Modifier = Modifier

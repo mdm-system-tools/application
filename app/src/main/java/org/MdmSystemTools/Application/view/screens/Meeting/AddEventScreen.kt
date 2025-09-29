@@ -14,7 +14,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,7 +28,7 @@ import org.MdmSystemTools.Application.view.components.*
 import org.MdmSystemTools.Application.view.components.Forms.LocalSelector
 import org.MdmSystemTools.Application.view.components.Forms.RegiaoSelector
 import org.MdmSystemTools.Application.view.components.Forms.ProjetoSelector
-import org.MdmSystemTools.Application.view.components.Forms.GrupoSelector
+import org.MdmSystemTools.Application.view.components.Forms.GroupSelector
 import org.MdmSystemTools.Application.utils.AppConstants
 import java.util.*
 
@@ -221,7 +220,7 @@ private fun EventForm(
 		)
 
 		// Grupo
-		GrupoSelector(
+		GroupSelector(
 			selectedGrupo = grupoEvento, onGrupoChange = onGrupoChange
 		)
 
