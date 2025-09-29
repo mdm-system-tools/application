@@ -20,8 +20,8 @@ fun TimePickerDialog(
 	onDismiss: () -> Unit
 ) {
 	val timeParts = selectedTime.split(":")
-	var hour by remember { mutableStateOf(timeParts[0].toInt()) }
-	var minute by remember { mutableStateOf(timeParts[1].toInt()) }
+	var hour by remember { mutableIntStateOf(timeParts[0].toInt()) }
+	var minute by remember { mutableIntStateOf(timeParts[1].toInt()) }
 
 	AlertDialog(
 		onDismissRequest = onDismiss,
