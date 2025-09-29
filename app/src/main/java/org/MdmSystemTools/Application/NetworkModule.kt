@@ -1,8 +1,8 @@
 package org.MdmSystemTools.Application
 
 import android.app.Application
-import org.MdmSystemTools.Application.model.repository.ListAssociatedRepository
-import org.MdmSystemTools.Application.model.repository.ListAssociatedRepositoryImpl
+import org.MdmSystemTools.Application.model.repository.ListAssociateRepository
+import org.MdmSystemTools.Application.model.repository.ListAssociateRepositoryImpl
 import org.MdmSystemTools.Application.model.repository.EventRepository
 import org.MdmSystemTools.Application.model.repository.EventRepositoryImpl
 import dagger.Module
@@ -16,8 +16,8 @@ import javax.inject.Singleton
 object NetworkModule {
   @Provides
   @Singleton
-  fun provideListAssociatedRepository(app: Application): ListAssociatedRepository {
-    return ListAssociatedRepositoryImpl(app)
+  fun provideListAssociateRepository(app: Application): ListAssociateRepository {
+    return ListAssociateRepositoryImpl(app)
   }
 
   @Provides
