@@ -2,8 +2,8 @@ package org.MdmSystemTools.Application
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
-import androidx.compose.material.icons.filled.People
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -12,8 +12,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.MdmSystemTools.Application.view.screens.Registration.ProfilesListScreen
 import org.MdmSystemTools.Application.view.screens.Registration.FormScreen
-import org.MdmSystemTools.Application.view.screens.Settings.SettingsScreen
-import org.MdmSystemTools.Application.view.screens.Meeting.ReuniaoNavigation
+import org.MdmSystemTools.Application.view.screens.Collaborators.CollaboratorsScreen
+import org.MdmSystemTools.Application.view.screens.Meeting.CalendarNavigation
 
 enum class Destination(
 	val route: String,
@@ -21,9 +21,9 @@ enum class Destination(
 	val icon: ImageVector,
 	val contentDescription: String
 ) {
-	CADASTROS("Cadastros", "Cadastros", Icons.Default.People, "Cadastros"),
-	REUNIAO("Reuniao", "Reuniao", Icons.Default.CalendarToday, "Reuniao"),
-	CONFIGURACAO("Configuração", "Configuração", Icons.Default.Settings, "Configuração"),
+	ASSOCIATES("associates", "Associados", Icons.Default.Home, "Associados"),
+	COLLABORATORS("collaborators", "Colaboradores", Icons.Default.Groups, "Colaboradores"),
+	CALENDAR("calendar", "Agenda", Icons.Default.CalendarToday, "Agenda"),
 }
 
 @Composable
@@ -39,9 +39,9 @@ fun AppNavHost(
 		Destination.entries.forEach { destination ->
 			composable(destination.route) {
 				when (destination) {
-					Destination.CADASTROS -> ProfilesListScreen(navController)
-					Destination.REUNIAO -> ReuniaoNavigation()
-					Destination.CONFIGURACAO -> SettingsScreen()
+					Destination.ASSOCIATES -> ProfilesListScreen(navController)
+					Destination.COLLABORATORS -> CollaboratorsScreen()
+					Destination.CALENDAR -> CalendarNavigation()
 				}
 			}
 		}
