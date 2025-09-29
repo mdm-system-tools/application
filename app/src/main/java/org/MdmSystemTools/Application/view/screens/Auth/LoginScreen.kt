@@ -34,6 +34,7 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+	// TODO variaveis e funções devem ser em inglês
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
     var senhaVisivel by remember { mutableStateOf(false) }
@@ -162,6 +163,9 @@ fun LoginScreen(
 
                     Button(
                         onClick = {
+													//TODO isso aqui é uma regra de negocio que vai fica um
+													// pouco mais complexa no futuro. é melhor mover isso para uma
+													// viewmodel e usar uma interface
                             if (email.isBlank() || senha.isBlank()) {
                                 errorMessage = "Por favor, preencha todos os campos"
                             } else if (!isValidEmail(email)) {
@@ -169,6 +173,9 @@ fun LoginScreen(
                             } else {
                                 errorMessage = ""
                                 isLoading = true
+															// TODO ERRO HORRIVEL, deve usar navcontroller e não
+															// sobrepor a tela anterior, e se eu quiser deslogar ?
+															// que tela o app vai me mandar?
                                 onLoginSuccess()
                             }
                         },
@@ -227,6 +234,8 @@ fun LoginScreen(
     }
 }
 
+// TODO isso é uma regra de negocio e não deveria está aqui
 private fun isValidEmail(email: String): Boolean {
+	//TODO porque esta usando o caminho absoluto ao inves de importa o pacote ??
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }

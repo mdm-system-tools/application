@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
 				if (isAuthenticated) {
 					// Aplicação principal após autenticação
 					val navController = rememberNavController()
-					val startDestination = Destination.CADASTROS
+					val startDestination = Destination.ASSOCIATES
 					var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
 
 					Scaffold(

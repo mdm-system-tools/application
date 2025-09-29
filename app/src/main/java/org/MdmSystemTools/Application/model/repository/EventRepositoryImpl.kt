@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.DTO.EventDto
-import org.MdmSystemTools.Application.model.repository.EventRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,9 +27,9 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
 
 	override fun obterEventosPorData(data: CalendarDateDto): List<EventDto> {
 		return _eventos.value.filter { evento ->
-			evento.data.day == data.day &&
-				evento.data.month == data.month &&
-				evento.data.year == data.year
+			evento.date.day == data.day &&
+				evento.date.month == data.month &&
+				evento.date.year == data.year
 		}
 	}
 
@@ -39,7 +38,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
 	}
 
 	override fun obterTodosEventos(): List<EventDto> {
-		return _eventos.value.sortedBy { it.criadoEm }
+		return _eventos.value.sortedBy { it.createdIn }
 	}
 
 }

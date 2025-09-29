@@ -35,7 +35,7 @@ fun EventDetailsDialog(
                     modifier = Modifier.size(24.dp)
                 )
                 Text(
-                    text = evento.titulo,
+                    text = evento.title,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -46,11 +46,11 @@ fun EventDetailsDialog(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 // Descrição
-                if (evento.descricao.isNotBlank()) {
+                if (evento.description.isNotBlank()) {
                     DetailItem(
                         icon = Icons.Default.Description,
                         label = "Descrição",
-                        value = evento.descricao
+                        value = evento.description
                     )
                 }
 
@@ -58,7 +58,7 @@ fun EventDetailsDialog(
                 DetailItem(
                     icon = Icons.Default.CalendarToday,
                     label = "Data",
-                    value = "${evento.data.day}/${evento.data.month + 1}/${evento.data.year}"
+                    value = "${evento.date.day}/${evento.date.month + 1}/${evento.date.year}"
                 )
 
                 Row(
@@ -69,7 +69,7 @@ fun EventDetailsDialog(
                         DetailItem(
                             icon = Icons.Default.Schedule,
                             label = "Início",
-                            value = evento.horaInicio,
+                            value = evento.hourStart,
                             compact = true
                         )
                     }
@@ -77,7 +77,7 @@ fun EventDetailsDialog(
                         DetailItem(
                             icon = Icons.Default.Schedule,
                             label = "Fim",
-                            value = evento.horaFim,
+                            value = evento.hourEnd,
                             compact = true
                         )
                     }
@@ -93,25 +93,25 @@ fun EventDetailsDialog(
                 }
 
                 // Região
-                if (evento.regiao.isNotBlank()) {
+                if (evento.region.isNotBlank()) {
                     DetailItem(
                         icon = Icons.Default.Map,
                         label = "Região",
-                        value = evento.regiao
+                        value = evento.region
                     )
                 }
 
                 // Projeto
-                if (evento.projeto.isNotBlank()) {
+                if (evento.project.isNotBlank()) {
                     DetailItem(
                         icon = Icons.Default.Work,
                         label = "Projeto",
-                        value = evento.projeto
+                        value = evento.project
                     )
                 }
 
                 // Grupo
-                evento.grupo?.let { grupo ->
+                evento.groups?.let { grupo ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)

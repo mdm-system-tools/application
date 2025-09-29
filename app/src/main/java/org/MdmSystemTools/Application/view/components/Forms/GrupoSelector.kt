@@ -4,8 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -20,15 +18,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.MdmSystemTools.Application.model.DTO.GrupoDto
-import org.MdmSystemTools.Application.model.DTO.GruposPredefinidos
+import org.MdmSystemTools.Application.model.DTO.GroupDto
+import org.MdmSystemTools.Application.model.DTO.GetListGroups
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GrupoSelector(
-    selectedGrupo: GrupoDto?,
-    onGrupoChange: (GrupoDto?) -> Unit,
-    modifier: Modifier = Modifier
+	selectedGrupo: GroupDto?,
+	onGrupoChange: (GroupDto?) -> Unit,
+	modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -104,7 +102,7 @@ fun GrupoSelector(
                     Divider(modifier = Modifier.padding(vertical = 4.dp))
 
                     // Grupos disponíveis
-                    GruposPredefinidos.grupos.forEach { grupo ->
+                    GetListGroups.grupos.forEach { grupo ->
                         DropdownMenuItem(
                             text = {
                                 Row(
@@ -155,9 +153,9 @@ fun GrupoSelector(
 
 @Composable
 private fun GrupoDisplayField(
-    selectedGrupo: GrupoDto?,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+	selectedGrupo: GroupDto?,
+	onClick: () -> Unit,
+	modifier: Modifier = Modifier
 ) {
     TextField(
         value = selectedGrupo?.nome ?: "",

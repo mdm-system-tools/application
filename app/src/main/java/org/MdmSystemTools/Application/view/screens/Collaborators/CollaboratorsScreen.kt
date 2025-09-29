@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.screens.Settings
+package org.MdmSystemTools.Application.view.screens.Collaborators
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,13 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
-// TODO Implementar a tela de configurações
+// TODO Implementar a tela
 @Composable
-fun SettingsScreen(modifier: Modifier = Modifier) {
+fun CollaboratorsScreen(modifier: Modifier = Modifier) {
   Box(
     modifier = Modifier.fillMaxSize(),
     contentAlignment = Alignment.Center
   ) {
-    Text("TODO Implementar uma tela de configurações")
+    Text("TODO Implementar uma tela")
   }
 }

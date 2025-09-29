@@ -35,8 +35,8 @@ fun EventsList(
 	// Filtrar eventos do mês atual
 	val eventosDoMes = remember(eventos, month, year) {
 		eventos.filter { evento ->
-			evento.data.month == month && evento.data.year == year
-		}.sortedBy { it.data.day }
+			evento.date.month == month && evento.date.year == year
+		}.sortedBy { it.date.day }
 	}
 
 	if (eventosDoMes.isNotEmpty()) {

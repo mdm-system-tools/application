@@ -16,12 +16,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.DTO.EventDto
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,7 +64,7 @@ fun EventCard(
 						modifier = Modifier
 							.size(12.dp)
 							.clip(CircleShape)
-							.background(evento.grupo?.cor ?: evento.cor)
+							.background(evento.groups?.cor ?: evento.color)
 							.border(
 								1.dp,
 								MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
@@ -76,7 +73,7 @@ fun EventCard(
 					)
 
 					Text(
-						text = evento.titulo,
+						text = evento.title,
 						style = MaterialTheme.typography.titleMedium,
 						fontWeight = FontWeight.Bold,
 						maxLines = 1,
@@ -180,7 +177,7 @@ fun EventCard(
 						modifier = Modifier.size(16.dp)
 					)
 					Text(
-						text = "${evento.data.day}/${evento.data.month + 1}",
+						text = "${evento.date.day}/${evento.date.month + 1}",
 						style = MaterialTheme.typography.bodyMedium,
 						fontWeight = FontWeight.Medium,
 						color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -199,7 +196,7 @@ fun EventCard(
 						modifier = Modifier.size(16.dp)
 					)
 					Text(
-						text = "${evento.horaInicio} - ${evento.horaFim}",
+						text = "${evento.hourStart} - ${evento.hourEnd}",
 						style = MaterialTheme.typography.bodyMedium,
 						fontWeight = FontWeight.Medium,
 						color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -208,10 +205,10 @@ fun EventCard(
 			}
 
 			// Descrição (se houver)
-			if (evento.descricao.isNotBlank()) {
+			if (evento.description.isNotBlank()) {
 				Spacer(modifier = Modifier.height(8.dp))
 				Text(
-					text = evento.descricao,
+					text = evento.description,
 					style = MaterialTheme.typography.bodySmall,
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
 					maxLines = 2,
@@ -220,7 +217,7 @@ fun EventCard(
 			}
 
 			// Local e Grupo (se houver)
-			val hasExtraInfo = evento.local.isNotBlank() || evento.grupo != null
+			val hasExtraInfo = evento.local.isNotBlank() || evento.groups != null
 			if (hasExtraInfo) {
 				Spacer(modifier = Modifier.height(8.dp))
 				Row(
@@ -251,7 +248,7 @@ fun EventCard(
 					}
 
 					// Grupo
-					evento.grupo?.let { grupo ->
+					evento.groups?.let { grupo ->
 						Row(
 							verticalAlignment = Alignment.CenterVertically,
 							horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -284,7 +281,7 @@ fun EventCard(
 				Text("Remover Reunião")
 			},
 			text = {
-				Text("Tem certeza que deseja remover a reunião \"${evento.titulo}\"?")
+				Text("Tem certeza que deseja remover a reunião \"${evento.title}\"?")
 			},
 			confirmButton = {
 				TextButton(

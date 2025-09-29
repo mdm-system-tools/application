@@ -24,7 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.DTO.EventDto
-import org.MdmSystemTools.Application.model.DTO.GrupoDto
+import org.MdmSystemTools.Application.model.DTO.GroupDto
 import org.MdmSystemTools.Application.view.components.*
 import org.MdmSystemTools.Application.view.components.Forms.LocalSelector
 import org.MdmSystemTools.Application.view.components.Forms.RegiaoSelector
@@ -65,7 +65,7 @@ fun AdicionarEventoScreen(
 	var localEvento by remember { mutableStateOf("") }
 	var regiaoEvento by remember { mutableStateOf("") }
 	var projetoEvento by remember { mutableStateOf("") }
-	var grupoEvento by remember { mutableStateOf<GrupoDto?>(null) }
+	var grupoEvento by remember { mutableStateOf<GroupDto?>(null) }
 
 	// Estados dos diálogos
 	var showStartTimePicker by remember { mutableStateOf(false) }
@@ -93,10 +93,8 @@ fun AdicionarEventoScreen(
 							coroutineScope = coroutineScope,
 							onNavigate = onNavigateBack
 						)
-					}
-				)
-			}
-		) { paddingValues ->
+					})
+			}) { paddingValues ->
 			EventForm(
 				paddingValues = paddingValues,
 				descricao = descricao,
@@ -118,15 +116,22 @@ fun AdicionarEventoScreen(
 				onStartTimeClick = { showStartTimePicker = true },
 				onEndTimeClick = { showEndTimePicker = true },
 				onSave = {
-					val novoEvento = createEventDto(
-						AppConstants.Strings.meeting, descricao, dataSelecionada,
-						horaInicio, horaFim, localEvento, regiaoEvento,
-						projetoEvento, grupoEvento, corEvento
+					val event = EventDto(
+						title = AppConstants.Strings.meeting,
+						description = descricao,
+						date = dataSelecionada,
+						hourStart = horaInicio,
+						hourEnd = horaFim,
+						local = localEvento,
+						region = regiaoEvento,
+						project = projetoEvento,
+						groups = grupoEvento,
+						color = corEvento
 					)
 					animateAndSave(
 						onSetVisible = { visible = it },
 						coroutineScope = coroutineScope,
-						evento = novoEvento,
+						evento = event,
 						onEventSaved = onEventSaved
 					)
 				},
@@ -136,8 +141,7 @@ fun AdicionarEventoScreen(
 						coroutineScope = coroutineScope,
 						onNavigate = onNavigateBack
 					)
-				}
-			)
+				})
 		}
 	}
 
@@ -157,8 +161,7 @@ fun AdicionarEventoScreen(
 			showEndTimePicker = false
 		},
 		onDismissStartTime = { showStartTimePicker = false },
-		onDismissEndTime = { showEndTimePicker = false }
-	)
+		onDismissEndTime = { showEndTimePicker = false })
 }
 
 // Componentes auxiliares
@@ -175,8 +178,8 @@ private fun EventForm(
 	onRegiaoChange: (String) -> Unit,
 	projetoEvento: String,
 	onProjetoChange: (String) -> Unit,
-	grupoEvento: GrupoDto?,
-	onGrupoChange: (GrupoDto?) -> Unit,
+	grupoEvento: GroupDto?,
+	onGrupoChange: (GroupDto?) -> Unit,
 	onStartTimeClick: () -> Unit,
 	onEndTimeClick: () -> Unit,
 	onSave: () -> Unit,
@@ -204,32 +207,27 @@ private fun EventForm(
 
 		// Local do evento
 		LocalSelector(
-			selectedLocal = localEvento,
-			onLocalChange = onLocalChange
+			selectedLocal = localEvento, onLocalChange = onLocalChange
 		)
 
 		// Região
 		RegiaoSelector(
-			selectedRegiao = regiaoEvento,
-			onRegiaoChange = onRegiaoChange
+			selectedRegiao = regiaoEvento, onRegiaoChange = onRegiaoChange
 		)
 
 		// Projeto
 		ProjetoSelector(
-			selectedProjeto = projetoEvento,
-			onProjetoChange = onProjetoChange
+			selectedProjeto = projetoEvento, onProjetoChange = onProjetoChange
 		)
 
 		// Grupo
 		GrupoSelector(
-			selectedGrupo = grupoEvento,
-			onGrupoChange = onGrupoChange
+			selectedGrupo = grupoEvento, onGrupoChange = onGrupoChange
 		)
 
 		// Horários
 		Row(
-			modifier = Modifier.fillMaxWidth(),
-			horizontalArrangement = Arrangement.spacedBy(12.dp)
+			modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)
 		) {
 			// Horário de início
 			Card(
@@ -239,12 +237,10 @@ private fun EventForm(
 					containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
 				)
 			) {
-				Column(
-					modifier = Modifier
-						.fillMaxWidth()
-						.clickable { onStartTimeClick() }
-						.padding(16.dp)
-				) {
+				Column(modifier = Modifier
+					.fillMaxWidth()
+					.clickable { onStartTimeClick() }
+					.padding(16.dp)) {
 					Text(
 						text = "Horário Início",
 						fontSize = 14.sp,
@@ -269,12 +265,10 @@ private fun EventForm(
 					containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
 				)
 			) {
-				Column(
-					modifier = Modifier
-						.fillMaxWidth()
-						.clickable { onEndTimeClick() }
-						.padding(16.dp)
-				) {
+				Column(modifier = Modifier
+					.fillMaxWidth()
+					.clickable { onEndTimeClick() }
+					.padding(16.dp)) {
 					Text(
 						text = "Horário Fim",
 						fontSize = 14.sp,
@@ -309,9 +303,7 @@ private fun EventForm(
 				shape = RoundedCornerShape(12.dp)
 			) {
 				Text(
-					text = "Cancelar",
-					fontSize = 16.sp,
-					fontWeight = FontWeight.Medium
+					text = "Cancelar", fontSize = 16.sp, fontWeight = FontWeight.Medium
 				)
 			}
 
@@ -328,14 +320,10 @@ private fun EventForm(
 					verticalAlignment = Alignment.CenterVertically
 				) {
 					Icon(
-						Icons.Default.Check,
-						contentDescription = "Salvar",
-						modifier = Modifier.size(18.dp)
+						Icons.Default.Check, contentDescription = "Salvar", modifier = Modifier.size(18.dp)
 					)
 					Text(
-						text = "Salvar",
-						fontSize = 16.sp,
-						fontWeight = FontWeight.SemiBold
+						text = "Salvar", fontSize = 16.sp, fontWeight = FontWeight.SemiBold
 					)
 				}
 			}
@@ -344,9 +332,8 @@ private fun EventForm(
 		// Espaçamento dinâmico para permitir scroll completo
 		val density = LocalDensity.current
 		val bottomPadding = with(density) {
-			WindowInsets.navigationBars.getBottom(density).toDp() +
-			WindowInsets.ime.getBottom(density).toDp() +
-			AppConstants.Spacing.dynamicBottomPadding // Espaçamento extra para garantir visibilidade
+			WindowInsets.navigationBars.getBottom(density).toDp() + WindowInsets.ime.getBottom(density)
+				.toDp() + AppConstants.Spacing.dynamicBottomPadding // Espaçamento extra para garantir visibilidade
 		}
 		Spacer(modifier = Modifier.height(bottomPadding))
 	}
@@ -393,36 +380,8 @@ private fun getCurrentDate(): CalendarDateDto {
 	)
 }
 
-private fun createEventDto(
-	titulo: String,
-	descricao: String,
-	data: CalendarDateDto,
-	horaInicio: String,
-	horaFim: String,
-	local: String,
-	regiao: String,
-	projeto: String,
-	grupo: GrupoDto?,
-	cor: Color
-): EventDto {
-	return EventDto(
-		titulo = titulo,
-		descricao = descricao,
-		data = data,
-		horaInicio = horaInicio,
-		horaFim = horaFim,
-		local = local,
-		regiao = regiao,
-		projeto = projeto,
-		grupo = grupo,
-		cor = cor
-	)
-}
-
 private fun animateAndNavigate(
-	onSetVisible: (Boolean) -> Unit,
-	coroutineScope: CoroutineScope,
-	onNavigate: () -> Unit
+	onSetVisible: (Boolean) -> Unit, coroutineScope: CoroutineScope, onNavigate: () -> Unit
 ) {
 	onSetVisible(false)
 	coroutineScope.launch {
