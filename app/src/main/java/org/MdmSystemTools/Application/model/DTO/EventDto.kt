@@ -10,6 +10,10 @@ data class EventDto(
   val data: CalendarDateDto,
   val horaInicio: String,
   val horaFim: String,
+  val local: String = "",
+  val regiao: String = "",
+  val projeto: String = "",
+  val grupo: GrupoDto? = null,
   val cor: Color,
   val criadoEm: Long = System.currentTimeMillis()
 )

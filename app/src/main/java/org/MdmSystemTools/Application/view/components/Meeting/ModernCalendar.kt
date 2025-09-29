@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
+import org.MdmSystemTools.Application.utils.AppConstants
 import java.util.*
 
 @Composable
@@ -84,10 +85,10 @@ fun ModernCalendar(
                 }
 
                 slideInHorizontally(
-                    animationSpec = tween(400, easing = FastOutSlowInEasing)
+                    animationSpec = tween(AppConstants.Animation.slowDurationMs, easing = FastOutSlowInEasing)
                 ) { width -> if (isForward) width else -width } togetherWith
                 slideOutHorizontally(
-                    animationSpec = tween(400, easing = FastOutSlowInEasing)
+                    animationSpec = tween(AppConstants.Animation.slowDurationMs, easing = FastOutSlowInEasing)
                 ) { width -> if (isForward) -width else width }
             },
             label = "calendar_animation"
@@ -185,7 +186,7 @@ private fun ModernCalendarGrid(
                         onSwipeOffsetChange(0f)
                     },
                     onDragEnd = {
-                        val threshold = 80f
+                        val threshold = AppConstants.Animation.swipeThreshold
                         when {
                             totalDragX > threshold -> onSwipeRight()
                             totalDragX < -threshold -> onSwipeLeft()
@@ -195,7 +196,12 @@ private fun ModernCalendarGrid(
                     },
                     onDrag = { _, dragAmount ->
                         totalDragX += dragAmount.x
-                        onSwipeOffsetChange(totalDragX.coerceIn(-100f, 100f))
+                        onSwipeOffsetChange(
+                            totalDragX.coerceIn(
+                                AppConstants.Animation.swipeOffsetMin,
+                                AppConstants.Animation.swipeOffsetMax
+                            )
+                        )
                     }
                 )
             }
@@ -206,7 +212,7 @@ private fun ModernCalendarGrid(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         ) {
-            listOf("D", "S", "T", "Q", "Q", "S", "S").forEach { day ->
+            AppConstants.Calendar.weekDayAbbreviations.forEach { day ->
                 Text(
                     text = day,
                     modifier = Modifier.weight(1f),
@@ -219,10 +225,10 @@ private fun ModernCalendarGrid(
         }
 
         // Grid dos dias
-        for (week in 0 until 6) {
+        for (week in 0 until AppConstants.Calendar.weeksInMonth) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                for (dayOfWeek in 0 until 7) {
-                    val dayNumber = week * 7 + dayOfWeek - firstDayOfWeek + 1
+                for (dayOfWeek in 0 until AppConstants.Calendar.daysInWeek) {
+                    val dayNumber = week * AppConstants.Calendar.daysInWeek + dayOfWeek - firstDayOfWeek + 1
 
                     val isSelected = if (dayNumber in 1..daysInMonth && selectedDate != null) {
                         selectedDate.day == dayNumber &&
@@ -275,8 +281,8 @@ private fun ModernCalendarDay(
             .clip(CircleShape)
             .background(
                 when {
-                    isToday && isCurrentMonth -> MaterialTheme.colorScheme.primary
                     isSelected && isCurrentMonth -> MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+                    isToday && isCurrentMonth && !hasEvents -> MaterialTheme.colorScheme.primary
                     hasEvents && isCurrentMonth -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)
                     else -> Color.Transparent
                 }
@@ -293,14 +299,14 @@ private fun ModernCalendarDay(
                     text = day.toString(),
                     fontSize = 16.sp,
                     color = when {
-                        isToday -> MaterialTheme.colorScheme.onPrimary
                         isSelected -> MaterialTheme.colorScheme.onPrimary
+                        isToday && !hasEvents -> MaterialTheme.colorScheme.onPrimary
                         hasEvents -> MaterialTheme.colorScheme.primary
                         else -> MaterialTheme.colorScheme.onSurface
                     },
                     fontWeight = when {
-                        isToday -> FontWeight.Bold
                         isSelected -> FontWeight.Bold
+                        isToday && !hasEvents -> FontWeight.Bold
                         hasEvents -> FontWeight.SemiBold
                         else -> FontWeight.Normal
                     }
@@ -312,25 +318,25 @@ private fun ModernCalendarDay(
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
-                        repeat(minOf(eventCount, 3)) {
+                        repeat(minOf(eventCount, AppConstants.Calendar.maxEventsToShow)) {
                             Box(
                                 modifier = Modifier
-                                    .size(4.dp)
+                                    .size(AppConstants.ComponentSize.eventIndicatorSize)
                                     .background(
                                         when {
-                                            isToday || isSelected -> MaterialTheme.colorScheme.onPrimary
+                                            isSelected -> MaterialTheme.colorScheme.onPrimary
                                             else -> MaterialTheme.colorScheme.primary
                                         },
                                         CircleShape
                                     )
                             )
                         }
-                        if (eventCount > 3) {
+                        if (eventCount > AppConstants.Calendar.maxEventsToShow) {
                             Text(
                                 text = "+",
                                 fontSize = 8.sp,
                                 color = when {
-                                    isToday || isSelected -> MaterialTheme.colorScheme.onPrimary
+                                    isSelected -> MaterialTheme.colorScheme.onPrimary
                                     else -> MaterialTheme.colorScheme.primary
                                 },
                                 fontWeight = FontWeight.Bold
@@ -352,8 +358,5 @@ private fun ModernCalendarDay(
 }
 
 private fun getMonthName(month: Int): String {
-    return listOf(
-        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-    )[month]
+    return AppConstants.Calendar.monthNames[month]
 }

@@ -65,7 +65,11 @@ fun ReuniaoScreen(
 				viewModel = viewModel,
 				month = currentMonth,
 				year = currentYear,
-				onDeleteEvent = { eventId -> viewModel.removerEvento(eventId) }
+				onDeleteEvent = { eventId -> viewModel.removerEvento(eventId) },
+				onEditEvent = { evento ->
+					// TODO: Implementar navegação para tela de edição
+					// Por enquanto, apenas um placeholder
+				}
 			)
 		}
 

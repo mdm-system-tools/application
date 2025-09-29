@@ -2,22 +2,35 @@ package org.MdmSystemTools.Application.view.screens.Meeting
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Title
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.DTO.EventDto
+import org.MdmSystemTools.Application.model.DTO.GrupoDto
 import org.MdmSystemTools.Application.view.components.*
+import org.MdmSystemTools.Application.view.components.Forms.LocalSelector
+import org.MdmSystemTools.Application.view.components.Forms.RegiaoSelector
+import org.MdmSystemTools.Application.view.components.Forms.ProjetoSelector
+import org.MdmSystemTools.Application.view.components.Forms.GrupoSelector
+import org.MdmSystemTools.Application.utils.AppConstants
 import java.util.*
 
 // TODO BUG é possivel coloca horario fim antes do inicio exemplo inicio 09:00 fim 6:00
@@ -42,17 +55,19 @@ fun AdicionarEventoScreen(
 	val coroutineScope = rememberCoroutineScope()
 
 	// Estados do formulário
-	var titulo by remember { mutableStateOf("") }
 	var descricao by remember { mutableStateOf("") }
-	var horaInicio by remember { mutableStateOf("09:00") }
-	var horaFim by remember { mutableStateOf("10:00") }
-	var dataSelecionada by remember {
-		mutableStateOf(selectedDate ?: getCurrentDate())
-	}
-	var corEvento by remember { mutableStateOf(Color(0xFF4CAF50)) }
+	var horaInicio by remember { mutableStateOf(AppConstants.TimeConfig.defaultStartTime) }
+	var horaFim by remember { mutableStateOf(AppConstants.TimeConfig.defaultEndTime) }
+	var corEvento by remember { mutableStateOf(AppConstants.AppColors.success) }
+
+	// Data selecionada - usa a data passada como parâmetro ou data atual se nenhuma foi passada
+	val dataSelecionada = selectedDate ?: getCurrentDate()
+	var localEvento by remember { mutableStateOf("") }
+	var regiaoEvento by remember { mutableStateOf("") }
+	var projetoEvento by remember { mutableStateOf("") }
+	var grupoEvento by remember { mutableStateOf<GrupoDto?>(null) }
 
 	// Estados dos diálogos
-	var showDatePicker by remember { mutableStateOf(false) }
 	var showStartTimePicker by remember { mutableStateOf(false) }
 	var showEndTimePicker by remember { mutableStateOf(false) }
 
@@ -62,12 +77,12 @@ fun AdicionarEventoScreen(
 		visible = visible,
 		enter = slideInHorizontally(
 			initialOffsetX = { it },
-			animationSpec = tween(300, easing = EaseOutCubic)
-		) + fadeIn(animationSpec = tween(300)),
+			animationSpec = tween(AppConstants.Animation.defaultDurationMs, easing = EaseOutCubic)
+		) + fadeIn(animationSpec = tween(AppConstants.Animation.defaultDurationMs)),
 		exit = slideOutHorizontally(
 			targetOffsetX = { it },
-			animationSpec = tween(300, easing = EaseInCubic)
-		) + fadeOut(animationSpec = tween(300))
+			animationSpec = tween(AppConstants.Animation.defaultDurationMs, easing = EaseInCubic)
+		) + fadeOut(animationSpec = tween(AppConstants.Animation.defaultDurationMs))
 	) {
 		Scaffold(
 			topBar = {
@@ -80,57 +95,58 @@ fun AdicionarEventoScreen(
 						)
 					}
 				)
-			},
-			bottomBar = {
-				SaveBottomBar(
-					onSave = {
-						if (titulo.isNotBlank()) {
-							val novoEvento = createEventDto(
-								titulo, descricao, dataSelecionada,
-								horaInicio, horaFim, corEvento
-							)
-							animateAndSave(
-								onSetVisible = { visible = it },
-								coroutineScope = coroutineScope,
-								evento = novoEvento,
-								onEventSaved = onEventSaved
-							)
-						}
-					},
-					canSave = titulo.isNotBlank()
-				)
 			}
 		) { paddingValues ->
 			EventForm(
 				paddingValues = paddingValues,
-				titulo = titulo,
-				onTituloChange = { titulo = it },
 				descricao = descricao,
 				onDescricaoChange = { descricao = it },
-				dataSelecionada = dataSelecionada,
 				horaInicio = horaInicio,
 				horaFim = horaFim,
-				corEvento = corEvento,
-				onDateClick = { showDatePicker = true },
+				localEvento = localEvento,
+				onLocalChange = { localEvento = it },
+				regiaoEvento = regiaoEvento,
+				onRegiaoChange = { regiaoEvento = it },
+				projetoEvento = projetoEvento,
+				onProjetoChange = { projetoEvento = it },
+				grupoEvento = grupoEvento,
+				onGrupoChange = {
+					grupoEvento = it
+					// Atualizar cor do evento quando grupo for selecionado
+					it?.let { grupo -> corEvento = grupo.cor }
+				},
 				onStartTimeClick = { showStartTimePicker = true },
 				onEndTimeClick = { showEndTimePicker = true },
-				onColorSelected = { corEvento = it }
+				onSave = {
+					val novoEvento = createEventDto(
+						AppConstants.Strings.meeting, descricao, dataSelecionada,
+						horaInicio, horaFim, localEvento, regiaoEvento,
+						projetoEvento, grupoEvento, corEvento
+					)
+					animateAndSave(
+						onSetVisible = { visible = it },
+						coroutineScope = coroutineScope,
+						evento = novoEvento,
+						onEventSaved = onEventSaved
+					)
+				},
+				onCancel = {
+					animateAndNavigate(
+						onSetVisible = { visible = it },
+						coroutineScope = coroutineScope,
+						onNavigate = onNavigateBack
+					)
+				}
 			)
 		}
 	}
 
 	// Diálogos
 	EventDialogs(
-		showDatePicker = showDatePicker,
 		showStartTimePicker = showStartTimePicker,
 		showEndTimePicker = showEndTimePicker,
-		dataSelecionada = dataSelecionada,
 		horaInicio = horaInicio,
 		horaFim = horaFim,
-		onDateSelected = {
-			dataSelecionada = it
-			showDatePicker = false
-		},
 		onStartTimeSelected = { time ->
 			horaInicio = time
 			horaFim = adjustEndTime(time, horaFim)
@@ -140,7 +156,6 @@ fun AdicionarEventoScreen(
 			horaFim = adjustEndTimeIfValid(horaInicio, time)
 			showEndTimePicker = false
 		},
-		onDismissDate = { showDatePicker = false },
 		onDismissStartTime = { showStartTimePicker = false },
 		onDismissEndTime = { showEndTimePicker = false }
 	)
@@ -150,36 +165,32 @@ fun AdicionarEventoScreen(
 @Composable
 private fun EventForm(
 	paddingValues: PaddingValues,
-	titulo: String,
-	onTituloChange: (String) -> Unit,
 	descricao: String,
 	onDescricaoChange: (String) -> Unit,
-	dataSelecionada: CalendarDateDto,
 	horaInicio: String,
 	horaFim: String,
-	corEvento: Color,
-	onDateClick: () -> Unit,
+	localEvento: String,
+	onLocalChange: (String) -> Unit,
+	regiaoEvento: String,
+	onRegiaoChange: (String) -> Unit,
+	projetoEvento: String,
+	onProjetoChange: (String) -> Unit,
+	grupoEvento: GrupoDto?,
+	onGrupoChange: (GrupoDto?) -> Unit,
 	onStartTimeClick: () -> Unit,
 	onEndTimeClick: () -> Unit,
-	onColorSelected: (Color) -> Unit
+	onSave: () -> Unit,
+	onCancel: () -> Unit
 ) {
 	Column(
 		modifier = Modifier
 			.fillMaxSize()
 			.padding(paddingValues)
 			.verticalScroll(rememberScrollState())
-			.padding(16.dp),
-		verticalArrangement = Arrangement.spacedBy(20.dp)
+			.padding(horizontal = 16.dp)
+			.padding(top = 16.dp, bottom = 24.dp),
+		verticalArrangement = Arrangement.spacedBy(16.dp)
 	) {
-		// Título do evento
-		EventField(
-			label = "Título",
-			value = titulo,
-			onValueChange = onTituloChange,
-			icon = Icons.Default.Title,
-			placeholder = "Adicione um título"
-		)
-
 		// Descrição
 		EventField(
 			label = "Descrição",
@@ -188,52 +199,170 @@ private fun EventForm(
 			icon = Icons.Default.Title,
 			placeholder = "Adicione uma descrição (opcional)",
 			singleLine = false,
-			minLines = 3
+			minLines = 2
 		)
 
-		// Data e hora
-		DateTimeSelector(
-			selectedDate = dataSelecionada,
-			startTime = horaInicio,
-			endTime = horaFim,
-			onDateClick = onDateClick,
-			onStartTimeClick = onStartTimeClick,
-			onEndTimeClick = onEndTimeClick
+		// Local do evento
+		LocalSelector(
+			selectedLocal = localEvento,
+			onLocalChange = onLocalChange
 		)
 
-		// Seletor de cor
-		ColorPicker(
-			selectedColor = corEvento,
-			onColorSelected = onColorSelected
+		// Região
+		RegiaoSelector(
+			selectedRegiao = regiaoEvento,
+			onRegiaoChange = onRegiaoChange
 		)
 
-		Spacer(modifier = Modifier.height(24.dp))
+		// Projeto
+		ProjetoSelector(
+			selectedProjeto = projetoEvento,
+			onProjetoChange = onProjetoChange
+		)
+
+		// Grupo
+		GrupoSelector(
+			selectedGrupo = grupoEvento,
+			onGrupoChange = onGrupoChange
+		)
+
+		// Horários
+		Row(
+			modifier = Modifier.fillMaxWidth(),
+			horizontalArrangement = Arrangement.spacedBy(12.dp)
+		) {
+			// Horário de início
+			Card(
+				modifier = Modifier.weight(1f),
+				shape = RoundedCornerShape(12.dp),
+				colors = CardDefaults.cardColors(
+					containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+				)
+			) {
+				Column(
+					modifier = Modifier
+						.fillMaxWidth()
+						.clickable { onStartTimeClick() }
+						.padding(16.dp)
+				) {
+					Text(
+						text = "Horário Início",
+						fontSize = 14.sp,
+						fontWeight = FontWeight.Medium,
+						color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+					)
+					Spacer(modifier = Modifier.height(8.dp))
+					Text(
+						text = horaInicio,
+						fontSize = 18.sp,
+						fontWeight = FontWeight.SemiBold,
+						color = MaterialTheme.colorScheme.primary
+					)
+				}
+			}
+
+			// Horário de fim
+			Card(
+				modifier = Modifier.weight(1f),
+				shape = RoundedCornerShape(12.dp),
+				colors = CardDefaults.cardColors(
+					containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+				)
+			) {
+				Column(
+					modifier = Modifier
+						.fillMaxWidth()
+						.clickable { onEndTimeClick() }
+						.padding(16.dp)
+				) {
+					Text(
+						text = "Horário Fim",
+						fontSize = 14.sp,
+						fontWeight = FontWeight.Medium,
+						color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+					)
+					Spacer(modifier = Modifier.height(8.dp))
+					Text(
+						text = horaFim,
+						fontSize = 18.sp,
+						fontWeight = FontWeight.SemiBold,
+						color = MaterialTheme.colorScheme.primary
+					)
+				}
+			}
+		}
+
+		// Botões Salvar e Cancelar
+		Row(
+			modifier = Modifier
+				.fillMaxWidth()
+				.padding(top = 24.dp)
+				.padding(horizontal = 8.dp),
+			horizontalArrangement = Arrangement.spacedBy(16.dp)
+		) {
+			// Botão Cancelar
+			OutlinedButton(
+				onClick = onCancel,
+				modifier = Modifier
+					.weight(1f)
+					.height(56.dp),
+				shape = RoundedCornerShape(12.dp)
+			) {
+				Text(
+					text = "Cancelar",
+					fontSize = 16.sp,
+					fontWeight = FontWeight.Medium
+				)
+			}
+
+			// Botão Salvar
+			Button(
+				onClick = onSave,
+				modifier = Modifier
+					.weight(1f)
+					.height(56.dp),
+				shape = RoundedCornerShape(12.dp)
+			) {
+				Row(
+					horizontalArrangement = Arrangement.spacedBy(8.dp),
+					verticalAlignment = Alignment.CenterVertically
+				) {
+					Icon(
+						Icons.Default.Check,
+						contentDescription = "Salvar",
+						modifier = Modifier.size(18.dp)
+					)
+					Text(
+						text = "Salvar",
+						fontSize = 16.sp,
+						fontWeight = FontWeight.SemiBold
+					)
+				}
+			}
+		}
+
+		// Espaçamento dinâmico para permitir scroll completo
+		val density = LocalDensity.current
+		val bottomPadding = with(density) {
+			WindowInsets.navigationBars.getBottom(density).toDp() +
+			WindowInsets.ime.getBottom(density).toDp() +
+			AppConstants.Spacing.dynamicBottomPadding // Espaçamento extra para garantir visibilidade
+		}
+		Spacer(modifier = Modifier.height(bottomPadding))
 	}
 }
 
 @Composable
 private fun EventDialogs(
-	showDatePicker: Boolean,
 	showStartTimePicker: Boolean,
 	showEndTimePicker: Boolean,
-	dataSelecionada: CalendarDateDto,
 	horaInicio: String,
 	horaFim: String,
-	onDateSelected: (CalendarDateDto) -> Unit,
 	onStartTimeSelected: (String) -> Unit,
 	onEndTimeSelected: (String) -> Unit,
-	onDismissDate: () -> Unit,
 	onDismissStartTime: () -> Unit,
 	onDismissEndTime: () -> Unit
 ) {
-	if (showDatePicker) {
-		DatePickerDialog(
-			selectedDate = dataSelecionada,
-			onDateSelected = onDateSelected,
-			onDismiss = onDismissDate
-		)
-	}
-
 	if (showStartTimePicker) {
 		TimePickerDialog(
 			title = "Horário de início",
@@ -270,6 +399,10 @@ private fun createEventDto(
 	data: CalendarDateDto,
 	horaInicio: String,
 	horaFim: String,
+	local: String,
+	regiao: String,
+	projeto: String,
+	grupo: GrupoDto?,
 	cor: Color
 ): EventDto {
 	return EventDto(
@@ -278,6 +411,10 @@ private fun createEventDto(
 		data = data,
 		horaInicio = horaInicio,
 		horaFim = horaFim,
+		local = local,
+		regiao = regiao,
+		projeto = projeto,
+		grupo = grupo,
 		cor = cor
 	)
 }
@@ -289,7 +426,7 @@ private fun animateAndNavigate(
 ) {
 	onSetVisible(false)
 	coroutineScope.launch {
-		delay(300)
+		delay(AppConstants.Animation.defaultDurationMs.toLong())
 		onNavigate()
 	}
 }
@@ -302,7 +439,7 @@ private fun animateAndSave(
 ) {
 	onSetVisible(false)
 	coroutineScope.launch {
-		delay(300)
+		delay(AppConstants.Animation.defaultDurationMs.toLong())
 		onEventSaved(evento)
 	}
 }
@@ -314,7 +451,7 @@ private fun adjustEndTime(startTime: String, currentEndTime: String): String {
 	val endMinutes = endParts[0].toInt() * 60 + endParts[1].toInt()
 
 	return if (endMinutes <= startMinutes) {
-		val newEndMinutes = startMinutes + 60
+		val newEndMinutes = startMinutes + AppConstants.TimeConfig.defaultMeetingDurationMinutes
 		val newHour = (newEndMinutes / 60) % 24
 		val newMinute = newEndMinutes % 60
 		"%02d:%02d".format(newHour, newMinute)
@@ -332,7 +469,7 @@ private fun adjustEndTimeIfValid(startTime: String, endTime: String): String {
 	return if (endMinutes > startMinutes) {
 		endTime
 	} else {
-		val newEndMinutes = startMinutes + 60
+		val newEndMinutes = startMinutes + AppConstants.TimeConfig.defaultMeetingDurationMinutes
 		val newHour = (newEndMinutes / 60) % 24
 		val newMinute = newEndMinutes % 60
 		"%02d:%02d".format(newHour, newMinute)

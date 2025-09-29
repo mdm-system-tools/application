@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.MdmSystemTools.Application.model.DTO.EventDto
 import org.MdmSystemTools.Application.viewmodel.Meeting.MeetingViewModel
+import org.MdmSystemTools.Application.utils.AppConstants
 
 @Composable
 fun EventsList(
@@ -25,9 +26,11 @@ fun EventsList(
 	month: Int,
 	year: Int,
 	onDeleteEvent: (String) -> Unit,
+	onEditEvent: (EventDto) -> Unit = { },
 	modifier: Modifier = Modifier
 ) {
 	val eventos by viewModel.eventos.collectAsState()
+	var eventoSelecionado by remember { mutableStateOf<EventDto?>(null) }
 
 	// Filtrar eventos do mês atual
 	val eventosDoMes = remember(eventos, month, year) {
@@ -45,19 +48,29 @@ fun EventsList(
 		) {
 			item {
 				Text(
-					text = "Eventos do mês",
+					text = AppConstants.Strings.meetingsOfMonth,
 					style = MaterialTheme.typography.titleMedium,
 					fontWeight = FontWeight.Bold,
-					modifier = Modifier.padding(vertical = 8.dp)
+					modifier = Modifier.padding(vertical = AppConstants.Spacing.small)
 				)
 			}
 
 			items(eventosDoMes, key = { it.id }) { evento ->
 				EventCard(
 					evento = evento,
-					onDelete = { onDeleteEvent(evento.id) }
+					onDelete = { onDeleteEvent(evento.id) },
+					onEdit = { onEditEvent(evento) },
+					onClick = { eventoSelecionado = evento }
 				)
 			}
 		}
+	}
+
+	// Diálogo de detalhes do evento
+	eventoSelecionado?.let { evento ->
+		EventDetailsDialog(
+			evento = evento,
+			onDismiss = { eventoSelecionado = null }
+		)
 	}
 }
