@@ -3,7 +3,7 @@ package org.MdmSystemTools.Application.model.DTO
 import androidx.compose.ui.graphics.Color
 import org.MdmSystemTools.Application.utils.AppConstants
 
-data class GrupoDto(
+data class GroupDto(
     val id: String,
     val nome: String,
     val cor: Color,
@@ -11,51 +11,51 @@ data class GrupoDto(
 )
 
 // Grupos predefinidos com suas cores centralizadas
-object GruposPredefinidos {
+object GetListGroups {
     val grupos = listOf(
-        GrupoDto(
+        GroupDto(
             id = "desenvolvimento",
             nome = "Desenvolvimento",
             cor = AppConstants.AppColors.groupDevelopment,
             descricao = "Equipe de desenvolvimento de software"
         ),
-        GrupoDto(
+        GroupDto(
             id = "design",
             nome = "Design",
             cor = AppConstants.AppColors.groupDesign,
             descricao = "Equipe de design e UX/UI"
         ),
-        GrupoDto(
+        GroupDto(
             id = "marketing",
             nome = "Marketing",
             cor = AppConstants.AppColors.groupMarketing,
             descricao = "Equipe de marketing e vendas"
         ),
-        GrupoDto(
+        GroupDto(
             id = "vendas",
             nome = "Vendas",
             cor = AppConstants.AppColors.groupSales,
             descricao = "Equipe de vendas e negócios"
         ),
-        GrupoDto(
+        GroupDto(
             id = "suporte",
             nome = "Suporte",
             cor = AppConstants.AppColors.groupSupport,
             descricao = "Equipe de suporte técnico"
         ),
-        GrupoDto(
+        GroupDto(
             id = "recursos_humanos",
             nome = "Recursos Humanos",
             cor = AppConstants.AppColors.groupHR,
             descricao = "Equipe de recursos humanos"
         ),
-        GrupoDto(
+        GroupDto(
             id = "financeiro",
             nome = "Financeiro",
             cor = AppConstants.AppColors.groupFinance,
             descricao = "Equipe financeira"
         ),
-        GrupoDto(
+        GroupDto(
             id = "operacoes",
             nome = "Operações",
             cor = AppConstants.AppColors.groupOperations,
