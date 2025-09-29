@@ -15,9 +15,9 @@ fun DatePickerDialog(
 	onDateSelected: (CalendarDateDto) -> Unit,
 	onDismiss: () -> Unit
 ) {
-	var currentMonth by remember { mutableStateOf(selectedDate.month) }
-	var currentYear by remember { mutableStateOf(selectedDate.year) }
-	var selectedDay by remember { mutableStateOf(selectedDate.day) }
+	var currentMonth by remember { mutableIntStateOf(selectedDate.month) }
+	var currentYear by remember { mutableIntStateOf(selectedDate.year) }
+	var selectedDay by remember { mutableIntStateOf(selectedDate.day) }
 
 	AlertDialog(
 		onDismissRequest = onDismiss,
