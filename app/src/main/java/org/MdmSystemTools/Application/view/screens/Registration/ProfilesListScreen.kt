@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import org.MdmSystemTools.Application.view.components.AssociatedProfile
+import org.MdmSystemTools.Application.view.components.Registration.AssociatedProfile
 import org.MdmSystemTools.Application.viewmodel.Registration.ListAssociatedViewModel
-import org.MdmSystemTools.Application.view.components.ButtonFormAdd
-import org.MdmSystemTools.Application.view.components.QuickAccessButtons
-import org.MdmSystemTools.Application.view.components.SearchBar
+import org.MdmSystemTools.Application.view.components.Common.ButtonFormAdd
+import org.MdmSystemTools.Application.view.components.Registration.QuickAccessButtons
+import org.MdmSystemTools.Application.view.components.Registration.SearchBar
 
 @Composable
 fun ProfilesListScreen(

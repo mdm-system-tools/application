@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.components
+package org.MdmSystemTools.Application.view.components.Registration
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

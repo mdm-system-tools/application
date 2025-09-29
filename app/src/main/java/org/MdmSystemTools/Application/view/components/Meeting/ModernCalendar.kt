@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.components
+package org.MdmSystemTools.Application.view.components.Meeting
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -276,7 +276,7 @@ private fun ModernCalendarDay(
             .background(
                 when {
                     isToday && isCurrentMonth -> MaterialTheme.colorScheme.primary
-                    isSelected && isCurrentMonth -> MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
+                    isSelected && isCurrentMonth -> MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
                     hasEvents && isCurrentMonth -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)
                     else -> Color.Transparent
                 }
@@ -294,11 +294,13 @@ private fun ModernCalendarDay(
                     fontSize = 16.sp,
                     color = when {
                         isToday -> MaterialTheme.colorScheme.onPrimary
+                        isSelected -> MaterialTheme.colorScheme.onPrimary
                         hasEvents -> MaterialTheme.colorScheme.primary
                         else -> MaterialTheme.colorScheme.onSurface
                     },
                     fontWeight = when {
                         isToday -> FontWeight.Bold
+                        isSelected -> FontWeight.Bold
                         hasEvents -> FontWeight.SemiBold
                         else -> FontWeight.Normal
                     }
@@ -315,8 +317,10 @@ private fun ModernCalendarDay(
                                 modifier = Modifier
                                     .size(4.dp)
                                     .background(
-                                        if (isToday) MaterialTheme.colorScheme.onPrimary
-                                        else MaterialTheme.colorScheme.primary,
+                                        when {
+                                            isToday || isSelected -> MaterialTheme.colorScheme.onPrimary
+                                            else -> MaterialTheme.colorScheme.primary
+                                        },
                                         CircleShape
                                     )
                             )
@@ -325,8 +329,10 @@ private fun ModernCalendarDay(
                             Text(
                                 text = "+",
                                 fontSize = 8.sp,
-                                color = if (isToday) MaterialTheme.colorScheme.onPrimary
-                                else MaterialTheme.colorScheme.primary,
+                                color = when {
+                                    isToday || isSelected -> MaterialTheme.colorScheme.onPrimary
+                                    else -> MaterialTheme.colorScheme.primary
+                                },
                                 fontWeight = FontWeight.Bold
                             )
                         }

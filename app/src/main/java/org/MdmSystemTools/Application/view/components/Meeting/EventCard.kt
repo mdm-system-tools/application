@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.components
+package org.MdmSystemTools.Application.view.components.Meeting
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*

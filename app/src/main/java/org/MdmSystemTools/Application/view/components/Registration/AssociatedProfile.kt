@@ -1,4 +1,5 @@
-package org.MdmSystemTools.Application.view.components
+
+package org.MdmSystemTools.Application.view.components.Registration
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
