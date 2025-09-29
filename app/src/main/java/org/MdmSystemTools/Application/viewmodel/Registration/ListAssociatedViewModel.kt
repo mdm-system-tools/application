@@ -8,24 +8,24 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.MdmSystemTools.Application.model.DTO.AssociatedDto
-import org.MdmSystemTools.Application.model.repository.ListAssociatedRepository
+import org.MdmSystemTools.Application.model.DTO.AssociateDto
+import org.MdmSystemTools.Application.model.repository.ListAssociateRepository
 
 @HiltViewModel
 class ListAssociatedViewModel @Inject constructor(
-  private val repository: ListAssociatedRepository
+  private val repository: ListAssociateRepository
 ) : ViewModel() {
-  private val _listAssociateds = MutableStateFlow<List<AssociatedDto>>(emptyList())
-  val listAssociateds: StateFlow<List<AssociatedDto>> = _listAssociateds.asStateFlow()
+  private val _listAssociates = MutableStateFlow<List<AssociateDto>>(emptyList())
+  val listAssociates: StateFlow<List<AssociateDto>> = _listAssociates.asStateFlow()
 
   init {
-    iniciarList()
+    getListAssociateds()
   }
 
-  private fun iniciarList() {
+  private fun getListAssociateds() {
     viewModelScope.launch {
       try {
-        _listAssociateds.value = repository.getListAssociateds()
+        _listAssociates.value = repository.getListAssociates()
       } catch (e: Exception) {
         e.printStackTrace()
       }

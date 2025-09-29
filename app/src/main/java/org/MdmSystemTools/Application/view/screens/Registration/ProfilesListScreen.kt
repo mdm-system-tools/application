@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import org.MdmSystemTools.Application.view.components.Registration.AssociatedProfile
+import org.MdmSystemTools.Application.view.components.Registration.AssociateProfile
 import org.MdmSystemTools.Application.viewmodel.Registration.ListAssociatedViewModel
 import org.MdmSystemTools.Application.view.components.Common.ButtonFormAdd
 import org.MdmSystemTools.Application.view.components.Registration.QuickAccessButtons
@@ -23,7 +23,7 @@ fun ProfilesListScreen(
   navController: NavHostController,
   viewModel: ListAssociatedViewModel = hiltViewModel(),
 ) {
-  val listAssociateds by viewModel.listAssociateds.collectAsState()
+  val listAssociates by viewModel.listAssociates.collectAsState()
 
   Surface {
     ButtonFormAdd(onClick = {
@@ -46,8 +46,8 @@ fun ProfilesListScreen(
             start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp
           )
       ) {
-        items(listAssociateds) { associated ->
-          AssociatedProfile(associated)
+        items(listAssociates) { associate ->
+          AssociateProfile(associate)
         }
       }
     }

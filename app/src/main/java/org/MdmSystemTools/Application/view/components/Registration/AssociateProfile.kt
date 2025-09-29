@@ -20,10 +20,10 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.MdmSystemTools.Application.R
-import org.MdmSystemTools.Application.model.DTO.AssociatedDto
+import org.MdmSystemTools.Application.model.DTO.AssociateDto
 
 @Composable
-fun AssociatedProfile(associated: AssociatedDto) {
+fun AssociateProfile(associated: AssociateDto) {
   Row(
     verticalAlignment = Alignment.CenterVertically, modifier = Modifier
       .height(64.dp)
