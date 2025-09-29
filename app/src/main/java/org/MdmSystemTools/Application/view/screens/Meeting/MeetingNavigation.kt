@@ -6,7 +6,6 @@ import androidx.compose.ui.Modifier
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.viewmodel.Meeting.MeetingViewModel
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import org.MdmSystemTools.Application.view.screens.Meeting.ReuniaoScreen
 
 enum class ReuniaoScreens {
 	CALENDAR,
@@ -14,7 +13,7 @@ enum class ReuniaoScreens {
 }
 
 @Composable
-fun ReuniaoNavigation(modifier: Modifier = Modifier, viewModel: MeetingViewModel = hiltViewModel()) {
+fun CalendarNavigation(modifier: Modifier = Modifier, viewModel: MeetingViewModel = hiltViewModel()) {
 	var currentScreen by remember { mutableStateOf(ReuniaoScreens.CALENDAR) }
 	var selectedDate by remember { mutableStateOf<CalendarDateDto?>(null) }
 
