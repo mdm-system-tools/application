@@ -19,7 +19,7 @@ fun CalendarNavigation(modifier: Modifier = Modifier, viewModel: MeetingViewMode
 
 	when (currentScreen) {
 		ReuniaoScreens.CALENDAR -> {
-			ReuniaoScreen(
+			MeetingScreen(
 				modifier = modifier,
 				viewModel = viewModel,
 				onNavigateToAddEvent = { date ->

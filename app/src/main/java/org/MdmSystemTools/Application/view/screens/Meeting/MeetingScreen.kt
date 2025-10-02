@@ -14,7 +14,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import java.util.*
 
 @Composable
-fun ReuniaoScreen(
+fun MeetingScreen(
 	modifier: Modifier = Modifier,
 	viewModel: MeetingViewModel = hiltViewModel(),
 	onNavigateToAddEvent: ((CalendarDateDto) -> Unit)? = null
