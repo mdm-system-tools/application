@@ -14,6 +14,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import java.util.*
 
 @Composable
+//TODO o botão de adicionar não funciona pois não possui implementação de navegação no navController
 fun MeetingScreen(
 	modifier: Modifier = Modifier,
 	viewModel: MeetingViewModel = hiltViewModel(),

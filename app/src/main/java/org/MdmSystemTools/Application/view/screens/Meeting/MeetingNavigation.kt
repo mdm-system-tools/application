@@ -13,6 +13,7 @@ enum class ReuniaoScreens {
 }
 
 @Composable
+//TODO Implementar essa navegação ao navController do APP
 fun CalendarNavigation(modifier: Modifier = Modifier, viewModel: MeetingViewModel = hiltViewModel()) {
 	var currentScreen by remember { mutableStateOf(ReuniaoScreens.CALENDAR) }
 	var selectedDate by remember { mutableStateOf<CalendarDateDto?>(null) }
