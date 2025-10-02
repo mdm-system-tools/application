@@ -50,9 +50,9 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun LoginScreen(
-	onNavigateToRegister: () -> Unit = {},
-	onLoginSuccess: () -> Unit = {},
-	modifier: Modifier = Modifier
+	onNavigateToRegister: () -> Unit,
+	onNavigateToDashboard: () -> Unit,
+	modifier: Modifier = Modifier,
 ) {
 	var email by remember { mutableStateOf("") }
 	var password by remember { mutableStateOf("") }
@@ -195,7 +195,7 @@ fun LoginScreen(
 								// TODO ERRO HORRIVEL, deve usar navcontroller e não
 								// sobrepor a tela anterior, e se eu quiser deslogar ?
 								// que tela o app vai me mandar?
-								onLoginSuccess()
+								onNavigateToDashboard()
 							}
 						},
 						enabled = !isLoading,
