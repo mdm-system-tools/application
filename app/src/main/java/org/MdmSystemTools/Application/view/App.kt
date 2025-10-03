@@ -18,8 +18,9 @@ import androidx.navigation.compose.composable
 import kotlinx.coroutines.delay
 import org.MdmSystemTools.Application.view.screens.Auth.LoginScreen
 import org.MdmSystemTools.Application.view.screens.Auth.RegisterScreen
+import org.MdmSystemTools.Application.view.screens.Calendar.AddEventScreen
 import org.MdmSystemTools.Application.view.screens.Collaborators.CollaboratorsScreen
-import org.MdmSystemTools.Application.view.screens.Meeting.CalendarNavigation
+import org.MdmSystemTools.Application.view.screens.Calendar.CalendarScreen
 import org.MdmSystemTools.Application.view.screens.Registration.FormScreen
 import org.MdmSystemTools.Application.view.screens.Registration.ProfilesListScreen
 
@@ -44,7 +45,10 @@ fun App(appState: AppState = rememberAppState()) {
 				enter = fadeIn(animationSpec = tween(150)),
 				exit = fadeOut(animationSpec = tween(100))
 			) {
-				BottomApp(itemSelected = appState.selectedItem(), navController = appState.navHostController)
+				BottomApp(
+					itemSelected = appState.selectedItem(),
+					navController = appState.navHostController
+				)
 			}
 		}
 	) { innerPadding ->
@@ -57,13 +61,14 @@ fun App(appState: AppState = rememberAppState()) {
 
 @Composable
 private fun Route(appState: AppState, modifier: Modifier) {
-	NavHost(navController = appState.navHostController, startDestination = Screen.Login.route) {
+	NavHost(navController = appState.navHostController, startDestination = Screen.Calendar.route) {
 		composable(Screen.Login.route) {
 			LoginScreen(
 				onNavigateToRegister = { appState.navigateToRegister() },
 				onNavigateToDashboard = { appState.navigateToAssociate() }
 			)
 		}
+
 		composable(Screen.Register.route) {
 			// TODO esse registro esta quebrado
 			RegisterScreen(onNavigateToLogin = {
@@ -72,19 +77,35 @@ private fun Route(appState: AppState, modifier: Modifier) {
 				appState.navigateToLogin()
 			})
 		}
+
 		composable(Screen.Associate.route) {
 			ProfilesListScreen(onClickBottom = {
 				appState.navigateToForm()
 			})
 		}
+
 		composable(Screen.Collaboration.route) {
 			CollaboratorsScreen()
 		}
+
 		composable(Screen.Calendar.route) {
-			CalendarNavigation()
+			CalendarScreen(
+				onNavigateToAddEvent = {
+					appState.navigateToAddEvent()
+				}
+			)
 		}
+
 		composable(Screen.Form.route) {
 			FormScreen()
+		}
+
+		composable(Screen.AddEvent.route) {
+			AddEventScreen(
+				onNavigateBack = {
+					appState.navigateToCalendar()
+				},
+			)
 		}
 	}
 }

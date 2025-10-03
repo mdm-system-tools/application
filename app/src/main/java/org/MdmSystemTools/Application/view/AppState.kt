@@ -75,6 +75,10 @@ class AppState(val navHostController: NavHostController) {
 	fun navigateToForm() {
 		navigate(Screen.Form)
 	}
+
+	fun navigateToAddEvent(){
+		navigate(Screen.AddEvent)
+	}
 }
 
 @Composable
@@ -108,5 +112,8 @@ sealed interface Screen {
 
 	data object Register : Screen {
 		override val route = "/register"
+	}
+	data object AddEvent : Screen {
+		override val route = "/addevent"
 	}
 }

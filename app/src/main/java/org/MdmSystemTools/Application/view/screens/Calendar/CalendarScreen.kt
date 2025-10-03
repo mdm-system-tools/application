@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.screens.Meeting
+package org.MdmSystemTools.Application.view.screens.Calendar
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -15,10 +15,10 @@ import java.util.*
 
 @Composable
 //TODO o botão de adicionar não funciona pois não possui implementação de navegação no navController
-fun MeetingScreen(
+fun CalendarScreen(
 	modifier: Modifier = Modifier,
 	viewModel: MeetingViewModel = hiltViewModel(),
-	onNavigateToAddEvent: ((CalendarDateDto) -> Unit)? = null
+	onNavigateToAddEvent: () -> Unit
 ) {
 	val currentMonth by viewModel.currentMonth.collectAsState()
 	val currentYear by viewModel.currentYear.collectAsState()
@@ -76,10 +76,10 @@ fun MeetingScreen(
 
 		// Botão flutuante se não há eventos no mês
 		ShowFloatingButtonIfNeeded(
-			hasEvents = eventos.any {
-				it.date.month == currentMonth && it.date.year == currentYear
+			hasEvents = eventos.any { event ->
+				event.date.month == currentMonth && event.date.year == currentYear
 			},
-			onNavigateToAddEvent = onNavigateToAddEvent
+			onClick = onNavigateToAddEvent
 		)
 	}
 }
@@ -89,13 +89,13 @@ private fun handleDateClick(
 	date: CalendarDateDto,
 	selectedDate: CalendarDateDto?,
 	onDateSelected: (CalendarDateDto?) -> Unit,
-	onNavigateToAddEvent: ((CalendarDateDto) -> Unit)?
+	onNavigateToAddEvent: () -> Unit
 ) {
 	if (selectedDate?.day == date.day &&
 		selectedDate.month == date.month &&
 		selectedDate.year == date.year) {
 		// Double click - navegar para adicionar evento
-		onNavigateToAddEvent?.invoke(date)
+		onNavigateToAddEvent
 	} else {
 		// Single click - apenas selecionar a data
 		onDateSelected(date)
@@ -106,21 +106,21 @@ private fun handleDateClick(
 @Composable
 private fun ShowFloatingButtonIfNeeded(
 	hasEvents: Boolean,
-	onNavigateToAddEvent: ((CalendarDateDto) -> Unit)?
+	onClick: () -> Unit,
 ) {
 	if (!hasEvents) {
 		ButtonFormAdd(
-			onClick = {
-				// Adicionar evento para hoje por padrão
-				val nowCalendar = Calendar.getInstance()
-				val todayDate = CalendarDateDto(
-					nowCalendar.get(Calendar.DAY_OF_MONTH),
-					nowCalendar.get(Calendar.MONTH),
-					nowCalendar.get(Calendar.YEAR),
-					true
-				)
-				onNavigateToAddEvent?.invoke(todayDate)
-			}
+			onClick = onClick
+			//	{
+				//// Adicionar evento para hoje por padrão
+				//val nowCalendar = Calendar.getInstance()
+				//val todayDate = CalendarDateDto(
+				//	nowCalendar.get(Calendar.DAY_OF_MONTH),
+				//	nowCalendar.get(Calendar.MONTH),
+				//	nowCalendar.get(Calendar.YEAR),
+				//	true
+				//)
+			//}
 		)
 	}
 }
