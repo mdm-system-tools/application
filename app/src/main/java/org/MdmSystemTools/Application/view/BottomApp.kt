@@ -23,28 +23,35 @@ enum class ROUTES(val route:String){
 	REGISTER("register"),
 	FORM("form")
 }
+sealed interface BottomAppBarItem {
+	val label: String
+	val icon: ImageVector
+	val route: String
+	data object Associate : BottomAppBarItem {
+		override val label = "Associados"
+		override val icon = Icons.Default.Home
+		override val route = Screen.Associate.route
+	}
+	data object Collaboration : BottomAppBarItem {
+		override val label = "Colaboradores"
+		override val icon = Icons.Default.Groups
+		override val route = Screen.Collaboration.route
+	}
+	data object Calendar : BottomAppBarItem {
+		override val label = "Agenda"
+		override val icon = Icons.Default.CalendarToday
+		override val route = Screen.Calendar.route
+	}
+}
 
-data class BottomAppBarItem(val label:String, val icon: ImageVector, val route:String)
 val bottomAppBarItems = listOf(
-	BottomAppBarItem(
-		label = "Associados",
-		icon = Icons.Default.Home,
-		route =  ROUTES.ASSOCIATE.name
-	),
-	BottomAppBarItem(
-		label = "Colaboradores",
-		icon = Icons.Default.Groups,
-		route = ROUTES.COLLABORATION.name
-	),
-	BottomAppBarItem(
-		label = "Agenda",
-		icon = Icons.Default.CalendarToday,
-		route = ROUTES.CALENDAR.name
-	)
+	BottomAppBarItem.Associate,
+	BottomAppBarItem.Collaboration,
+	BottomAppBarItem.Calendar
 )
 
 @Composable
-fun BottomApp (
+fun BottomApp(
 	item: BottomAppBarItem,
 	modifier: Modifier = Modifier,
 	items: List<BottomAppBarItem> = emptyList(),
