@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
-import org.MdmSystemTools.Application.utils.AppConstants
+import org.MdmSystemTools.Application.view.theme.AppConstants
 import java.util.*
 
 @Composable

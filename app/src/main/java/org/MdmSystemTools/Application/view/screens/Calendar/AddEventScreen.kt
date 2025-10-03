@@ -29,7 +29,7 @@ import org.MdmSystemTools.Application.view.components.Forms.LocalSelector
 import org.MdmSystemTools.Application.view.components.Forms.RegiaoSelector
 import org.MdmSystemTools.Application.view.components.Forms.ProjetoSelector
 import org.MdmSystemTools.Application.view.components.Forms.GroupSelector
-import org.MdmSystemTools.Application.utils.AppConstants
+import org.MdmSystemTools.Application.view.theme.AppConstants
 import java.util.*
 
 // TODO BUG é possivel coloca horario fim antes do inicio exemplo inicio 09:00 fim 6:00

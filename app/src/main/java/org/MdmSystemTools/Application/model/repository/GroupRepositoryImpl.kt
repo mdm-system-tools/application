@@ -1,7 +1,7 @@
 package org.MdmSystemTools.Application.model.repository
 
 import org.MdmSystemTools.Application.model.DTO.GroupDto
-import org.MdmSystemTools.Application.utils.AppConstants
+import org.MdmSystemTools.Application.view.theme.AppConstants
 
 class GroupRepositoryImpl : GroupRepository {
 	override fun getListGroups(): List<GroupDto> {

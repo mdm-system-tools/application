@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.utils
+package org.MdmSystemTools.Application.view.theme
 
 /**
  * Classe utilitária para gerenciar caminhos de assets de imagens.

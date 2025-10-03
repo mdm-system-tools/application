@@ -1,24 +1,16 @@
 package org.MdmSystemTools.Application.view.components.Meeting
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.MdmSystemTools.Application.model.DTO.EventDto
 import org.MdmSystemTools.Application.viewmodel.Meeting.MeetingViewModel
-import org.MdmSystemTools.Application.utils.AppConstants
+import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @Composable
 fun EventsList(
