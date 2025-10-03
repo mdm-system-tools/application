@@ -15,7 +15,7 @@ import org.MdmSystemTools.Application.view.components.Common.ButtonFormAdd
 import org.MdmSystemTools.Application.view.components.Registration.AssociateProfile
 import org.MdmSystemTools.Application.view.components.Registration.QuickAccessButtons
 import org.MdmSystemTools.Application.view.components.Registration.SearchBar
-import org.MdmSystemTools.Application.viewmodel.Registration.ListAssociatedViewModel
+import org.MdmSystemTools.Application.view.screens.Registration.ListAssociatedViewModel
 
 
 @Composable

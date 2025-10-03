@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.MdmSystemTools.Application.model.DTO.EventDto
-import org.MdmSystemTools.Application.viewmodel.Meeting.MeetingViewModel
+import org.MdmSystemTools.Application.view.screens.Calendar.MeetingViewModel
 import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @Composable

@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.viewmodel.Registration
+package org.MdmSystemTools.Application.view.screens.Registration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

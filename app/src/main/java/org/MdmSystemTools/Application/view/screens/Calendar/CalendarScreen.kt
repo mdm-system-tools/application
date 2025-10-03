@@ -5,7 +5,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
-import org.MdmSystemTools.Application.viewmodel.Meeting.MeetingViewModel
+import org.MdmSystemTools.Application.view.screens.Calendar.MeetingViewModel
 import org.MdmSystemTools.Application.view.components.Common.ButtonFormAdd
 import org.MdmSystemTools.Application.view.components.Meeting.ModernCalendar
 import org.MdmSystemTools.Application.view.components.Meeting.MonthTitle
