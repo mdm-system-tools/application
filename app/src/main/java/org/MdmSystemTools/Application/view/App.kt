@@ -44,7 +44,7 @@ fun App(appState: AppState = rememberAppState()) {
 				enter = fadeIn(animationSpec = tween(150)),
 				exit = fadeOut(animationSpec = tween(100))
 			) {
-				BottomApp(navController = appState.navHostController)
+				BottomApp(itemSelected = appState.selectedItem(), navController = appState.navHostController)
 			}
 		}
 	) { innerPadding ->

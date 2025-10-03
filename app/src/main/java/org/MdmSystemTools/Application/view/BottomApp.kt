@@ -44,17 +44,12 @@ val bottomAppBarItems = listOf(
 )
 
 @Composable
-//TODO Por algum motivo as telas estão com um delay muito grande
-//TODO Falta coloca uma condição para o NavBar aparece apenas nas telas principais
 fun BottomApp(
+	itemSelected: BottomAppBarItem,
 	navController: NavController,
-	selectedItem: Boolean = true,
 	appBarItems: List<BottomAppBarItem> = bottomAppBarItems,
-	onItemChange: (BottomAppBarItem) -> Unit = {},
 	modifier: Modifier = Modifier
 ) {
-	val backStackEntry by navController.currentBackStackEntryAsState()
-	val currentDestination = backStackEntry?.destination
 	NavigationBar(modifier = modifier) {
 		appBarItems.forEach { item ->
 			val label = item.label
@@ -62,7 +57,7 @@ fun BottomApp(
 			NavigationBarItem(
 				icon = { Icon(icon, contentDescription = label) },
 				label = { Text(label) },
-				selected = selectedItem,
+				selected = item.label == itemSelected.label,
 				onClick = {
 					navController.navigate(item.route) {
 						launchSingleTop = true
