@@ -97,7 +97,7 @@ private fun Route(appState: AppState, modifier: Modifier) {
 		}
 
 		composable(Screen.Form.route) {
-			FormScreen()
+			FormScreen(onClick = { appState.navigateToForm() })
 		}
 
 		composable(Screen.AddEvent.route) {
