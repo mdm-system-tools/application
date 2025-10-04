@@ -59,9 +59,11 @@ fun BottomApp(
 				label = { Text(label) },
 				selected = item.label == itemSelected.label,
 				onClick = {
-					navController.navigate(item.route) {
-						launchSingleTop = true
-						popUpTo(item.route)
+					if (item.route != itemSelected.route) {
+						navController.navigate(item.route) {
+							launchSingleTop = true
+							popUpTo(item.route)
+						}
 					}
 				})
 		}
