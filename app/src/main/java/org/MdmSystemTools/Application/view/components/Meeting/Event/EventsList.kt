@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.components.Meeting
+package org.MdmSystemTools.Application.view.components.Meeting.Event
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,35 +8,35 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.StateFlow
 import org.MdmSystemTools.Application.model.DTO.EventDto
-import org.MdmSystemTools.Application.view.screens.Calendar.MeetingViewModel
 import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @Composable
 fun EventsList(
-	viewModel: MeetingViewModel,
+	events: StateFlow<List<EventDto>>,
 	month: Int,
 	year: Int,
 	onDeleteEvent: (String) -> Unit,
 	onEditEvent: (EventDto) -> Unit = { },
 	modifier: Modifier = Modifier
 ) {
-	val eventos by viewModel.eventos.collectAsState()
-	var eventoSelecionado by remember { mutableStateOf<EventDto?>(null) }
+	val eventsList by events.collectAsState()
+	var selectedEvent by remember { mutableStateOf<EventDto?>(null) }
 
 	// Filtrar eventos do mês atual
-	val eventosDoMes = remember(eventos, month, year) {
-		eventos.filter { evento ->
-			evento.date.month == month && evento.date.year == year
+	val monthEvents = remember(eventsList, month, year) {
+		eventsList.filter { event ->
+			event.date.month == month && event.date.year == year
 		}.sortedBy { it.date.day }
 	}
 
-	if (eventosDoMes.isNotEmpty()) {
+	if (monthEvents.isNotEmpty()) {
 		LazyColumn(
 			modifier = modifier
 				.fillMaxWidth()
-				.padding(horizontal = 16.dp),
-			verticalArrangement = Arrangement.spacedBy(8.dp)
+				.padding(horizontal = AppConstants.Spacing.medium),
+			verticalArrangement = Arrangement.spacedBy(AppConstants.Spacing.small)
 		) {
 			item {
 				Text(
@@ -47,22 +47,22 @@ fun EventsList(
 				)
 			}
 
-			items(eventosDoMes, key = { it.id }) { evento ->
+			items(monthEvents, key = { it.id }) { event ->
 				EventCard(
-					evento = evento,
-					onDelete = { onDeleteEvent(evento.id) },
-					onEdit = { onEditEvent(evento) },
-					onClick = { eventoSelecionado = evento }
+					event = event,
+					onDelete = { onDeleteEvent(event.id) },
+					onEdit = { onEditEvent(event) },
+					onClick = { selectedEvent = event }
 				)
 			}
 		}
 	}
 
 	// Diálogo de detalhes do evento
-	eventoSelecionado?.let { evento ->
+	selectedEvent?.let { event ->
 		EventDetailsDialog(
-			evento = evento,
-			onDismiss = { eventoSelecionado = null }
+			event = event,
+			onDismiss = { selectedEvent = null }
 		)
 	}
 }

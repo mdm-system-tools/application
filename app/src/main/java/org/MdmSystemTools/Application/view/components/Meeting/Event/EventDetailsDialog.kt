@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.components.Meeting
+package org.MdmSystemTools.Application.view.components.Meeting.Event
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,14 +11,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.MdmSystemTools.Application.model.DTO.EventDto
+import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @Composable
 fun EventDetailsDialog(
-    evento: EventDto,
+    event: EventDto,
     onDismiss: () -> Unit
 ) {
     AlertDialog(
@@ -26,31 +28,31 @@ fun EventDetailsDialog(
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.smallPlus)
             ) {
                 Icon(
                     imageVector = Icons.Default.Event,
                     contentDescription = "Evento",
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(AppConstants.ComponentSize.iconLarge)
                 )
                 Text(
-                    text = evento.title,
-                    fontSize = 20.sp,
+                    text = event.title,
+                    fontSize = AppConstants.FontSize.title,
                     fontWeight = FontWeight.Bold
                 )
             }
         },
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(AppConstants.Spacing.medium)
             ) {
                 // Descrição
-                if (evento.description.isNotBlank()) {
+                if (event.description.isNotBlank()) {
                     DetailItem(
                         icon = Icons.Default.Description,
                         label = "Descrição",
-                        value = evento.description
+                        value = event.description
                     )
                 }
 
@@ -58,18 +60,18 @@ fun EventDetailsDialog(
                 DetailItem(
                     icon = Icons.Default.CalendarToday,
                     label = "Data",
-                    value = "${evento.date.day}/${evento.date.month + 1}/${evento.date.year}"
+                    value = "${event.date.day}/${event.date.month + 1}/${event.date.year}"
                 )
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.medium)
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         DetailItem(
                             icon = Icons.Default.Schedule,
                             label = "Início",
-                            value = evento.hourStart,
+                            value = event.hourStart,
                             compact = true
                         )
                     }
@@ -77,70 +79,70 @@ fun EventDetailsDialog(
                         DetailItem(
                             icon = Icons.Default.Schedule,
                             label = "Fim",
-                            value = evento.hourEnd,
+                            value = event.hourEnd,
                             compact = true
                         )
                     }
                 }
 
                 // Local
-                if (evento.local.isNotBlank()) {
+                if (event.local.isNotBlank()) {
                     DetailItem(
                         icon = Icons.Default.LocationOn,
                         label = "Local",
-                        value = evento.local
+                        value = event.local
                     )
                 }
 
                 // Região
-                if (evento.region.isNotBlank()) {
+                if (event.region.isNotBlank()) {
                     DetailItem(
                         icon = Icons.Default.Map,
                         label = "Região",
-                        value = evento.region
+                        value = event.region
                     )
                 }
 
                 // Projeto
-                if (evento.project.isNotBlank()) {
+                if (event.project.isNotBlank()) {
                     DetailItem(
                         icon = Icons.Default.Work,
                         label = "Projeto",
-                        value = evento.project
+                        value = event.project
                     )
                 }
 
                 // Grupo
-                evento.groups?.let { grupo ->
+                event.groups?.let { grupo ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.small)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Groups,
                             contentDescription = "Grupo",
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(AppConstants.ComponentSize.iconMedium)
                         )
                         Text(
                             text = "Grupo:",
-                            fontSize = 14.sp,
+                            fontSize = AppConstants.FontSize.medium,
                             fontWeight = FontWeight.Medium,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = AppConstants.Alpha.semiTransparent)
                         )
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.small)
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(16.dp)
+                                    .size(AppConstants.ComponentSize.iconSmall)
                                     .clip(CircleShape)
                                     .background(grupo.cor)
                             )
                             Text(
                                 text = grupo.nome,
-                                fontSize = 14.sp,
+                                fontSize = AppConstants.FontSize.medium,
                                 fontWeight = FontWeight.Medium
                             )
                         }
@@ -153,65 +155,65 @@ fun EventDetailsDialog(
                 Text("Fechar")
             }
         },
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(AppConstants.CornerRadius.large)
     )
 }
 
 @Composable
 private fun DetailItem(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     label: String,
     value: String,
     compact: Boolean = false
 ) {
     if (compact) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(AppConstants.Spacing.extraSmall)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.extraSmall)
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = label,
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(AppConstants.ComponentSize.iconSmall)
                 )
                 Text(
                     text = label,
-                    fontSize = 12.sp,
+                    fontSize = AppConstants.FontSize.small,
                     fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = AppConstants.Alpha.semiTransparent)
                 )
             }
             Text(
                 text = value,
-                fontSize = 14.sp,
+                fontSize = AppConstants.FontSize.medium,
                 fontWeight = FontWeight.Medium
             )
         }
     } else {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.small)
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = label,
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(AppConstants.ComponentSize.iconMedium)
             )
             Column {
                 Text(
                     text = label,
-                    fontSize = 12.sp,
+                    fontSize = AppConstants.FontSize.small,
                     fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = AppConstants.Alpha.semiTransparent)
                 )
                 Text(
                     text = value,
-                    fontSize = 14.sp,
+                    fontSize = AppConstants.FontSize.medium,
                     fontWeight = FontWeight.Medium
                 )
             }

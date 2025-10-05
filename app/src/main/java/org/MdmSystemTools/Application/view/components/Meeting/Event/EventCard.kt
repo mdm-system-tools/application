@@ -1,7 +1,5 @@
-package org.MdmSystemTools.Application.view.components.Meeting
+package org.MdmSystemTools.Application.view.components.Meeting.Event
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,11 +18,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.MdmSystemTools.Application.model.DTO.EventDto
+import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventCard(
-	evento: EventDto,
+	event: EventDto,
 	onDelete: () -> Unit,
 	onEdit: () -> Unit,
 	onClick: () -> Unit,
@@ -37,8 +36,8 @@ fun EventCard(
 		modifier = modifier
 			.fillMaxWidth()
 			.clickable { onClick() },
-		elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-		shape = RoundedCornerShape(16.dp),
+		elevation = CardDefaults.cardElevation(defaultElevation = AppConstants.ComponentSize.cardElevation),
+		shape = RoundedCornerShape(AppConstants.CornerRadius.large),
 		colors = CardDefaults.cardColors(
 			containerColor = MaterialTheme.colorScheme.surface
 		)
@@ -46,7 +45,7 @@ fun EventCard(
 		Column(
 			modifier = Modifier
 				.fillMaxWidth()
-				.padding(16.dp)
+				.padding(AppConstants.Spacing.medium)
 		) {
 			// Header com título e botão de menu
 			Row(
@@ -56,24 +55,24 @@ fun EventCard(
 			) {
 				Row(
 					verticalAlignment = Alignment.CenterVertically,
-					horizontalArrangement = Arrangement.spacedBy(12.dp),
+					horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.smallPlus),
 					modifier = Modifier.weight(1f)
 				) {
 					// Indicador de cor do grupo
 					Box(
 						modifier = Modifier
-							.size(12.dp)
+							.size(AppConstants.ComponentSize.iconTiny)
 							.clip(CircleShape)
-							.background(evento.groups?.cor ?: evento.color)
+							.background(event.groups?.cor ?: event.color)
 							.border(
-								1.dp,
-								MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+								AppConstants.ComponentSize.borderWidth,
+								MaterialTheme.colorScheme.outline.copy(alpha = AppConstants.Alpha.disabled),
 								CircleShape
 							)
 					)
 
 					Text(
-						text = evento.title,
+						text = event.title,
 						style = MaterialTheme.typography.titleMedium,
 						fontWeight = FontWeight.Bold,
 						maxLines = 1,
@@ -85,13 +84,13 @@ fun EventCard(
 				Box {
 					IconButton(
 						onClick = { showMenu = true },
-						modifier = Modifier.size(32.dp)
+						modifier = Modifier.size(AppConstants.ComponentSize.iconButton)
 					) {
 						Icon(
 							imageVector = Icons.Outlined.MoreVert,
 							contentDescription = "Opções",
 							tint = MaterialTheme.colorScheme.onSurfaceVariant,
-							modifier = Modifier.size(20.dp)
+							modifier = Modifier.size(AppConstants.ComponentSize.iconMedium)
 						)
 					}
 
@@ -105,13 +104,13 @@ fun EventCard(
 							text = {
 								Row(
 									verticalAlignment = Alignment.CenterVertically,
-									horizontalArrangement = Arrangement.spacedBy(12.dp)
+									horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.smallPlus)
 								) {
 									Icon(
 										imageVector = Icons.Default.Edit,
 										contentDescription = "Editar",
 										tint = MaterialTheme.colorScheme.primary,
-										modifier = Modifier.size(18.dp)
+										modifier = Modifier.size(AppConstants.FontSize.extraLarge.value.dp)
 									)
 									Text(
 										text = "Editar",
@@ -133,13 +132,13 @@ fun EventCard(
 							text = {
 								Row(
 									verticalAlignment = Alignment.CenterVertically,
-									horizontalArrangement = Arrangement.spacedBy(12.dp)
+									horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.smallPlus)
 								) {
 									Icon(
 										imageVector = Icons.Default.Delete,
 										contentDescription = "Deletar",
 										tint = MaterialTheme.colorScheme.error,
-										modifier = Modifier.size(18.dp)
+										modifier = Modifier.size(AppConstants.FontSize.extraLarge.value.dp)
 									)
 									Text(
 										text = "Remover",
@@ -157,27 +156,27 @@ fun EventCard(
 				}
 			}
 
-			Spacer(modifier = Modifier.height(12.dp))
+			Spacer(modifier = Modifier.height(AppConstants.Spacing.smallPlus))
 
 			// Informações principais
 			Row(
 				modifier = Modifier.fillMaxWidth(),
-				horizontalArrangement = Arrangement.spacedBy(16.dp),
+				horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.medium),
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				// Data
 				Row(
 					verticalAlignment = Alignment.CenterVertically,
-					horizontalArrangement = Arrangement.spacedBy(6.dp)
+					horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.extraSmallPlus)
 				) {
 					Icon(
 						imageVector = Icons.Default.CalendarToday,
 						contentDescription = "Data",
 						tint = MaterialTheme.colorScheme.primary,
-						modifier = Modifier.size(16.dp)
+						modifier = Modifier.size(AppConstants.ComponentSize.iconSmall)
 					)
 					Text(
-						text = "${evento.date.day}/${evento.date.month + 1}",
+						text = "${event.date.day}/${event.date.month + 1}",
 						style = MaterialTheme.typography.bodyMedium,
 						fontWeight = FontWeight.Medium,
 						color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -187,16 +186,16 @@ fun EventCard(
 				// Horário
 				Row(
 					verticalAlignment = Alignment.CenterVertically,
-					horizontalArrangement = Arrangement.spacedBy(6.dp)
+					horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.extraSmallPlus)
 				) {
 					Icon(
 						imageVector = Icons.Default.Schedule,
 						contentDescription = "Horário",
 						tint = MaterialTheme.colorScheme.primary,
-						modifier = Modifier.size(16.dp)
+						modifier = Modifier.size(AppConstants.ComponentSize.iconSmall)
 					)
 					Text(
-						text = "${evento.hourStart} - ${evento.hourEnd}",
+						text = "${event.hourStart} - ${event.hourEnd}",
 						style = MaterialTheme.typography.bodyMedium,
 						fontWeight = FontWeight.Medium,
 						color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -205,10 +204,10 @@ fun EventCard(
 			}
 
 			// Descrição (se houver)
-			if (evento.description.isNotBlank()) {
-				Spacer(modifier = Modifier.height(8.dp))
+			if (event.description.isNotBlank()) {
+				Spacer(modifier = Modifier.height(AppConstants.Spacing.small))
 				Text(
-					text = evento.description,
+					text = event.description,
 					style = MaterialTheme.typography.bodySmall,
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
 					maxLines = 2,
@@ -217,28 +216,28 @@ fun EventCard(
 			}
 
 			// Local e Grupo (se houver)
-			val hasExtraInfo = evento.local.isNotBlank() || evento.groups != null
+			val hasExtraInfo = event.local.isNotBlank() || event.groups != null
 			if (hasExtraInfo) {
-				Spacer(modifier = Modifier.height(8.dp))
+				Spacer(modifier = Modifier.height(AppConstants.Spacing.small))
 				Row(
 					modifier = Modifier.fillMaxWidth(),
-					horizontalArrangement = Arrangement.spacedBy(16.dp),
+					horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.medium),
 					verticalAlignment = Alignment.CenterVertically
 				) {
 					// Local
-					if (evento.local.isNotBlank()) {
+					if (event.local.isNotBlank()) {
 						Row(
 							verticalAlignment = Alignment.CenterVertically,
-							horizontalArrangement = Arrangement.spacedBy(4.dp)
+							horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.extraSmall)
 						) {
 							Icon(
 								imageVector = Icons.Default.LocationOn,
 								contentDescription = "Local",
 								tint = MaterialTheme.colorScheme.secondary,
-								modifier = Modifier.size(14.dp)
+								modifier = Modifier.size(AppConstants.ComponentSize.iconExtraSmall)
 							)
 							Text(
-								text = evento.local,
+								text = event.local,
 								style = MaterialTheme.typography.bodySmall,
 								color = MaterialTheme.colorScheme.onSurfaceVariant,
 								maxLines = 1,
@@ -248,16 +247,16 @@ fun EventCard(
 					}
 
 					// Grupo
-					evento.groups?.let { grupo ->
+					event.groups?.let { grupo ->
 						Row(
 							verticalAlignment = Alignment.CenterVertically,
-							horizontalArrangement = Arrangement.spacedBy(4.dp)
+							horizontalArrangement = Arrangement.spacedBy(AppConstants.Spacing.extraSmall)
 						) {
 							Icon(
 								imageVector = Icons.Default.Groups,
 								contentDescription = "Grupo",
 								tint = MaterialTheme.colorScheme.secondary,
-								modifier = Modifier.size(14.dp)
+								modifier = Modifier.size(AppConstants.ComponentSize.iconExtraSmall)
 							)
 							Text(
 								text = grupo.nome,
@@ -281,7 +280,7 @@ fun EventCard(
 				Text("Remover Reunião")
 			},
 			text = {
-				Text("Tem certeza que deseja remover a reunião \"${evento.title}\"?")
+				Text("Tem certeza que deseja remover a reunião \"${event.title}\"?")
 			},
 			confirmButton = {
 				TextButton(

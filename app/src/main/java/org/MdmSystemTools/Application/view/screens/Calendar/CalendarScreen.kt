@@ -3,28 +3,51 @@ package org.MdmSystemTools.Application.view.screens.Calendar
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import dagger.hilt.android.EntryPointAccessors
+import org.MdmSystemTools.Application.MyApp
+import org.MdmSystemTools.Application.model.DTO.CalendarConfigDto
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
-import org.MdmSystemTools.Application.view.screens.Calendar.MeetingViewModel
+import org.MdmSystemTools.Application.model.repository.CalendarRepository
+import org.MdmSystemTools.Application.model.repository.EventRepository
 import org.MdmSystemTools.Application.view.components.Common.ButtonFormAdd
-import org.MdmSystemTools.Application.view.components.Meeting.ModernCalendar
-import org.MdmSystemTools.Application.view.components.Meeting.MonthTitle
-import org.MdmSystemTools.Application.view.components.Meeting.EventsList
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import java.util.*
+import org.MdmSystemTools.Application.view.components.Meeting.Calendar.Calendar
+import org.MdmSystemTools.Application.view.components.Meeting.Calendar.MonthTitle
+import org.MdmSystemTools.Application.view.components.Meeting.Event.EventsList
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface CalendarScreenEntryPoint {
+	fun calendarRepository(): CalendarRepository
+	fun eventRepository(): EventRepository
+}
 
 @Composable
 //TODO o botão de adicionar não funciona pois não possui implementação de navegação no navController
 fun CalendarScreen(
 	modifier: Modifier = Modifier,
-	viewModel: MeetingViewModel = hiltViewModel(),
 	onNavigateToAddEvent: () -> Unit
 ) {
-	val currentMonth by viewModel.currentMonth.collectAsState()
-	val currentYear by viewModel.currentYear.collectAsState()
-	val eventos by viewModel.eventos.collectAsState()
+	val context = LocalContext.current
+	val appContext = context.applicationContext as MyApp
+	val entryPoint = EntryPointAccessors.fromApplication(
+		appContext,
+		CalendarScreenEntryPoint::class.java
+	)
 
-	// Estado para controlar a data selecionada (double-click)
+	val calendarRepository = remember { entryPoint.calendarRepository() }
+	val eventRepository = remember { entryPoint.eventRepository() }
+
+	val currentMonth by calendarRepository.currentMonth.collectAsState()
+	val currentYear by calendarRepository.currentYear.collectAsState()
+	val events by eventRepository.events.collectAsState()
+	val calendarData by calendarRepository.calendarData.collectAsState()
+	val today by calendarRepository.today.collectAsState()
+
 	var selectedDate by remember { mutableStateOf<CalendarDateDto?>(null) }
 
 	Box(modifier = modifier.fillMaxSize()) {
@@ -33,17 +56,21 @@ fun CalendarScreen(
 				.fillMaxSize()
 				.padding(top = 16.dp)
 		) {
-			// Título do mês/ano
 			MonthTitle(
 				month = currentMonth,
 				year = currentYear
 			)
 
 			// Calendário com double-click
-			ModernCalendar(
-				currentMonth = currentMonth,
-				currentYear = currentYear,
-				selectedDate = selectedDate,
+			Calendar(
+				config = CalendarConfigDto(
+					currentMonth = currentMonth,
+					currentYear = currentYear,
+					selectedDate = selectedDate,
+					showHeader = false
+				),
+				calendarData = calendarData,
+				today = today,
 				onDateClick = { date ->
 					handleDateClick(
 						date = date,
@@ -53,21 +80,20 @@ fun CalendarScreen(
 					)
 				},
 				onMonthChange = { month, year ->
-					viewModel.navegarParaMes(month, year)
+					calendarRepository.navigateToMonth(month, year)
 					selectedDate = null // Limpar seleção ao mudar de mês
 				},
-				hasEventsCallback = { date -> viewModel.temEventosNaData(date) },
-				eventCountCallback = { date -> viewModel.obterEventosPorData(date).size },
-				showHeader = false
+				hasEventsCallback = { date -> eventRepository.hasEventsOnDate(date) },
+				eventCountCallback = { date -> eventRepository.getEventsByDate(date).size }
 			)
 
 			// Lista de eventos do mês
 			EventsList(
-				viewModel = viewModel,
+				events = eventRepository.events,
 				month = currentMonth,
 				year = currentYear,
-				onDeleteEvent = { eventId -> viewModel.removerEvento(eventId) },
-				onEditEvent = { evento ->
+				onDeleteEvent = { eventId -> eventRepository.removeEvent(eventId) },
+				onEditEvent = { event ->
 					// TODO: Implementar navegação para tela de edição
 					// Por enquanto, apenas um placeholder
 				}
@@ -76,7 +102,7 @@ fun CalendarScreen(
 
 		// Botão flutuante se não há eventos no mês
 		ShowFloatingButtonIfNeeded(
-			hasEvents = eventos.any { event ->
+			hasEvents = events.any { event ->
 				event.date.month == currentMonth && event.date.year == currentYear
 			},
 			onClick = onNavigateToAddEvent
