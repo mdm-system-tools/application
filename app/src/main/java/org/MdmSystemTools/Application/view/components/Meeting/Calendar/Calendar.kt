@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import org.MdmSystemTools.Application.model.DTO.CalendarConfigDto
+import org.MdmSystemTools.Application.model.DTO.CalendarData
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.utils.calculateCalendarData
 import org.MdmSystemTools.Application.model.utils.getToday
@@ -22,7 +23,7 @@ import org.MdmSystemTools.Application.model.utils.getToday
 @Composable
 fun Calendar(
 	config: CalendarConfigDto,
-	calendarData: org.MdmSystemTools.Application.view.components.Meeting.Calendar.CalendarData,
+	calendarData: CalendarData,
 	today: Triple<Int, Int, Int>,
 	onDateClick: (CalendarDateDto) -> Unit = {},
 	onMonthChange: (month: Int, year: Int) -> Unit = { _, _ -> },
@@ -32,7 +33,7 @@ fun Calendar(
 ) {
 	Column(modifier = modifier) {
 		if (config.showHeader) {
-			CalendarHeader(
+			MonthTitle(
 				month = config.currentMonth,
 				year = config.currentYear
 			)
