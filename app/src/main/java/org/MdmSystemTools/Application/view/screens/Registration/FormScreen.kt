@@ -1,5 +1,7 @@
 package org.MdmSystemTools.Application.view.screens.Registration
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,33 +13,46 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import org.MdmSystemTools.Application.model.DTO.AssociateDto
 
-//TODO Troca a tipagem
-enum class fields(val label: String, var data: String = "") {
-	nome("Nome"),
-	email("Email"),
-	telefone("Telefone"),
-	cpf("CPF")
+sealed interface field {
+	val label: String
+	var data: String
+
+	data object name : field {
+		override val label = "Nome"
+		override var data = ""
+	}
+
+	data object group : field {
+		override val label = "Grupo"
+		override var data = ""
+	}
+
+	data object numberCard : field {
+		override val label = "Numero da Carterinha"
+		override var data = ""
+	}
 }
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
-fun FormScreen(onClick: () -> Unit) {
-	//TODO implementar uma forma de registrar cadastro
-	var nome by remember { mutableStateOf("") }
-	var email by remember { mutableStateOf("") }
-	var telefone by remember { mutableStateOf("") }
-	var cpf by remember { mutableStateOf("") }
-	val campos = remember {
-		fields.entries.associateWith { mutableStateOf(it.data) }
+fun FormScreen(
+	onClick: () -> Unit,
+	viewModel: ListAssociatedViewModel = hiltViewModel()
+) {
+	val fields = remember {
+		mutableStateListOf(
+			field.name, field.group, field.numberCard
+		)
 	}
 	Column(
 		Modifier.padding(20.dp),
@@ -49,22 +64,26 @@ fun FormScreen(onClick: () -> Unit) {
 			fontSize = 18.sp
 		)
 		LazyColumn {
-			items(fields.entries.toTypedArray()) { field ->
-				val state = campos[field]!!
+			items(fields) { field ->
 				OutlinedTextField(
-					value = state.value,
-					onValueChange = { state.value = it },
+					value = field.data,
+					onValueChange = { field.data = it },
 					label = { Text(field.label) },
 					modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp, horizontal = 8.dp)
+						.fillMaxWidth()
+						.padding(vertical = 4.dp, horizontal = 8.dp)
 				)
 			}
 		}
 
 		Row {
 			Button(
-				onClick = onClick,
+				onClick = {
+					val newAssociate = AssociateDto(101010, 1, fields[1].data)
+					viewModel.createAssociate(newAssociate)
+					onClick()
+					Log.i("viewmodel", "FormScreen - create new associate: $newAssociate")
+				},
 				modifier = Modifier.fillMaxWidth()
 			) {
 				Text("Criar")

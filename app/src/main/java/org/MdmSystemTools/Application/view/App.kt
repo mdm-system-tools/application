@@ -97,7 +97,9 @@ private fun Route(appState: AppState, modifier: Modifier) {
 		}
 
 		composable(Screen.Form.route) {
-			FormScreen(onClick = { appState.navigateToForm() })
+			FormScreen(onClick = {
+				appState.navHostController.popBackStack()
+			})
 		}
 
 		composable(Screen.AddEvent.route) {
