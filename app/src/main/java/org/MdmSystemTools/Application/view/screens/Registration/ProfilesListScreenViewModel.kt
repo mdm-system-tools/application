@@ -19,10 +19,10 @@ class ListAssociatedViewModel @Inject constructor(
   val listAssociates: StateFlow<List<AssociateDto>> = _listAssociates.asStateFlow()
 
   init {
-    getListAssociateds()
+    getListAssociates()
   }
 
-  private fun getListAssociateds() {
+  private fun getListAssociates() {
     viewModelScope.launch {
       try {
         _listAssociates.value = repository.getListAssociates()
@@ -31,4 +31,8 @@ class ListAssociatedViewModel @Inject constructor(
       }
     }
   }
+
+	fun createAssociate(associate : AssociateDto){
+		repository.createAssociate(associate)
+	}
 }
