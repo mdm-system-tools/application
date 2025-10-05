@@ -64,6 +64,7 @@ fun FormScreen(
 			fontSize = 18.sp
 		)
 		LazyColumn {
+			//TODO BUG não é possivel escrever nos campos
 			items(fields) { field ->
 				OutlinedTextField(
 					value = field.data,
