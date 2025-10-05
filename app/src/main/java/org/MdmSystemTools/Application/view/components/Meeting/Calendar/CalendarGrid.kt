@@ -31,7 +31,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.MdmSystemTools.Application.model.DTO.CalendarData
-import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.utils.getNextMonth
 import org.MdmSystemTools.Application.model.utils.getPreviousMonth
 import org.MdmSystemTools.Application.view.theme.AppConstants
@@ -43,13 +42,13 @@ import kotlin.math.abs
 internal fun CalendarGrid(
 	month: Int,
 	year: Int,
-	selectedDate: CalendarDateDto?,
+	selectedDate: Triple<Int, Int, Int>?,
 	calendarData: CalendarData,
 	today: Triple<Int, Int, Int>,
-	onDateClick: (CalendarDateDto) -> Unit,
+	onDateClick: (Int, Int, Int) -> Unit,
 	onMonthChange: (Int, Int) -> Unit,
-	hasEventsCallback: (CalendarDateDto) -> Boolean,
-	eventCountCallback: (CalendarDateDto) -> Int,
+	hasEventsCallback: (Int, Int, Int) -> Boolean,
+	eventCountCallback: (Int, Int, Int) -> Int,
 	modifier: Modifier = Modifier
 ) {
 
@@ -71,11 +70,9 @@ internal fun CalendarGrid(
 					detectHorizontalDragGestures(
 						onDragEnd = {
 							if (swipeOffsetX > AppConstants.Animation.swipeOffsetMax) {
-								// Swipe direita - mês anterior
 								val (prevMonth, prevYear) = getPreviousMonth(month, year)
 								onMonthChange(prevMonth, prevYear)
 							} else if (swipeOffsetX < AppConstants.Animation.swipeOffsetMin) {
-								// Swipe esquerda - próximo mês
 								val (nextMonth, nextYear) = getNextMonth(month, year)
 								onMonthChange(nextMonth, nextYear)
 							}
@@ -128,10 +125,10 @@ internal fun DaysGrid(
 	month: Int,
 	year: Int,
 	today: Triple<Int, Int, Int>,
-	selectedDate: CalendarDateDto?,
-	onDateClick: (CalendarDateDto) -> Unit,
-	hasEventsCallback: (CalendarDateDto) -> Boolean,
-	eventCountCallback: (CalendarDateDto) -> Int,
+	selectedDate: Triple<Int, Int, Int>?,
+	onDateClick: (Int, Int, Int) -> Unit,
+	hasEventsCallback: (Int, Int, Int) -> Boolean,
+	eventCountCallback: (Int, Int, Int) -> Int,
 	modifier: Modifier = Modifier
 ) {
 	val totalCells = 42 // 6 semanas x 7 dias
@@ -152,18 +149,18 @@ internal fun DaysGrid(
 						isValidDay = isValidDay,
 						isToday = isValidDay && dayNumber == today.first &&
 								month == today.second && year == today.third,
-						isSelected = isValidDay && selectedDate?.let {
-							it.day == dayNumber && it.month == month && it.year == year
+						isSelected = isValidDay && selectedDate?.let { (d, m, y) ->
+							d == dayNumber && m == month && y == year
 						} ?: false,
 						hasEvents = if (isValidDay) {
-							hasEventsCallback(CalendarDateDto(dayNumber, month, year, true))
+							hasEventsCallback(dayNumber, month, year)
 						} else false,
 						eventCount = if (isValidDay) {
-							eventCountCallback(CalendarDateDto(dayNumber, month, year, true))
+							eventCountCallback(dayNumber, month, year)
 						} else 0,
 						onClick = {
 							if (isValidDay) {
-								onDateClick(CalendarDateDto(dayNumber, month, year, true))
+								onDateClick(dayNumber, month, year)
 							}
 						},
 						modifier = Modifier.weight(1f)

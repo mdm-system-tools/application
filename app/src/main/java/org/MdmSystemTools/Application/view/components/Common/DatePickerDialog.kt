@@ -6,21 +6,20 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.MdmSystemTools.Application.model.DTO.CalendarConfigDto
-import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.utils.calculateCalendarData
 import org.MdmSystemTools.Application.model.utils.getToday
 import org.MdmSystemTools.Application.view.components.Meeting.Calendar.Calendar
 
 @Composable
 fun DatePickerDialog(
-	selectedDate: CalendarDateDto,
-	onDateSelected: (CalendarDateDto) -> Unit,
+	selectedDate: Triple<Int, Int, Int>,
+	onDateSelected: (Triple<Int, Int, Int>) -> Unit,
 	onDismiss: () -> Unit
 ) {
-	var currentMonth by remember { mutableIntStateOf(selectedDate.month) }
-	var currentYear by remember { mutableIntStateOf(selectedDate.year) }
-	var selectedDay by remember { mutableIntStateOf(selectedDate.day) }
+	val (day, month, year) = selectedDate
+	var currentMonth by remember { mutableIntStateOf(month) }
+	var currentYear by remember { mutableIntStateOf(year) }
+	var selectedDay by remember { mutableIntStateOf(day) }
 
 	val calendarData = remember(currentMonth, currentYear) {
 		calculateCalendarData(currentMonth, currentYear)
@@ -37,21 +36,19 @@ fun DatePickerDialog(
 		},
 		text = {
 			Calendar(
-				config = CalendarConfigDto(
-					currentMonth = currentMonth,
-					currentYear = currentYear,
-					showHeader = false
-				),
+				currentMonth = currentMonth,
+				currentYear = currentYear,
+				showHeader = false,
 				calendarData = calendarData,
 				today = today,
-				onDateClick = { date ->
-					selectedDay = date.day
-					onDateSelected(CalendarDateDto(selectedDay, currentMonth, currentYear, true))
+				onDateClick = { clickedDay, clickedMonth, clickedYear ->
+					selectedDay = clickedDay
+					onDateSelected(Triple(selectedDay, clickedMonth, clickedYear))
 					onDismiss()
 				},
-				onMonthChange = { month, year ->
-					currentMonth = month
-					currentYear = year
+				onMonthChange = { newMonth, newYear ->
+					currentMonth = newMonth
+					currentYear = newYear
 				},
 				modifier = Modifier.height(300.dp)
 			)
@@ -59,7 +56,7 @@ fun DatePickerDialog(
 		confirmButton = {
 			TextButton(
 				onClick = {
-					onDateSelected(CalendarDateDto(selectedDay, currentMonth, currentYear, isCurrentMonth = true))
+					onDateSelected(Triple(selectedDay, currentMonth, currentYear))
 				}
 			) {
 				Text("OK")

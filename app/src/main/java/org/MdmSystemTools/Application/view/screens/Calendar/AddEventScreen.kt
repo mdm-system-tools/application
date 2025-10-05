@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.DTO.EventDto
+import org.MdmSystemTools.Application.model.DTO.EventDate
 import org.MdmSystemTools.Application.model.DTO.GroupDto
 import org.MdmSystemTools.Application.view.components.*
 import org.MdmSystemTools.Application.view.components.Forms.LocalSelector
@@ -47,7 +47,7 @@ import java.util.*
 fun AddEventScreen(
 	onNavigateBack: () -> Unit,
 	onEventSaved: (EventDto) -> Unit = {},
-	selectedDate: CalendarDateDto? = null
+	selectedDate: Triple<Int, Int, Int>? = null
 ) {
 	// Estado da tela
 	var visible by remember { mutableStateOf(false) }
@@ -60,7 +60,9 @@ fun AddEventScreen(
 	var corEvento by remember { mutableStateOf(AppConstants.AppColors.success) }
 
 	// Data selecionada - usa a data passada como parâmetro ou data atual se nenhuma foi passada
-	val dataSelecionada = selectedDate ?: getCurrentDate()
+	val dataSelecionada = selectedDate?.let { (day, month, year) ->
+		EventDate(day, month, year)
+	} ?: getCurrentDate()
 	var localEvento by remember { mutableStateOf("") }
 	var regiaoEvento by remember { mutableStateOf("") }
 	var projetoEvento by remember { mutableStateOf("") }
@@ -369,13 +371,12 @@ private fun EventDialogs(
 }
 
 // Funções auxiliares
-private fun getCurrentDate(): CalendarDateDto {
+private fun getCurrentDate(): EventDate {
 	val calendar = Calendar.getInstance()
-	return CalendarDateDto(
+	return EventDate(
 		calendar.get(Calendar.DAY_OF_MONTH),
 		calendar.get(Calendar.MONTH),
-		calendar.get(Calendar.YEAR),
-		isCurrentMonth = true
+		calendar.get(Calendar.YEAR)
 	)
 }
 

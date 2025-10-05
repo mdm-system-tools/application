@@ -18,4 +18,5 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # Claude Code
-.claude
+.claude/
+.clinerules

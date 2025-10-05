@@ -15,11 +15,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 
 @Composable
 fun DateTimeSelector(
-	selectedDate: CalendarDateDto,
+	selectedDate: Triple<Int, Int, Int>,
 	startTime: String,
 	endTime: String,
 	onDateClick: () -> Unit,
@@ -155,10 +154,11 @@ private fun TimeCard(
 	}
 }
 
-private fun formatDate(date: CalendarDateDto): String {
+private fun formatDate(date: Triple<Int, Int, Int>): String {
+	val (day, month, _) = date
 	val monthNames = listOf(
 		"Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
 		"Jul", "Ago", "Set", "Out", "Nov", "Dez"
 	)
-	return "${date.day} ${monthNames[date.month]}"
+	return "$day ${monthNames[month]}"
 }

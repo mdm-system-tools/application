@@ -7,8 +7,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import dagger.hilt.android.EntryPointAccessors
 import org.MdmSystemTools.Application.MyApp
-import org.MdmSystemTools.Application.model.DTO.CalendarConfigDto
-import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.repository.CalendarRepository
 import org.MdmSystemTools.Application.model.repository.EventRepository
 import org.MdmSystemTools.Application.view.components.Common.ButtonFormAdd
@@ -48,7 +46,7 @@ fun CalendarScreen(
 	val calendarData by calendarRepository.calendarData.collectAsState()
 	val today by calendarRepository.today.collectAsState()
 
-	var selectedDate by remember { mutableStateOf<CalendarDateDto?>(null) }
+	var selectedDate by remember { mutableStateOf<Triple<Int, Int, Int>?>(null) }
 
 	Box(modifier = modifier.fillMaxSize()) {
 		Column(
@@ -63,17 +61,17 @@ fun CalendarScreen(
 
 			// Calendário com double-click
 			Calendar(
-				config = CalendarConfigDto(
-					currentMonth = currentMonth,
-					currentYear = currentYear,
-					selectedDate = selectedDate,
-					showHeader = false
-				),
+				currentMonth = currentMonth,
+				currentYear = currentYear,
+				selectedDate = selectedDate,
+				showHeader = false,
 				calendarData = calendarData,
 				today = today,
-				onDateClick = { date ->
+				onDateClick = { day, month, year ->
 					handleDateClick(
-						date = date,
+						day = day,
+						month = month,
+						year = year,
 						selectedDate = selectedDate,
 						onDateSelected = { selectedDate = it },
 						onNavigateToAddEvent = onNavigateToAddEvent
@@ -83,8 +81,12 @@ fun CalendarScreen(
 					calendarRepository.navigateToMonth(month, year)
 					selectedDate = null // Limpar seleção ao mudar de mês
 				},
-				hasEventsCallback = { date -> eventRepository.hasEventsOnDate(date) },
-				eventCountCallback = { date -> eventRepository.getEventsByDate(date).size }
+				hasEventsCallback = { day, month, year ->
+					eventRepository.hasEventsOnDate(day, month, year)
+				},
+				eventCountCallback = { day, month, year ->
+					eventRepository.getEventsByDate(day, month, year).size
+				}
 			)
 
 			// Lista de eventos do mês
@@ -112,19 +114,21 @@ fun CalendarScreen(
 
 // Função auxiliar para lidar com cliques (double-click)
 private fun handleDateClick(
-	date: CalendarDateDto,
-	selectedDate: CalendarDateDto?,
-	onDateSelected: (CalendarDateDto?) -> Unit,
+	day: Int,
+	month: Int,
+	year: Int,
+	selectedDate: Triple<Int, Int, Int>?,
+	onDateSelected: (Triple<Int, Int, Int>?) -> Unit,
 	onNavigateToAddEvent: () -> Unit
 ) {
-	if (selectedDate?.day == date.day &&
-		selectedDate.month == date.month &&
-		selectedDate.year == date.year) {
+	if (selectedDate?.let { (d, m, y) ->
+		d == day && m == month && y == year
+	} == true) {
 		// Double click - navegar para adicionar evento
-		onNavigateToAddEvent
+		onNavigateToAddEvent()
 	} else {
 		// Single click - apenas selecionar a data
-		onDateSelected(date)
+		onDateSelected(Triple(day, month, year))
 	}
 }
 

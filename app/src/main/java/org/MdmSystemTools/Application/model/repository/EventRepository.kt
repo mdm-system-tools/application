@@ -1,7 +1,6 @@
 package org.MdmSystemTools.Application.model.repository
 
 import kotlinx.coroutines.flow.StateFlow
-import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.DTO.EventDto
 
 interface EventRepository {
@@ -10,6 +9,6 @@ interface EventRepository {
 	fun addEvent(event: EventDto)
 	fun removeEvent(eventId: String)
 	fun getAllEvents(): List<EventDto>
-	fun getEventsByDate(date: CalendarDateDto): List<EventDto>
-	fun hasEventsOnDate(date: CalendarDateDto): Boolean
+	fun getEventsByDate(day: Int, month: Int, year: Int): List<EventDto>
+	fun hasEventsOnDate(day: Int, month: Int, year: Int): Boolean
 }

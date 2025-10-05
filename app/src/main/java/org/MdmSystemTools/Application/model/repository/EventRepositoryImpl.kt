@@ -3,7 +3,6 @@ package org.MdmSystemTools.Application.model.repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.DTO.EventDto
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,29 +24,20 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
 		_events.value = currentList
 	}
 
-	override fun getEventsByDate(date: CalendarDateDto): List<EventDto> {
+	override fun getEventsByDate(day: Int, month: Int, year: Int): List<EventDto> {
 		return _events.value.filter { event ->
-			event.date.day == date.day &&
-				event.date.month == date.month &&
-				event.date.year == date.year
+			event.date.day == day &&
+				event.date.month == month &&
+				event.date.year == year
 		}
 	}
 
-	override fun hasEventsOnDate(date: CalendarDateDto): Boolean {
-		return getEventsByDate(date).isNotEmpty()
+	override fun hasEventsOnDate(day: Int, month: Int, year: Int): Boolean {
+		return getEventsByDate(day, month, year).isNotEmpty()
 	}
 
 	override fun getAllEvents(): List<EventDto> {
 		return _events.value.sortedBy { it.createdIn }
 	}
 
-}
-
-// Extension functions to facilitate usage
-fun CalendarDateDto.hasEvents(eventRepositoryImpl: EventRepositoryImpl): Boolean {
-	return eventRepositoryImpl.hasEventsOnDate(this)
-}
-
-fun CalendarDateDto.getEvents(eventRepositoryImpl: EventRepositoryImpl): List<EventDto> {
-	return eventRepositoryImpl.getEventsByDate(this)
 }

@@ -14,34 +14,35 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import org.MdmSystemTools.Application.model.DTO.CalendarConfigDto
 import org.MdmSystemTools.Application.model.DTO.CalendarData
-import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.utils.calculateCalendarData
 import org.MdmSystemTools.Application.model.utils.getToday
 
 @Composable
 fun Calendar(
-	config: CalendarConfigDto,
+	currentMonth: Int,
+	currentYear: Int,
+	selectedDate: Triple<Int, Int, Int>? = null,
+	showHeader: Boolean = true,
 	calendarData: CalendarData,
 	today: Triple<Int, Int, Int>,
-	onDateClick: (CalendarDateDto) -> Unit = {},
+	onDateClick: (day: Int, month: Int, year: Int) -> Unit = { _, _, _ -> },
 	onMonthChange: (month: Int, year: Int) -> Unit = { _, _ -> },
-	hasEventsCallback: (CalendarDateDto) -> Boolean = { false },
-	eventCountCallback: (CalendarDateDto) -> Int = { 0 },
+	hasEventsCallback: (day: Int, month: Int, year: Int) -> Boolean = { _, _, _ -> false },
+	eventCountCallback: (day: Int, month: Int, year: Int) -> Int = { _, _, _ -> 0 },
 	modifier: Modifier = Modifier
 ) {
 	Column(modifier = modifier) {
-		if (config.showHeader) {
+		if (showHeader) {
 			MonthTitle(
-				month = config.currentMonth,
-				year = config.currentYear
+				month = currentMonth,
+				year = currentYear
 			)
 		}
 
 
 		AnimatedContent(
-			targetState = Pair(config.currentMonth, config.currentYear),
+			targetState = Pair(currentMonth, currentYear),
 			transitionSpec = {
 				val isMovingForward = targetState.first > initialState.first ||
 						(targetState.first == 0 && initialState.first == 11)
@@ -66,7 +67,7 @@ fun Calendar(
 			CalendarGrid(
 				month = month,
 				year = year,
-				selectedDate = config.selectedDate,
+				selectedDate = selectedDate,
 				calendarData = calendarData,
 				today = today,
 				onDateClick = onDateClick,
@@ -83,19 +84,17 @@ fun Calendar(
 private fun CalendarPreview() {
 	MaterialTheme {
 		Calendar(
-			config = CalendarConfigDto(
-				currentMonth = 10,
-				currentYear = 2025,
-				selectedDate = CalendarDateDto(15, 10, 2025, true),
-				showHeader = true
-			),
+			currentMonth = 10,
+			currentYear = 2025,
+			selectedDate = Triple(15, 10, 2025),
+			showHeader = true,
 			calendarData = calculateCalendarData(10, 2025),
 			today = getToday(),
-			hasEventsCallback = { date ->
-				date.day in listOf(4, 10, 15, 20, 25)
+			hasEventsCallback = { day, _, _ ->
+				day in listOf(4, 10, 15, 20, 25)
 			},
-			eventCountCallback = { date ->
-				when (date.day) {
+			eventCountCallback = { day, _, _ ->
+				when (day) {
 					4 -> 1
 					10 -> 2
 					15 -> 3
