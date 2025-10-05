@@ -16,10 +16,10 @@ interface CalendarRepository {
     val today: StateFlow<Triple<Int, Int, Int>>
 
 
-    fun navegarProximoMes()
+    fun navigateToNextMonth()
 
 
-    fun navegarMesAnterior()
+    fun navigateToPreviousMonth()
 
-    fun navegarParaMes(month: Int, year: Int)
+    fun navigateToMonth(month: Int, year: Int)
 }

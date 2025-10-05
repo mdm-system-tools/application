@@ -29,23 +29,23 @@ class CalendarRepositoryImpl @Inject constructor() : CalendarRepository {
     private val _today = MutableStateFlow(CalendarHelper.getToday())
     override val today: StateFlow<Triple<Int, Int, Int>> = _today.asStateFlow()
 
-    override fun navegarProximoMes() {
+    override fun navigateToNextMonth() {
         val (nextMonth, nextYear) = CalendarHelper.getNextMonth(
             _currentMonth.value,
             _currentYear.value
         )
-        navegarParaMes(nextMonth, nextYear)
+        navigateToMonth(nextMonth, nextYear)
     }
 
-    override fun navegarMesAnterior() {
+    override fun navigateToPreviousMonth() {
         val (prevMonth, prevYear) = CalendarHelper.getPreviousMonth(
             _currentMonth.value,
             _currentYear.value
         )
-        navegarParaMes(prevMonth, prevYear)
+        navigateToMonth(prevMonth, prevYear)
     }
 
-    override fun navegarParaMes(month: Int, year: Int) {
+    override fun navigateToMonth(month: Int, year: Int) {
         _currentMonth.value = month
         _currentYear.value = year
         _calendarData.value = CalendarHelper.calculateCalendarData(month, year)
