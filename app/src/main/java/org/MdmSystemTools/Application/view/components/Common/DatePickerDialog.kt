@@ -6,8 +6,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.MdmSystemTools.Application.model.DTO.CalendarConfigDto
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
-import org.MdmSystemTools.Application.view.components.Meeting.ModernCalendar
+import org.MdmSystemTools.Application.view.components.Meeting.Calendar.Calendar
+import org.MdmSystemTools.Application.view.components.Meeting.Calendar.CalendarHelper
 
 @Composable
 fun DatePickerDialog(
@@ -19,6 +21,11 @@ fun DatePickerDialog(
 	var currentYear by remember { mutableIntStateOf(selectedDate.year) }
 	var selectedDay by remember { mutableIntStateOf(selectedDate.day) }
 
+	val calendarData = remember(currentMonth, currentYear) {
+		CalendarHelper.calculateCalendarData(currentMonth, currentYear)
+	}
+	val today = remember { CalendarHelper.getToday() }
+
 	AlertDialog(
 		onDismissRequest = onDismiss,
 		title = {
@@ -28,10 +35,14 @@ fun DatePickerDialog(
 			)
 		},
 		text = {
-			// Calendário moderno
-			ModernCalendar(
-				currentMonth = currentMonth,
-				currentYear = currentYear,
+			Calendar(
+				config = CalendarConfigDto(
+					currentMonth = currentMonth,
+					currentYear = currentYear,
+					showHeader = false
+				),
+				calendarData = calendarData,
+				today = today,
 				onDateClick = { date ->
 					selectedDay = date.day
 					onDateSelected(CalendarDateDto(selectedDay, currentMonth, currentYear, true))
@@ -41,7 +52,6 @@ fun DatePickerDialog(
 					currentMonth = month
 					currentYear = year
 				},
-				showHeader = false,
 				modifier = Modifier.height(300.dp)
 			)
 		},
