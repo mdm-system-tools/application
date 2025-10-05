@@ -25,10 +25,3 @@ fun MonthTitle(
 		color = MaterialTheme.colorScheme.onBackground
 	)
 }
-
-private fun getMonthName(month: Int): String {
-	return listOf(
-		"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-		"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-	)[month]
-}

@@ -4,18 +4,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-/**
- * Constantes centralizadas da aplicação
- * Centraliza valores de dimensões, cores, e outras constantes
- * para facilitar manutenção e consistência visual
- */
+
 object AppConstants {
 
     // DIMENSÕES - ESPAÇAMENTOS
     object Spacing {
+        val tiny = 2.dp
         val extraSmall = 4.dp
+        val extraSmallPlus = 6.dp
         val small = 8.dp
+        val smallPlus = 12.dp
         val medium = 16.dp
+        val mediumLarge = 20.dp
         val large = 24.dp
         val extraLarge = 32.dp
         val bottomSafeArea = 80.dp
@@ -26,9 +26,13 @@ object AppConstants {
     object ComponentSize {
         val buttonHeight = 56.dp
         val cardElevation = 4.dp
+        val borderWidth = 1.dp
+        val iconTiny = 12.dp
+        val iconExtraSmall = 14.dp
         val iconSmall = 16.dp
         val iconMedium = 20.dp
         val iconLarge = 24.dp
+        val iconButton = 32.dp
         val avatarSize = 40.dp
         val calendarDaySize = 48.dp
         val eventIndicatorSize = 4.dp
@@ -44,16 +48,16 @@ object AppConstants {
 
     // TAMANHOS DE FONTE
     object FontSize {
+        val tiny = 8.sp
         val small = 12.sp
         val medium = 14.sp
         val large = 16.sp
         val extraLarge = 18.sp
         val title = 20.sp
         val largeTitle = 32.sp
-        val tiny = 8.sp
     }
 
-    // CORES DO SISTEMA
+
     object AppColors {
         val primary = Color(0xFF2196F3)
         val secondary = Color(0xFF03DAC5)
@@ -107,7 +111,7 @@ object AppConstants {
         const val noEventsInMonth = "Nenhum evento neste mês"
     }
 
-    // CONFIGURAÇÕES DE TEMPO
+
     object TimeConfig {
         const val defaultStartTime = "09:00"
         const val defaultEndTime = "10:00"
@@ -123,6 +127,15 @@ object AppConstants {
         const val swipeThreshold = 80f
         const val swipeOffsetMax = 100f
         const val swipeOffsetMin = -100f
+    }
+
+
+    object Alpha {
+        const val disabled = 0.3f
+        const val medium = 0.5f
+        const val strong = 0.7f
+        const val subtle = 0.2f
+        const val semiTransparent = 0.8f
     }
 
     // CONFIGURAÇÕES DO CALENDÁRIO
