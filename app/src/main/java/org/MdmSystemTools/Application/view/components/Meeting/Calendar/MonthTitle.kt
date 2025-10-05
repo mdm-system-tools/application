@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.components.Meeting
+package org.MdmSystemTools.Application.view.components.Meeting.Calendar
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @Composable
 fun MonthTitle(
@@ -20,7 +21,7 @@ fun MonthTitle(
 		fontWeight = FontWeight.Bold,
 		modifier = modifier
 			.fillMaxWidth()
-			.padding(horizontal = 24.dp, vertical = 16.dp),
+			.padding(horizontal = AppConstants.Spacing.large, vertical = AppConstants.Spacing.medium),
 		textAlign = TextAlign.Center,
 		color = MaterialTheme.colorScheme.onBackground
 	)
