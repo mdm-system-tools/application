@@ -3,8 +3,8 @@ package org.MdmSystemTools.Application.model.repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.MdmSystemTools.Application.view.components.Meeting.Calendar.CalendarData
-import org.MdmSystemTools.Application.view.components.Meeting.Calendar.CalendarHelper
+import org.MdmSystemTools.Application.model.DTO.CalendarData
+import org.MdmSystemTools.Application.model.utils.*
 import java.util.Calendar
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,18 +19,18 @@ class CalendarRepositoryImpl @Inject constructor() : CalendarRepository {
     override val currentYear: StateFlow<Int> = _currentYear.asStateFlow()
 
     private val _calendarData = MutableStateFlow(
-        CalendarHelper.calculateCalendarData(
+        calculateCalendarData(
             _currentMonth.value,
             _currentYear.value
         )
     )
     override val calendarData: StateFlow<CalendarData> = _calendarData.asStateFlow()
 
-    private val _today = MutableStateFlow(CalendarHelper.getToday())
+    private val _today = MutableStateFlow(getToday())
     override val today: StateFlow<Triple<Int, Int, Int>> = _today.asStateFlow()
 
     override fun navigateToNextMonth() {
-        val (nextMonth, nextYear) = CalendarHelper.getNextMonth(
+        val (nextMonth, nextYear) = getNextMonth(
             _currentMonth.value,
             _currentYear.value
         )
@@ -38,7 +38,7 @@ class CalendarRepositoryImpl @Inject constructor() : CalendarRepository {
     }
 
     override fun navigateToPreviousMonth() {
-        val (prevMonth, prevYear) = CalendarHelper.getPreviousMonth(
+        val (prevMonth, prevYear) = getPreviousMonth(
             _currentMonth.value,
             _currentYear.value
         )
@@ -48,6 +48,6 @@ class CalendarRepositoryImpl @Inject constructor() : CalendarRepository {
     override fun navigateToMonth(month: Int, year: Int) {
         _currentMonth.value = month
         _currentYear.value = year
-        _calendarData.value = CalendarHelper.calculateCalendarData(month, year)
+        _calendarData.value = calculateCalendarData(month, year)
     }
 }

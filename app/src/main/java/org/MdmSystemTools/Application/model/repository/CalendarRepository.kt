@@ -1,7 +1,7 @@
 package org.MdmSystemTools.Application.model.repository
 
 import kotlinx.coroutines.flow.StateFlow
-import org.MdmSystemTools.Application.view.components.Meeting.Calendar.CalendarData
+import org.MdmSystemTools.Application.model.DTO.CalendarData
 
 
 interface CalendarRepository {

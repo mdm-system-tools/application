@@ -8,9 +8,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.MdmSystemTools.Application.model.DTO.CalendarConfigDto
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
+import org.MdmSystemTools.Application.model.utils.calculateCalendarData
+import org.MdmSystemTools.Application.model.utils.getToday
 import org.MdmSystemTools.Application.view.components.Meeting.Calendar.Calendar
-import org.MdmSystemTools.Application.view.components.Meeting.Calendar.calculateCalendarData
-import org.MdmSystemTools.Application.view.components.Meeting.Calendar.getToday
 
 @Composable
 fun DatePickerDialog(
