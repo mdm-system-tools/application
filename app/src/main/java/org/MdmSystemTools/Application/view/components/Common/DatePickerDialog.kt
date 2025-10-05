@@ -9,7 +9,8 @@ import androidx.compose.ui.unit.dp
 import org.MdmSystemTools.Application.model.DTO.CalendarConfigDto
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.view.components.Meeting.Calendar.Calendar
-import org.MdmSystemTools.Application.view.components.Meeting.Calendar.CalendarHelper
+import org.MdmSystemTools.Application.view.components.Meeting.Calendar.calculateCalendarData
+import org.MdmSystemTools.Application.view.components.Meeting.Calendar.getToday
 
 @Composable
 fun DatePickerDialog(
@@ -22,9 +23,9 @@ fun DatePickerDialog(
 	var selectedDay by remember { mutableIntStateOf(selectedDate.day) }
 
 	val calendarData = remember(currentMonth, currentYear) {
-		CalendarHelper.calculateCalendarData(currentMonth, currentYear)
+		calculateCalendarData(currentMonth, currentYear)
 	}
-	val today = remember { CalendarHelper.getToday() }
+	val today = remember { getToday() }
 
 	AlertDialog(
 		onDismissRequest = onDismiss,
