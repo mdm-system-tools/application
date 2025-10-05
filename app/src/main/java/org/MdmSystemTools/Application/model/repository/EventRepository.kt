@@ -1,12 +1,15 @@
 package org.MdmSystemTools.Application.model.repository
 
+import kotlinx.coroutines.flow.StateFlow
 import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 import org.MdmSystemTools.Application.model.DTO.EventDto
 
 interface EventRepository {
-  fun adicionarEvento(evento: EventDto)
-  fun removerEvento(eventoId: String)
-  fun obterEventosPorData(data: CalendarDateDto): List<EventDto>
-  fun temEventosNaData(data: CalendarDateDto): Boolean
-  fun obterTodosEventos(): List<EventDto>
+	val events: StateFlow<List<EventDto>>
+
+	fun addEvent(event: EventDto)
+	fun removeEvent(eventId: String)
+	fun getAllEvents(): List<EventDto>
+	fun getEventsByDate(date: CalendarDateDto): List<EventDto>
+	fun hasEventsOnDate(date: CalendarDateDto): Boolean
 }

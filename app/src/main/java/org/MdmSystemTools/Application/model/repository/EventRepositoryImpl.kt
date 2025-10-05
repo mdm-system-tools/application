@@ -10,44 +10,44 @@ import javax.inject.Singleton
 
 @Singleton
 class EventRepositoryImpl @Inject constructor() : EventRepository {
-	private val _eventos = MutableStateFlow<List<EventDto>>(emptyList())
-	val eventos: StateFlow<List<EventDto>> = _eventos.asStateFlow()
+	private val _events = MutableStateFlow<List<EventDto>>(emptyList())
+	override val events: StateFlow<List<EventDto>> = _events.asStateFlow()
 
-	override fun adicionarEvento(evento: EventDto) {
-		val currentList = _eventos.value.toMutableList()
-		currentList.add(evento)
-		_eventos.value = currentList
+	override fun addEvent(event: EventDto) {
+		val currentList = _events.value.toMutableList()
+		currentList.add(event)
+		_events.value = currentList
 	}
 
-	override fun removerEvento(eventoId: String) {
-		val currentList = _eventos.value.toMutableList()
-		currentList.removeAll { it.id == eventoId }
-		_eventos.value = currentList
+	override fun removeEvent(eventId: String) {
+		val currentList = _events.value.toMutableList()
+		currentList.removeAll { it.id == eventId }
+		_events.value = currentList
 	}
 
-	override fun obterEventosPorData(data: CalendarDateDto): List<EventDto> {
-		return _eventos.value.filter { evento ->
-			evento.date.day == data.day &&
-				evento.date.month == data.month &&
-				evento.date.year == data.year
+	override fun getEventsByDate(date: CalendarDateDto): List<EventDto> {
+		return _events.value.filter { event ->
+			event.date.day == date.day &&
+				event.date.month == date.month &&
+				event.date.year == date.year
 		}
 	}
 
-	override fun temEventosNaData(data: CalendarDateDto): Boolean {
-		return obterEventosPorData(data).isNotEmpty()
+	override fun hasEventsOnDate(date: CalendarDateDto): Boolean {
+		return getEventsByDate(date).isNotEmpty()
 	}
 
-	override fun obterTodosEventos(): List<EventDto> {
-		return _eventos.value.sortedBy { it.createdIn }
+	override fun getAllEvents(): List<EventDto> {
+		return _events.value.sortedBy { it.createdIn }
 	}
 
 }
 
-// Extension functions para facilitar o uso
-fun CalendarDateDto.temEventos(eventRepositoryImpl: EventRepositoryImpl): Boolean {
-	return eventRepositoryImpl.temEventosNaData(this)
+// Extension functions to facilitate usage
+fun CalendarDateDto.hasEvents(eventRepositoryImpl: EventRepositoryImpl): Boolean {
+	return eventRepositoryImpl.hasEventsOnDate(this)
 }
 
-fun CalendarDateDto.obterEventos(eventRepositoryImpl: EventRepositoryImpl): List<EventDto> {
-	return eventRepositoryImpl.obterEventosPorData(this)
+fun CalendarDateDto.getEvents(eventRepositoryImpl: EventRepositoryImpl): List<EventDto> {
+	return eventRepositoryImpl.getEventsByDate(this)
 }
