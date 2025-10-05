@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.components.Meeting
+package org.MdmSystemTools.Application.view.components.Meeting.Calendar
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.Spring
@@ -20,6 +20,8 @@ import org.MdmSystemTools.Application.model.DTO.CalendarDateDto
 @Composable
 fun Calendar(
 	config: CalendarConfigDto,
+	calendarData: org.MdmSystemTools.Application.view.components.Meeting.Calendar.CalendarData,
+	today: Triple<Int, Int, Int>,
 	onDateClick: (CalendarDateDto) -> Unit = {},
 	onMonthChange: (month: Int, year: Int) -> Unit = { _, _ -> },
 	hasEventsCallback: (CalendarDateDto) -> Boolean = { false },
@@ -62,6 +64,8 @@ fun Calendar(
 				month = month,
 				year = year,
 				selectedDate = config.selectedDate,
+				calendarData = calendarData,
+				today = today,
 				onDateClick = onDateClick,
 				onMonthChange = onMonthChange,
 				hasEventsCallback = hasEventsCallback,
@@ -73,7 +77,7 @@ fun Calendar(
 
 @Preview(showBackground = true)
 @Composable
-private fun MCalendarPreview() {
+private fun CalendarPreview() {
 	MaterialTheme {
 		Calendar(
 			config = CalendarConfigDto(
@@ -82,6 +86,8 @@ private fun MCalendarPreview() {
 				selectedDate = CalendarDateDto(15, 10, 2025, true),
 				showHeader = true
 			),
+			calendarData = calculateCalendarData(10, 2025),
+			today = getToday(),
 			hasEventsCallback = { date ->
 				date.day in listOf(4, 10, 15, 20, 25)
 			},
