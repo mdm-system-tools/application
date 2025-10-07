@@ -16,21 +16,21 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kotlinx.coroutines.delay
-import org.MdmSystemTools.Application.view.screens.Auth.LoginScreen
-import org.MdmSystemTools.Application.view.screens.Auth.RegisterScreen
-import org.MdmSystemTools.Application.view.screens.Calendar.AddEventScreen
+import org.MdmSystemTools.Application.view.screens.Auth.SignInScreen
+import org.MdmSystemTools.Application.view.screens.Auth.SignUpScreen
+import org.MdmSystemTools.Application.view.screens.Calendar.FormEventScreen
 import org.MdmSystemTools.Application.view.screens.Collaborators.CollaboratorsScreen
 import org.MdmSystemTools.Application.view.screens.Calendar.CalendarScreen
-import org.MdmSystemTools.Application.view.screens.Registration.FormScreen
-import org.MdmSystemTools.Application.view.screens.Registration.ProfilesListScreen
+import org.MdmSystemTools.Application.view.screens.Registration.FormAssociateScreen
+import org.MdmSystemTools.Application.view.screens.Registration.AssociateListScreen
 
 @Composable
 fun App(appState: AppState = rememberAppState()) {
 	var showBottomBar by remember { mutableStateOf(false) }
-	val isShowAppBar = appState.isShowAppBar()
+	val isShowBottomBar = appState.shouldShowBottomBar()
 
-	LaunchedEffect(isShowAppBar) {
-		if (isShowAppBar) {
+	LaunchedEffect(isShowBottomBar) {
+		if (isShowBottomBar) {
 			delay(100)
 			showBottomBar = true
 		} else {
@@ -46,7 +46,7 @@ fun App(appState: AppState = rememberAppState()) {
 				exit = fadeOut(animationSpec = tween(100))
 			) {
 				BottomApp(
-					itemSelected = appState.selectedItem(),
+					itemSelected = appState.getCurrentBottomBarItem(),
 					navController = appState.navHostController
 				)
 			}
@@ -63,7 +63,7 @@ fun App(appState: AppState = rememberAppState()) {
 private fun Route(appState: AppState, modifier: Modifier) {
 	NavHost(navController = appState.navHostController, startDestination = Screen.Calendar.route) {
 		composable(Screen.Login.route) {
-			LoginScreen(
+			SignInScreen(
 				onNavigateToRegister = { appState.navigateToRegister() },
 				onNavigateToDashboard = { appState.navigateToAssociate() }
 			)
@@ -71,7 +71,7 @@ private fun Route(appState: AppState, modifier: Modifier) {
 
 		composable(Screen.Register.route) {
 			// TODO esse registro esta quebrado
-			RegisterScreen(onNavigateToLogin = {
+			SignUpScreen(onNavigateToLogin = {
 				appState.navigateToLogin()
 			}, onRegisterSuccess = {
 				appState.navigateToLogin()
@@ -79,7 +79,7 @@ private fun Route(appState: AppState, modifier: Modifier) {
 		}
 
 		composable(Screen.Associate.route) {
-			ProfilesListScreen(onClickBottom = {
+			AssociateListScreen(onClickFloatingBottom = {
 				appState.navigateToForm()
 			})
 		}
@@ -97,13 +97,13 @@ private fun Route(appState: AppState, modifier: Modifier) {
 		}
 
 		composable(Screen.Form.route) {
-			FormScreen(onClick = {
+			FormAssociateScreen(onClick = {
 				appState.navHostController.popBackStack()
 			})
 		}
 
 		composable(Screen.AddEvent.route) {
-			AddEventScreen(
+			FormEventScreen(
 				onNavigateBack = {
 					appState.navigateToCalendar()
 				},

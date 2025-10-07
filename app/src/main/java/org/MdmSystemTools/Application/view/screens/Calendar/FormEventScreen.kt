@@ -44,7 +44,7 @@ import java.util.*
 // TODO REFACsITORING tentar quebrar as funções em pequenas funções seguindo o Princípio de SRP
 // TODO REFACTORING Usar interfaces para não ter acoplamento da tela com a classe de dados em memoria
 @Composable
-fun AddEventScreen(
+fun FormEventScreen(
 	onNavigateBack: () -> Unit,
 	onEventSaved: (EventDto) -> Unit = {},
 	selectedDate: Triple<Int, Int, Int>? = null

@@ -12,7 +12,7 @@ import org.MdmSystemTools.Application.model.DTO.AssociateDto
 import org.MdmSystemTools.Application.model.repository.ListAssociateRepository
 
 @HiltViewModel
-class ListAssociatedViewModel @Inject constructor(
+class AssociateListViewModel @Inject constructor(
   private val repository: ListAssociateRepository
 ) : ViewModel() {
   private val _listAssociates = MutableStateFlow<List<AssociateDto>>(emptyList())

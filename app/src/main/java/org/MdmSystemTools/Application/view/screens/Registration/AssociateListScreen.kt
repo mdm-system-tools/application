@@ -15,18 +15,17 @@ import org.MdmSystemTools.Application.view.components.Common.ButtonFormAdd
 import org.MdmSystemTools.Application.view.components.Registration.AssociateProfile
 import org.MdmSystemTools.Application.view.components.Registration.QuickAccessButtons
 import org.MdmSystemTools.Application.view.components.Registration.SearchBar
-import org.MdmSystemTools.Application.view.screens.Registration.ListAssociatedViewModel
 
 
 @Composable
-fun ProfilesListScreen(
-	viewModel: ListAssociatedViewModel = hiltViewModel(),
-	onClickBottom: () -> Unit
+fun AssociateListScreen(
+	viewModel: AssociateListViewModel = hiltViewModel(),
+	onClickFloatingBottom: () -> Unit
 ) {
 	val listAssociates by viewModel.listAssociates.collectAsState()
 
 	Surface {
-		ButtonFormAdd(onClick = onClickBottom)
+		ButtonFormAdd(onClick = onClickFloatingBottom)
 
 		Column {
 			SearchBar(

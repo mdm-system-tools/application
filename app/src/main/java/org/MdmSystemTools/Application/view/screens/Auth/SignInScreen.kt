@@ -1,17 +1,40 @@
 package org.MdmSystemTools.Application.view.screens.Auth
 
+import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -26,18 +49,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun RegisterScreen(
-	onNavigateToLogin: () -> Unit = {},
-	onRegisterSuccess: () -> Unit = {},
-	modifier: Modifier = Modifier
+fun SignInScreen(
+	onNavigateToRegister: () -> Unit,
+	onNavigateToDashboard: () -> Unit,
+	modifier: Modifier = Modifier,
 ) {
-	var name by remember { mutableStateOf("") }
 	var email by remember { mutableStateOf("") }
-	var phone by remember { mutableStateOf("") }
 	var password by remember { mutableStateOf("") }
-	var confirmPassword by remember { mutableStateOf("") }
 	var visiblePassword by remember { mutableStateOf(false) }
-	var confirmVisiblePassword by remember { mutableStateOf(false) }
 	var isLoading by remember { mutableStateOf(false) }
 	var errorMessage by remember { mutableStateOf("") }
 
@@ -56,26 +75,23 @@ fun RegisterScreen(
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
-				.verticalScroll(rememberScrollState())
 				.padding(24.dp),
-			horizontalAlignment = Alignment.CenterHorizontally
+			horizontalAlignment = Alignment.CenterHorizontally,
+			verticalArrangement = Arrangement.Center
 		) {
-			Spacer(modifier = Modifier.height(32.dp))
-
-			// Logo da empresa como plano de fundo
 			Image(
 				painter = painterResource(id = org.MdmSystemTools.Application.R.drawable.logo_mdm),
 				contentDescription = "Logo MDM",
 				contentScale = ContentScale.Fit,
 				modifier = Modifier
-					.size(160.dp)
-					.padding(bottom = 20.dp),
+					.size(200.dp)
+					.padding(bottom = 24.dp),
 				alpha = 0.9f
 			)
 
-			// Título
+
 			Text(
-				text = "Criar conta",
+				text = "Bem-vindo de volta!",
 				fontSize = 28.sp,
 				fontWeight = FontWeight.Bold,
 				color = MaterialTheme.colorScheme.onBackground,
@@ -84,14 +100,13 @@ fun RegisterScreen(
 			)
 
 			Text(
-				text = "Preencha os dados para se cadastrar",
+				text = "Faça login para continuar",
 				fontSize = 16.sp,
 				color = MaterialTheme.colorScheme.onSurfaceVariant,
 				textAlign = TextAlign.Center,
 				modifier = Modifier.padding(bottom = 32.dp)
 			)
 
-			// Card com formulário
 			Card(
 				modifier = Modifier
 					.fillMaxWidth()
@@ -103,23 +118,7 @@ fun RegisterScreen(
 					modifier = Modifier.padding(24.dp),
 					verticalArrangement = Arrangement.spacedBy(16.dp)
 				) {
-					// Campo de nome
-					OutlinedTextField(
-						value = name,
-						onValueChange = { name = it },
-						label = { Text("Nome completo") },
-						placeholder = { Text("Digite seu nome completo") },
-						leadingIcon = {
-							Icon(
-								Icons.Default.Person,
-								contentDescription = "Nome"
-							)
-						},
-						modifier = Modifier.fillMaxWidth(),
-						singleLine = true
-					)
 
-					// Campo de email
 					OutlinedTextField(
 						value = email,
 						onValueChange = { email = it },
@@ -138,26 +137,7 @@ fun RegisterScreen(
 						singleLine = true
 					)
 
-					// Campo de telefone
-					OutlinedTextField(
-						value = phone,
-						onValueChange = { phone = formatPhoneNumber(it) },
-						label = { Text("Telefone") },
-						placeholder = { Text("(11) 99999-9999") },
-						leadingIcon = {
-							Icon(
-								Icons.Default.Phone,
-								contentDescription = "Telefone"
-							)
-						},
-						keyboardOptions = KeyboardOptions(
-							keyboardType = KeyboardType.Phone
-						),
-						modifier = Modifier.fillMaxWidth(),
-						singleLine = true
-					)
 
-					// Campo de senha
 					OutlinedTextField(
 						value = password,
 						onValueChange = { password = it },
@@ -189,39 +169,7 @@ fun RegisterScreen(
 						singleLine = true
 					)
 
-					// Campo de confirmar senha
-					OutlinedTextField(
-						value = confirmPassword,
-						onValueChange = { confirmPassword = it },
-						label = { Text("Confirmar senha") },
-						placeholder = { Text("Digite novamente sua senha") },
-						leadingIcon = {
-							Icon(
-								Icons.Default.Lock,
-								contentDescription = "Confirmar senha"
-							)
-						},
-						trailingIcon = {
-							IconButton(
-								onClick = { confirmVisiblePassword = !confirmVisiblePassword }
-							) {
-								Icon(
-									imageVector = if (confirmVisiblePassword) Icons.Default.Visibility
-									else Icons.Default.VisibilityOff,
-									contentDescription = if (confirmVisiblePassword) "Ocultar senha" else "Mostrar senha"
-								)
-							}
-						},
-						visualTransformation = if (confirmVisiblePassword) VisualTransformation.None
-						else PasswordVisualTransformation(),
-						keyboardOptions = KeyboardOptions(
-							keyboardType = KeyboardType.Password
-						),
-						modifier = Modifier.fillMaxWidth(),
-						singleLine = true
-					)
 
-					// Mensagem de erro
 					if (errorMessage.isNotEmpty()) {
 						Text(
 							text = errorMessage,
@@ -231,24 +179,23 @@ fun RegisterScreen(
 						)
 					}
 
-					// Botão de cadastro
+
 					Button(
 						onClick = {
-							val validationResult = validateRegistrationForm(
-								nome = name,
-								email = email,
-								telefone = phone,
-								senha = password,
-								confirmarSenha = confirmPassword
-							)
-
-							if (validationResult.isNotEmpty()) {
-								errorMessage = validationResult
+							//TODO isso aqui é uma regra de negocio que vai fica um
+							// pouco mais complexa no futuro. é melhor mover isso para uma
+							// viewmodel e usar uma interface
+							if (email.isBlank() || password.isBlank()) {
+								errorMessage = "Por favor, preencha todos os campos"
+							} else if (!isValidEmail(email)) {
+								errorMessage = "Email inválido"
 							} else {
 								errorMessage = ""
-								// Simular cadastro (substituir por lógica real)
-								// TODO: Implementar registro real
-								onRegisterSuccess()
+								isLoading = true
+								// TODO ERRO HORRIVEL, deve usar navcontroller e não
+								// sobrepor a tela anterior, e se eu quiser deslogar ?
+								// que tela o app vai me mandar?
+								onNavigateToDashboard()
 							}
 						},
 						enabled = !isLoading,
@@ -265,7 +212,7 @@ fun RegisterScreen(
 							)
 						} else {
 							Text(
-								text = "Cadastrar",
+								text = "Entrar",
 								fontSize = 16.sp,
 								fontWeight = FontWeight.Medium
 							)
@@ -274,65 +221,39 @@ fun RegisterScreen(
 				}
 			}
 
-			// Link para login
 			Row(
 				horizontalArrangement = Arrangement.Center,
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				Text(
-					text = "Já tem uma conta? ",
+					text = "Não tem uma conta? ",
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
 					fontSize = 14.sp
 				)
 				Text(
-					text = "Fazer login",
+					text = "Cadastre-se",
 					color = MaterialTheme.colorScheme.primary,
 					fontSize = 14.sp,
 					fontWeight = FontWeight.Medium,
-					modifier = Modifier.clickable { onNavigateToLogin() }
+					modifier = Modifier.clickable { onNavigateToRegister() }
 				)
 			}
 
-			Spacer(modifier = Modifier.height(32.dp))
+			Spacer(modifier = Modifier.height(24.dp))
+
+			Text(
+				text = "Esqueceu sua senha?",
+				color = MaterialTheme.colorScheme.primary,
+				fontSize = 14.sp,
+				fontWeight = FontWeight.Medium,
+				modifier = Modifier.clickable {
+				}
+			)
 		}
 	}
 }
 
-private fun formatPhoneNumber(input: String): String {
-	val digitsOnly = input.filter { it.isDigit() }
-	return when {
-		digitsOnly.length <= 2 -> digitsOnly
-		digitsOnly.length <= 7 -> "(${digitsOnly.take(2)}) ${digitsOnly.drop(2)}"
-		digitsOnly.length <= 11 -> "(${digitsOnly.take(2)}) ${
-			digitsOnly.drop(2).take(5)
-		}-${digitsOnly.drop(7)}"
-
-		else -> "(${digitsOnly.take(2)}) ${digitsOnly.drop(2).take(5)}-${digitsOnly.drop(7).take(4)}"
-	}
-}
-
-private fun validateRegistrationForm(
-	nome: String,
-	email: String,
-	telefone: String,
-	senha: String,
-	confirmarSenha: String
-): String {
-	return when {
-		nome.isBlank() -> "Nome é obrigatório"
-		nome.length < 2 -> "Nome deve ter pelo menos 2 caracteres"
-		email.isBlank() -> "Email é obrigatório"
-		!isValidEmail(email) -> "Email inválido"
-		telefone.isBlank() -> "Telefone é obrigatório"
-		telefone.filter { it.isDigit() }.length < 10 -> "Telefone inválido"
-		senha.isBlank() -> "Senha é obrigatória"
-		senha.length < 6 -> "Senha deve ter pelo menos 6 caracteres"
-		confirmarSenha.isBlank() -> "Confirmação de senha é obrigatória"
-		senha != confirmarSenha -> "Senhas não coincidem"
-		else -> ""
-	}
-}
-
+// TODO isso é uma regra de negocio e não deveria está aqui
 private fun isValidEmail(email: String): Boolean {
-	return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+	return Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }

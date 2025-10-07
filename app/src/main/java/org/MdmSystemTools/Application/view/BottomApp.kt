@@ -9,48 +9,45 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 
-sealed interface BottomAppBarItem {
+sealed interface BottomBarItem {
 	val label: String
 	val icon: ImageVector
 	val route: String
 
-	data object Associate : BottomAppBarItem {
+	data object Associate : BottomBarItem {
 		override val label = "Associados"
 		override val icon = Icons.Default.Home
 		override val route = Screen.Associate.route
 	}
 
-	data object Collaboration : BottomAppBarItem {
+	data object Collaboration : BottomBarItem {
 		override val label = "Colaboradores"
 		override val icon = Icons.Default.Groups
 		override val route = Screen.Collaboration.route
 	}
 
-	data object Calendar : BottomAppBarItem {
+	data object Calendar : BottomBarItem {
 		override val label = "Agenda"
 		override val icon = Icons.Default.CalendarToday
 		override val route = Screen.Calendar.route
 	}
 }
 
-val bottomAppBarItems = listOf(
-	BottomAppBarItem.Associate, BottomAppBarItem.Collaboration, BottomAppBarItem.Calendar
+val bottomBarItems = listOf(
+	BottomBarItem.Associate, BottomBarItem.Collaboration, BottomBarItem.Calendar
 )
 
 @Composable
 fun BottomApp(
-	itemSelected: BottomAppBarItem,
+	itemSelected: BottomBarItem,
 	navController: NavController,
-	appBarItems: List<BottomAppBarItem> = bottomAppBarItems,
-	modifier: Modifier = Modifier
+	appBarItems: List<BottomBarItem> = bottomBarItems,
 ) {
-	NavigationBar(modifier = modifier) {
+	NavigationBar {
 		appBarItems.forEach { item ->
 			val label = item.label
 			val icon = item.icon
@@ -65,7 +62,8 @@ fun BottomApp(
 							popUpTo(item.route)
 						}
 					}
-				})
+				}
+			)
 		}
 	}
 }

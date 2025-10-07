@@ -45,9 +45,9 @@ sealed interface field {
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun FormScreen(
+fun FormAssociateScreen(
 	onClick: () -> Unit,
-	viewModel: ListAssociatedViewModel = hiltViewModel()
+	viewModel: AssociateListViewModel = hiltViewModel()
 ) {
 	val fields = remember {
 		mutableStateListOf(
@@ -96,5 +96,5 @@ fun FormScreen(
 @Preview(showBackground = true)
 @Composable
 private fun FormScreenPreview() {
-	FormScreen({})
+	FormAssociateScreen({})
 }

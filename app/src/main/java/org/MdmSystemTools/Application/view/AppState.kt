@@ -28,24 +28,24 @@ class AppState(val navHostController: NavHostController) {
 	}
 
 	@Composable
-	fun isShowAppBar(): Boolean {
+	fun shouldShowBottomBar(): Boolean {
 		val currentDestination = getCurrentDestination()
-		val isShowAppBar: Boolean = currentDestination?.let { destination ->
-			bottomAppBarItems.any { it.route == destination.route }
+		val isShowAppBar = currentDestination?.let { destination ->
+			bottomBarItems.any { it.route == destination.route }
 		} ?: false
 
 		return isShowAppBar
 	}
 
 	@Composable
-	fun selectedItem(): BottomAppBarItem {
+	fun getCurrentBottomBarItem(): BottomBarItem {
 		val currentDestination = getCurrentDestination()
 		val selectedItem by remember(currentDestination) {
 			val item = currentDestination?.let { destination ->
-				bottomAppBarItems.find {
+				bottomBarItems.find {
 					it.route == destination.route
 				}
-			} ?: bottomAppBarItems.first()
+			} ?: bottomBarItems.first()
 			mutableStateOf(item)
 		}
 
