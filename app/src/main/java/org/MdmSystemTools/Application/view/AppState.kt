@@ -30,11 +30,18 @@ class AppState(val navHostController: NavHostController) {
 	@Composable
 	fun shouldShowBottomBar(): Boolean {
 		val currentDestination = getCurrentDestination()
-		val isShowAppBar = currentDestination?.let { destination ->
-			bottomBarItems.any { it.route == destination.route }
-		} ?: false
+		val visibleRoutes =
+			listOf(Screen.Associate.route, Screen.Collaboration.route, Screen.Calendar.route)
 
-		return isShowAppBar
+		return currentDestination?.route in visibleRoutes
+	}
+
+	@Composable
+	fun shouldShowFloatingBottom(): Boolean {
+		val currentDestination = getCurrentDestination()
+		val visibleRoutes = listOf(Screen.Associate.route, Screen.Calendar.route)
+
+		return currentDestination?.route in visibleRoutes
 	}
 
 	@Composable
@@ -72,11 +79,11 @@ class AppState(val navHostController: NavHostController) {
 		navigate(Screen.Register)
 	}
 
-	fun navigateToForm() {
+	fun navigateToAssociateForm() {
 		navigate(Screen.Form)
 	}
 
-	fun navigateToAddEvent(){
+	fun navigateToEventForm() {
 		navigate(Screen.AddEvent)
 	}
 }
@@ -113,6 +120,7 @@ sealed interface Screen {
 	data object Register : Screen {
 		override val route = "/register"
 	}
+
 	data object AddEvent : Screen {
 		override val route = "/addevent"
 	}
