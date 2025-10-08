@@ -54,10 +54,7 @@ fun CalendarScreen(
 				.fillMaxSize()
 				.padding(top = 16.dp)
 		) {
-			MonthTitle(
-				month = currentMonth,
-				year = currentYear
-			)
+
 
 			// Calendário com double-click
 			Calendar(
@@ -101,14 +98,6 @@ fun CalendarScreen(
 				}
 			)
 		}
-
-		// Botão flutuante se não há eventos no mês
-		ShowFloatingButtonIfNeeded(
-			hasEvents = events.any { event ->
-				event.date.month == currentMonth && event.date.year == currentYear
-			},
-			onClick = onNavigateToAddEvent
-		)
 	}
 }
 
