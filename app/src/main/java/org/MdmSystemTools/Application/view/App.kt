@@ -11,22 +11,11 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import org.MdmSystemTools.Application.view.components.Registration.SearchBar
 import org.MdmSystemTools.Application.view.screens.Auth.SignInScreen
 import org.MdmSystemTools.Application.view.screens.Auth.SignUpScreen
 import org.MdmSystemTools.Application.view.screens.Calendar.CalendarScreen
@@ -38,39 +27,21 @@ import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @Composable
 fun App(appState: AppState = rememberAppState()) {
-	var showBottomBar by remember { mutableStateOf(false) }
-	val isShowBottomBar = appState.shouldShowBottomBar()
-
-	var showFloatingBottom by remember { mutableStateOf(false) }
-	val isShowFloatingBottom = appState.shouldShowFloatingBottom()
+	val navDestination = appState.getCurrentDestination()
 
 	Scaffold(
-		topBar = {
-			if (isShowFloatingBottom) {
-				SearchBar(placeholder = "Pesquisar cadastros...")
-			}
-		},
-		bottomBar = {
-			if (isShowBottomBar) {
-				BottomApp(
-					itemSelected = appState.getCurrentBottomBarItem(),
-					navController = appState.navHostController
-				)
-			}
-		},
-		floatingActionButton = {
-			if (isShowFloatingBottom) {
-				FloatingActionButton(
-					onClick = { appState.navigateToAssociateForm() },
-					shape = CircleShape,
-					containerColor = MaterialTheme.colorScheme.primary,
-				) {
-					Text(
-						text = "+", fontSize = 28.sp, textAlign = TextAlign.Center
-					)
-				}
-			}
-		},
+		topBar = TopBarFactory.make(
+			navDestination
+		),
+		bottomBar = BottomBarFactory.make(
+			navDestination,
+			appState.getCurrentBottomBarItem(),
+			appState.navHostController
+		),
+		floatingActionButton = FloatingButtonFactory.make(
+			navDestination = navDestination,
+			onClick =  appState::navigateToEventForm
+		)
 	) { innerPadding ->
 		Route(
 			appState = appState, modifier = Modifier.padding(innerPadding)
@@ -136,12 +107,14 @@ private fun Route(appState: AppState, modifier: Modifier) {
 		}
 
 		) {
-			FormAssociateScreen(onClick = {
-				appState.navHostController.popBackStack()
-			})
+			FormAssociateScreen(
+				onClick = {
+					appState.navigateToAssociate()
+				})
 		}
 
 		composable(Screen.AddEvent.route) {
+			//TODO adicionar onEventSaved
 			FormEventScreen(
 				onNavigateBack = {
 					appState.navigateToCalendar()
