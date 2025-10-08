@@ -28,6 +28,7 @@ import org.MdmSystemTools.Application.view.theme.AppConstants
 @Composable
 fun App(appState: AppState = rememberAppState()) {
 	val navDestination = appState.getCurrentDestination()
+	val currentItem = appState.getCurrentBottomBarItem()
 
 	Scaffold(
 		topBar = TopBarFactory.make(
@@ -35,12 +36,12 @@ fun App(appState: AppState = rememberAppState()) {
 		),
 		bottomBar = BottomBarFactory.make(
 			navDestination,
-			appState.getCurrentBottomBarItem(),
+			currentItem,
 			appState.navHostController
 		),
 		floatingActionButton = FloatingButtonFactory.make(
-			navDestination = navDestination,
-			onClick =  appState::navigateToEventForm
+			navDestination,
+			appState::navigateToEventForm
 		)
 	) { innerPadding ->
 		Route(
