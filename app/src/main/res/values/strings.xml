@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="tab_associate">Associados</string>
+    <string name="tab_collaboration">Colaboradores</string>
+    <string name="tab_calendar">Calendario</string>
 </resources>
