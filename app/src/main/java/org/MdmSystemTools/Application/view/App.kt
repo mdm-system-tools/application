@@ -1,15 +1,5 @@
 package org.MdmSystemTools.Application.view
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseInCubic
-import androidx.compose.animation.core.EaseOutCubic
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -23,7 +13,6 @@ import org.MdmSystemTools.Application.view.screens.Calendar.FormEventScreen
 import org.MdmSystemTools.Application.view.screens.Collaborators.CollaboratorsScreen
 import org.MdmSystemTools.Application.view.screens.Registration.AssociateListScreen
 import org.MdmSystemTools.Application.view.screens.Registration.FormAssociateScreen
-import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @Composable
 fun App(appState: AppState = rememberAppState()) {
@@ -53,19 +42,7 @@ fun App(appState: AppState = rememberAppState()) {
 @Composable
 private fun Route(appState: AppState, modifier: Modifier) {
 	NavHost(navController = appState.navHostController, startDestination = Screen.Associate.route) {
-		composable(
-			Screen.Login.route,
-			enterTransition = {
-				fadeIn(
-					animationSpec = tween(
-						300, easing = LinearEasing
-					)
-				) + slideIntoContainer(
-					animationSpec = tween(300, easing = EaseIn),
-					towards = AnimatedContentTransitionScope.SlideDirection.Start
-				)
-			},
-		) {
+		composable(Screen.Login.route) {
 			SignInScreen(
 				onNavigateToRegister = { appState.navigateToRegister() },
 				onNavigateToDashboard = { appState.navigateToAssociate() })
@@ -95,19 +72,7 @@ private fun Route(appState: AppState, modifier: Modifier) {
 				})
 		}
 
-		composable(Screen.Form.route, enterTransition = {
-			slideInHorizontally(
-				initialOffsetX = { it },
-				animationSpec = tween(AppConstants.Animation.defaultDurationMs, easing = EaseOutCubic)
-			) + fadeIn(animationSpec = tween(AppConstants.Animation.defaultDurationMs))
-		}, exitTransition = {
-			slideOutHorizontally(
-				targetOffsetX = { it },
-				animationSpec = tween(AppConstants.Animation.defaultDurationMs, easing = EaseInCubic)
-			) + fadeOut(animationSpec = tween(AppConstants.Animation.defaultDurationMs))
-		}
-
-		) {
+		composable(Screen.Form.route) {
 			FormAssociateScreen(
 				onClick = {
 					appState.navigateToAssociate()
