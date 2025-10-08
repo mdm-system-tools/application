@@ -28,23 +28,6 @@ class AppState(val navHostController: NavHostController) {
 	}
 
 	@Composable
-	fun shouldShowBottomBar(): Boolean {
-		val currentDestination = getCurrentDestination()
-		val visibleRoutes =
-			listOf(Screen.Associate.route, Screen.Collaboration.route, Screen.Calendar.route)
-
-		return currentDestination?.route in visibleRoutes
-	}
-
-	@Composable
-	fun shouldShowFloatingBottom(): Boolean {
-		val currentDestination = getCurrentDestination()
-		val visibleRoutes = listOf(Screen.Associate.route, Screen.Calendar.route)
-
-		return currentDestination?.route in visibleRoutes
-	}
-
-	@Composable
 	fun getCurrentBottomBarItem(): BottomBarItem {
 		val currentDestination = getCurrentDestination()
 		val selectedItem by remember(currentDestination) {
