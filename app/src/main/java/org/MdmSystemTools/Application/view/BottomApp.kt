@@ -45,10 +45,9 @@ val bottomBarItems = listOf(
 fun BottomApp(
 	itemSelected: BottomBarItem,
 	navController: NavController,
-	appBarItems: List<BottomBarItem> = bottomBarItems,
 ) {
 	NavigationBar {
-		appBarItems.forEach { item ->
+		bottomBarItems.forEach { item ->
 			val label = item.label
 			val icon = item.icon
 			NavigationBarItem(
