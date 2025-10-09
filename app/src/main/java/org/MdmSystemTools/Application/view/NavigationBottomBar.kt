@@ -40,18 +40,18 @@ val TOP_LEVEL_DESTINATIONS = listOf(
 		route = Route.Associate,
 		selectedIcon = R.drawable.ic_associate,
 		unselectedIcon = R.drawable.ic_associate,
-		iconTextId = R.string.tab_associate,
+		iconTextId = R.string.label_associate,
 	),
 	TopLevelDestination(
 		route = Route.Collaboration,
 		selectedIcon = R.drawable.ic_collaboration,
 		unselectedIcon = R.drawable.ic_collaboration,
-		iconTextId = R.string.tab_collaboration,
+		iconTextId = R.string.label_collaboration,
 	),
 	TopLevelDestination(
 		route = Route.Calendar,
 		selectedIcon = R.drawable.ic_calendar,
 		unselectedIcon = R.drawable.ic_calendar,
-		iconTextId = R.string.tab_calendar,
+		iconTextId = R.string.label_calendar,
 	)
 )

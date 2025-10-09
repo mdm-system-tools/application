@@ -9,7 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import dagger.hilt.android.AndroidEntryPoint
-import org.MdmSystemTools.Application.view.App
+import org.MdmSystemTools.Application.navigation.StartApp
 
 //TODO separar a estrutura de navegação
 //TODO remover o botão da tela
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
 					modifier = Modifier.fillMaxSize(),
 					shape = RectangleShape
 				) {
-					App()
+					StartApp()
 				}
 			}
 		}
