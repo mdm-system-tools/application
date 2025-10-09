@@ -12,28 +12,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
+import org.MdmSystemTools.Application.R
+import org.MdmSystemTools.Application.navigation.Route
 
 sealed interface BottomBarItem {
-	val label: String
+	val label: Int
 	val icon: ImageVector
 	val route: String
 
 	data object Associate : BottomBarItem {
-		override val label = "Associados"
+		override val label = R.string.label_associate
 		override val icon = Icons.Default.Home
-		override val route = Screen.Associate.route
+		override val route = Route.Associate.destination
 	}
 
 	data object Collaboration : BottomBarItem {
-		override val label = "Colaboradores"
+		override val label = R.string.label_collaboration
 		override val icon = Icons.Default.Groups
-		override val route = Screen.Collaboration.route
+		override val route = Route.Collaboration.destination
 	}
 
 	data object Calendar : BottomBarItem {
-		override val label = "Agenda"
+		override val label = R.string.label_calendar
 		override val icon = Icons.Default.CalendarToday
-		override val route = Screen.Calendar.route
+		override val route = Route.Calendar.destination
 	}
 }
 
@@ -47,22 +49,22 @@ fun BottomApp(
 	navController: NavController,
 ) {
 	NavigationBar {
-		bottomBarItems.forEach { item ->
-			val label = item.label
-			val icon = item.icon
-			NavigationBarItem(
-				icon = { Icon(icon, contentDescription = label) },
-				label = { Text(label) },
-				selected = item.label == itemSelected.label,
-				onClick = {
-					if (item.route != itemSelected.route) {
-						navController.navigate(item.route) {
-							launchSingleTop = true
-							popUpTo(item.route)
-						}
-					}
-				}
-			)
-		}
+		//bottomBarItems.forEach { item ->
+		//	val label = item.label
+		//	val icon = item.icon
+		//	NavigationBarItem(
+		//		icon = { Icon(icon, contentDescription = label) },
+		//		label = { Text(label) },
+		//		selected = item.label == itemSelected.label,
+		//		onClick = {
+		//			if (item.route != itemSelected.route) {
+		//				navController.navigate(item.route) {
+		//					launchSingleTop = true
+		//					popUpTo(item.route)
+		//				}
+		//			}
+		//		}
+		//	)
+		//}
 	}
 }
