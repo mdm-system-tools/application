@@ -1,22 +1,44 @@
-package org.MdmSystemTools.Application.view
+package org.MdmSystemTools.Application.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.map
+import org.MdmSystemTools.Application.view.BottomBarItem
+import org.MdmSystemTools.Application.view.bottomBarItems
+
+@Composable
+fun rememberAppState(navHostController: NavHostController = rememberNavController()): AppState {
+	return remember(navHostController) {
+		AppState(navHostController)
+	}
+}
 
 class AppState(val navHostController: NavHostController) {
 	val currenctRouteFlow = navHostController.currentBackStackEntryFlow.map {
 		it.destination.route
 	}
 
-	private fun navigate(screen: Screen) {
-		navHostController.navigate(screen.route)
+	fun navigateTo(item: BottomBarItem) {
+		navHostController.navigate(item.route) {
+			// Pop up to the start destination of the graph to
+			// avoid building up a large stack of destinations
+			// on the back stack as users select items
+			//popUpTo(navHostController.graph.findStartDestination().id) {
+			//	saveState = true
+			//}
+			// Avoid multiple copies of the same destination when
+			// reselecting the same item
+			//launchSingleTop = true
+			// Restore state when reselecting a previously selected item
+			//restoreState = true
+		}
 	}
 
 	@Composable
@@ -42,69 +64,39 @@ class AppState(val navHostController: NavHostController) {
 		return selectedItem
 	}
 
+	private fun navigate(route: Route) {
+		navHostController.navigate(route.destination)
+	}
+
 	fun navigateToAssociate() {
-		navigate(Screen.Associate)
+		navigate(Route.Associate)
 	}
 
 	fun navigateToCollaboration() {
-		navigate(Screen.Collaboration)
+		navigate(Route.Collaboration)
 	}
 
 	fun navigateToCalendar() {
-		navigate(Screen.Calendar)
+		navigate(Route.Calendar)
 	}
 
 	fun navigateToLogin() {
-		navigate(Screen.Login)
+		navigate(Route.Login)
 	}
 
 	fun navigateToRegister() {
-		navigate(Screen.Register)
+		navigate(Route.Register)
 	}
 
 	fun navigateToAssociateForm() {
-		navigate(Screen.Form)
+		navigate(Route.Form)
 	}
 
 	fun navigateToEventForm() {
-		navigate(Screen.AddEvent)
-	}
-}
-
-@Composable
-fun rememberAppState(navHostController: NavHostController = rememberNavController()) =
-	remember(navHostController) {
-		AppState(navHostController)
+		navigate(Route.AddEvent)
 	}
 
-sealed interface Screen {
-	val route: String
-
-	data object Associate : Screen {
-		override val route = "/associate"
-	}
-
-	data object Collaboration : Screen {
-		override val route = "/collaboration"
-	}
-
-	data object Calendar : Screen {
-		override val route = "/calendar"
-	}
-
-	data object Form : Screen {
-		override val route = "/form"
-	}
-
-	data object Login : Screen {
-		override val route = "/login"
-	}
-
-	data object Register : Screen {
-		override val route = "/register"
-	}
-
-	data object AddEvent : Screen {
-		override val route = "/addevent"
+	fun navigateBack() {
+		navHostController.popBackStack()
 	}
 }
