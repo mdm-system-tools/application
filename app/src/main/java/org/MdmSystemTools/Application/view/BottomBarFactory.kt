@@ -3,7 +3,7 @@ package org.MdmSystemTools.Application.view
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import com.google.android.datatransport.runtime.Destination
+import org.MdmSystemTools.Application.navigation.Route
 
 object BottomBarFactory {
 	@Composable
@@ -13,15 +13,15 @@ object BottomBarFactory {
 		navController: NavController
 	): @Composable (() -> Unit) {
 		return when (navDestination?.route) {
-			Screen.Associate.route -> {
+			Route.Associate.destination -> {
 				{ Create(item, navController) }
 			}
 
-			Screen.Collaboration.route -> {
+			Route.Collaboration.destination -> {
 				{ Create(item, navController) }
 			}
 
-			Screen.Calendar.route -> {
+			Route.Calendar.destination -> {
 				{ Create(item, navController) }
 			}
 
@@ -30,7 +30,6 @@ object BottomBarFactory {
 			}
 		}
 	}
-
 
 	@Composable
 	private fun Create(item: BottomBarItem, navController: NavController) {

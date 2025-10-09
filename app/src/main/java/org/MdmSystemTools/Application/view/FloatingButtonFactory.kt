@@ -8,14 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
+import org.MdmSystemTools.Application.navigation.Route
 
 object FloatingButtonFactory {
 	fun make(
-		navDestination: NavDestination?,
-		onClick: () -> Unit
+		navDestination: NavDestination?, onClick: () -> Unit
 	): @Composable (() -> Unit) {
 		return when (navDestination?.route) {
-			Screen.Calendar.route -> {
+			Route.Calendar.destination -> {
 				{ ToCalendar(onClick) }
 			}
 

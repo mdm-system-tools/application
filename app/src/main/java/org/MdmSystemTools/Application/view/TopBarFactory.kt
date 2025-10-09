@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
+import org.MdmSystemTools.Application.navigation.Route
 import java.util.Calendar
 
 
@@ -31,11 +32,11 @@ object TopBarFactory {
 	@Composable
 	fun make(navDestination: NavDestination?): @Composable (() -> Unit) {
 		return when (navDestination?.route) {
-			Screen.Associate.route -> {
+			Route.Associate.destination -> {
 				{ ToAssociateScreen() }
 			}
 
-			Screen.Calendar.route -> {
+			Route.Calendar.destination -> {
 				{ ToCalendarScreen() }
 			}
 
@@ -57,8 +58,18 @@ object TopBarFactory {
 		val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
 		val monthNames = listOf(
-			"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-			"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+			"Janeiro",
+			"Fevereiro",
+			"Março",
+			"Abril",
+			"Maio",
+			"Junho",
+			"Julho",
+			"Agosto",
+			"Setembro",
+			"Outubro",
+			"Novembro",
+			"Dezembro"
 		)
 
 		val nameMonth = monthNames[currentMonth]
@@ -67,8 +78,7 @@ object TopBarFactory {
 			colors = TopAppBarDefaults.topAppBarColors(
 				containerColor = MaterialTheme.colorScheme.primaryContainer,
 				titleContentColor = MaterialTheme.colorScheme.primary,
-			),
-			title = {
+			), title = {
 				Text(
 					text = "$nameMonth $currentYear",
 					style = MaterialTheme.typography.headlineMedium,
@@ -76,8 +86,7 @@ object TopBarFactory {
 					textAlign = TextAlign.Center,
 					color = MaterialTheme.colorScheme.onBackground
 				)
-			}
-		)
+			})
 	}
 
 	@OptIn(ExperimentalMaterial3Api::class)
@@ -116,8 +125,8 @@ object TopBarFactory {
 			expanded = active,
 			onExpandedChange = {},
 			modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp),
+				.fillMaxWidth()
+				.padding(16.dp),
 			shape = SearchBarDefaults.inputFieldShape,
 			colors = colors1,
 			tonalElevation = SearchBarDefaults.TonalElevation,
