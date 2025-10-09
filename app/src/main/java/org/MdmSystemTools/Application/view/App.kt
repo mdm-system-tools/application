@@ -1,91 +1,50 @@
 package org.MdmSystemTools.Application.view
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import org.MdmSystemTools.Application.view.screens.Auth.SignInScreen
-import org.MdmSystemTools.Application.view.screens.Auth.SignUpScreen
-import org.MdmSystemTools.Application.view.screens.Calendar.CalendarScreen
-import org.MdmSystemTools.Application.view.screens.Calendar.FormEventScreen
-import org.MdmSystemTools.Application.view.screens.Collaborators.CollaboratorsScreen
-import org.MdmSystemTools.Application.view.screens.Registration.AssociateListScreen
-import org.MdmSystemTools.Application.view.screens.Registration.FormAssociateScreen
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavDestination
+
 
 @Composable
-fun App(appState: AppState = rememberAppState()) {
-	val navDestination = appState.getCurrentDestination()
-	val currentItem = appState.getCurrentBottomBarItem()
-
-	Scaffold(
-		topBar = TopBarFactory.make(
-			navDestination
-		),
-		bottomBar = BottomBarFactory.make(
-			navDestination,
-			currentItem,
-			appState.navHostController
-		),
-		floatingActionButton = FloatingButtonFactory.make(
-			navDestination,
-			appState::navigateToEventForm
-		)
-	) { innerPadding ->
-		Route(
-			appState = appState, modifier = Modifier.padding(innerPadding)
-		)
+fun App(
+	currentDestination: NavDestination?,
+	navigateToTopLevelDestination: (BottomBarItem) -> Unit,
+	content: @Composable () -> Unit
+) {
+	NavigationSuiteScaffold(
+		navigationSuiteItems = {
+			bottomBarItems.forEach { item ->
+				item(
+					icon = {
+						Icon(
+							item.icon,
+							contentDescription = stringResource(item.label)
+						)
+					},
+					label = { Text(stringResource(item.label)) },
+					selected = currentDestination?.route == item.route,
+					onClick = { navigateToTopLevelDestination(item) }
+				)
+			}
+		}
+	) {
+		content
 	}
-}
-
-@Composable
-private fun Route(appState: AppState, modifier: Modifier) {
-	NavHost(navController = appState.navHostController, startDestination = Screen.Associate.route) {
-		composable(Screen.Login.route) {
-			SignInScreen(
-				onNavigateToRegister = { appState.navigateToRegister() },
-				onNavigateToDashboard = { appState.navigateToAssociate() })
-		}
-
-		composable(Screen.Register.route) {
-			// TODO esse registro esta quebrado
-			SignUpScreen(onNavigateToLogin = {
-				appState.navigateToLogin()
-			}, onRegisterSuccess = {
-				appState.navigateToLogin()
-			})
-		}
-
-		composable(Screen.Associate.route) {
-			AssociateListScreen(modifier = modifier)
-		}
-
-		composable(Screen.Collaboration.route) {
-			CollaboratorsScreen()
-		}
-
-		composable(Screen.Calendar.route) {
-			CalendarScreen(
-				onNavigateToAddEvent = {
-					appState.navigateToEventForm()
-				})
-		}
-
-		composable(Screen.Form.route) {
-			FormAssociateScreen(
-				onClick = {
-					appState.navigateToAssociate()
-				})
-		}
-
-		composable(Screen.AddEvent.route) {
-			//TODO adicionar onEventSaved
-			FormEventScreen(
-				onNavigateBack = {
-					appState.navigateToCalendar()
-				},
-			)
-		}
-	}
+	//Scaffold(
+	//	topBar = TopBarFactory.make(
+	//		navDestination
+	//	),
+	//	bottomBar = BottomFac.make(
+	//		navDestination,
+	//		currentItem,
+	//		appState.navHostController
+	//	),
+	//	floatingActionButton = FloatingButtonFactory.make(
+	//		navDestination,
+	//		appState::navigateToEventForm
+	//	)
+	//) { innerPadding -> Route(appState = appState, modifier = Modifier.padding(innerPadding)) }
 }
