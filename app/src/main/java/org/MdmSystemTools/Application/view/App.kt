@@ -4,35 +4,38 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 
 
 @Composable
 fun App(
 	currentDestination: NavDestination?,
-	navigateToTopLevelDestination: (BottomBarItem) -> Unit,
+	navigateToTopLevelDestination: (TopLevelDestination) -> Unit,
 	content: @Composable () -> Unit
 ) {
 	NavigationSuiteScaffold(
 		navigationSuiteItems = {
-			bottomBarItems.forEach { item ->
+			TOP_LEVEL_DESTINATIONS.forEach { item: TopLevelDestination ->
 				item(
 					icon = {
 						Icon(
-							item.icon,
-							contentDescription = stringResource(item.label)
+							painterResource(id = item.selectedIcon),
+							contentDescription = stringResource(item.iconTextId)
 						)
 					},
-					label = { Text(stringResource(item.label)) },
-					selected = currentDestination?.route == item.route,
+					label = { Text(stringResource(item.iconTextId)) },
+					selected = currentDestination?.hasRoute(item::class) ?: false,
 					onClick = { navigateToTopLevelDestination(item) }
 				)
 			}
 		}
 	) {
-		content
+		content()
 	}
+
 	//Scaffold(
 	//	topBar = TopBarFactory.make(
 	//		navDestination

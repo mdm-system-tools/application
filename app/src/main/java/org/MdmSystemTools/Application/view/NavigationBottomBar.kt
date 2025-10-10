@@ -5,19 +5,21 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import kotlinx.serialization.Serializable
 import org.MdmSystemTools.Application.R
 
-sealed interface Route {
+@Serializable
+sealed interface RouteObj {
 	@Serializable
-	data object Associate : Route
+	data object Associate : RouteObj
 
 	@Serializable
-	data object Collaboration : Route
+	data object Collaboration : RouteObj
 
 	@Serializable
-	data object Calendar : Route
+	data object Calendar : RouteObj
 }
 
+@Serializable
 data class TopLevelDestination(
-	val route: Route,
+	val route: RouteObj,
 	val selectedIcon: Int,
 	val unselectedIcon: Int,
 	val iconTextId: Int
@@ -37,19 +39,19 @@ class NavigationBottomBar(private val navController: NavController) {
 
 val TOP_LEVEL_DESTINATIONS = listOf(
 	TopLevelDestination(
-		route = Route.Associate,
+		route = RouteObj.Associate,
 		selectedIcon = R.drawable.ic_associate,
 		unselectedIcon = R.drawable.ic_associate,
 		iconTextId = R.string.label_associate,
 	),
 	TopLevelDestination(
-		route = Route.Collaboration,
+		route = RouteObj.Collaboration,
 		selectedIcon = R.drawable.ic_collaboration,
 		unselectedIcon = R.drawable.ic_collaboration,
 		iconTextId = R.string.label_collaboration,
 	),
 	TopLevelDestination(
-		route = Route.Calendar,
+		route = RouteObj.Calendar,
 		selectedIcon = R.drawable.ic_calendar,
 		unselectedIcon = R.drawable.ic_calendar,
 		iconTextId = R.string.label_calendar,

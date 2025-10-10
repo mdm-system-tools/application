@@ -11,6 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.map
 import org.MdmSystemTools.Application.view.BottomBarItem
+import org.MdmSystemTools.Application.view.TopLevelDestination
 import org.MdmSystemTools.Application.view.bottomBarItems
 
 @Composable
@@ -25,7 +26,7 @@ class AppState(val navHostController: NavHostController) {
 		it.destination.route
 	}
 
-	fun navigateTo(item: BottomBarItem) {
+	fun navigateTo(item: TopLevelDestination) {
 		navHostController.navigate(item.route) {
 			// Pop up to the start destination of the graph to
 			// avoid building up a large stack of destinations

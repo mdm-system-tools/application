@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navigation
 import org.MdmSystemTools.Application.view.App
+import org.MdmSystemTools.Application.view.RouteObj
 import org.MdmSystemTools.Application.view.screens.Auth.SignInScreen
 import org.MdmSystemTools.Application.view.screens.Auth.SignUpScreen
 import org.MdmSystemTools.Application.view.screens.Calendar.CalendarScreen
@@ -39,7 +40,7 @@ fun StartApp(
 private fun CreateNavHost(appState: AppState) {
 	NavHost(
 		navController = appState.navHostController,
-		startDestination = Route.Associate.destination
+		startDestination = RouteObj.Associate
 	) {
 		composable(Route.Login.destination) {
 			SignInScreen(
@@ -48,7 +49,7 @@ private fun CreateNavHost(appState: AppState) {
 			)
 		}
 
-		composable(Route.Associate.destination) {
+		composable<RouteObj.Associate> {
 			AssociateListScreen(modifier = Modifier)
 		}
 
@@ -68,11 +69,11 @@ private fun NavGraphBuilder.mainNavigation(appState: AppState) {
 			})
 		}
 
-		composable(Route.Collaboration.destination) {
+		composable<RouteObj.Collaboration> {
 			CollaboratorsScreen()
 		}
 
-		composable(Route.Calendar.destination) {
+		composable<RouteObj.Calendar> {
 			CalendarScreen(
 				onNavigateToAddEvent = {
 					appState::navigateToEventForm
