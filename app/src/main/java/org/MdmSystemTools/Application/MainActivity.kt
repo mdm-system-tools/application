@@ -13,8 +13,6 @@ import org.MdmSystemTools.Application.navigation.NavHost
 import org.MdmSystemTools.Application.navigation.rememberNavHost
 import org.MdmSystemTools.Application.view.App
 
-//TODO separar a estrutura de navegação
-//TODO remover o botão da tela
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
