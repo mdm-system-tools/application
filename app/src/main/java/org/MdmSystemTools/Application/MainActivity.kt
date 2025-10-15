@@ -9,7 +9,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import dagger.hilt.android.AndroidEntryPoint
-import org.MdmSystemTools.Application.navigation.StartApp
+import org.MdmSystemTools.Application.navigation.NavHost
+import org.MdmSystemTools.Application.navigation.rememberNavHost
+import org.MdmSystemTools.Application.view.App
 
 //TODO separar a estrutura de navegação
 //TODO remover o botão da tela
@@ -23,7 +25,14 @@ class MainActivity : ComponentActivity() {
 					modifier = Modifier.fillMaxSize(),
 					shape = RectangleShape
 				) {
-					StartApp()
+					val navHost: NavHost = rememberNavHost()
+					navHost.CreateNavHost()
+					App(
+						checkSelected = navHost::checkCurrentDestination,
+						navigateToTopLevelDestination = navHost::navigateTo
+					) {
+
+					}
 				}
 			}
 		}
