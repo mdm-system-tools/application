@@ -11,9 +11,10 @@ android {
   buildFeatures {
     compose = true
   }
-  composeOptions {
-    kotlinCompilerExtensionVersion = "1.5.15"
-  }
+
+  //composeOptions {
+  //  kotlinCompilerExtensionVersion = "1.5.15"
+  //}
 
   namespace = "org.MdmSystemTools.Application"
   compileSdk = 36
@@ -41,8 +42,8 @@ android {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
   }
-  kotlinOptions {
-    jvmTarget = "21"
+  kotlin {
+      jvmToolchain(21)
   }
   buildFeatures {
     compose = true
@@ -51,7 +52,6 @@ android {
 
 dependencies {
   implementation(libs.kotlinx.serialization.json)
-
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.lifecycle.runtime.ktx)
   implementation(libs.androidx.activity.compose)
