@@ -1,32 +1,35 @@
-package org.MdmSystemTools.Application.view
+package org.MdmSystemTools.Application.navigation
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import org.MdmSystemTools.Application.navigation.TOP_LEVEL_DESTINATIONS
-import org.MdmSystemTools.Application.navigation.TopLevelDestination
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 
 
 @Composable
-fun App(
-	checkSelected: (TopLevelDestination) -> Boolean,
+fun AppNavigation(
+	currentDestination: NavDestination?,
 	navigateToTopLevelDestination: (TopLevelDestination) -> Unit,
-	content: @Composable () -> Unit
+	content: @Composable () -> Unit,
 ) {
+	// Criar a tela com barra de navegação
 	NavigationSuiteScaffold(
 		navigationSuiteItems = {
 			TOP_LEVEL_DESTINATIONS.forEach {
 				item(
-					icon = { Icon(it.icon, contentDescription = stringResource(it.label)) },
+					icon = { Icon(painterResource(it.icon), contentDescription = stringResource(it.label)) },
 					label = { Text(stringResource(it.label)) },
-					selected = checkSelected(it),
+					selected = currentDestination?.hasRoute(it::class) ?: false,
 					onClick = { navigateToTopLevelDestination(it) }
 				)
 			}
 		}
 	) {
+		// essa variavel representa a tela atual do navigation
 		content()
 	}
 }

@@ -3,15 +3,9 @@ package org.MdmSystemTools.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import dagger.hilt.android.AndroidEntryPoint
-import org.MdmSystemTools.Application.navigation.NavHost
-import org.MdmSystemTools.Application.navigation.rememberNavHost
-import org.MdmSystemTools.Application.view.App
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -19,19 +13,7 @@ class MainActivity : ComponentActivity() {
 		super.onCreate(savedInstanceState)
 		setContent {
 			MaterialTheme {
-				Surface(
-					modifier = Modifier.fillMaxSize(),
-					shape = RectangleShape
-				) {
-					val navHost: NavHost = rememberNavHost()
-					navHost.CreateNavHost()
-					App(
-						checkSelected = navHost::checkCurrentDestination,
-						navigateToTopLevelDestination = navHost::navigateTo
-					) {
-
-					}
-				}
+				App()
 			}
 		}
 	}

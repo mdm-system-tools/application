@@ -17,11 +17,11 @@ import org.MdmSystemTools.Application.view.components.Registration.QuickAccessBu
 @Composable
 fun AssociateListScreen(
 	viewModel: AssociateListViewModel = hiltViewModel(),
-	modifier: Modifier
+	//modifier: Modifier
 ) {
 	val listAssociates by viewModel.listAssociates.collectAsState()
 
-	Column(modifier) {
+	Column {
 
 		QuickAccessButtons(
 			onLastMeetingClick = { },
