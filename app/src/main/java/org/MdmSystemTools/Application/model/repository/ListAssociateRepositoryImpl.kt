@@ -6,7 +6,10 @@ import org.MdmSystemTools.Application.model.dto.AssociateDto
 class ListAssociateRepositoryImpl(private val appContext: Application) : ListAssociateRepository {
 	val listAssociateds = mutableListOf<AssociateDto>()
 
-  init { }
+  init {
+		val assoc = AssociateDto(1, 1, "João da Silva Pereira")
+		addAssociate(assoc)
+	}
 
   override fun getListAssociates(): List<AssociateDto> {
     return listAssociateds
@@ -20,7 +23,7 @@ class ListAssociateRepositoryImpl(private val appContext: Application) : ListAss
 		return associate
 	}
 
-	override fun createAssociate(associate: AssociateDto) {
+	override fun addAssociate(associate: AssociateDto) {
 		listAssociateds.add(associate)
 	}
 
