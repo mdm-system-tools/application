@@ -33,6 +33,6 @@ class AssociateListViewModel @Inject constructor(
   }
 
 	fun createAssociate(associate : AssociateDto){
-		repository.createAssociate(associate)
+		repository.addAssociate(associate)
 	}
 }
