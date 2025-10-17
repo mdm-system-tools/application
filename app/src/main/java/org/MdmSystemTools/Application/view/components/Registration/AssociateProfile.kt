@@ -1,4 +1,3 @@
-
 package org.MdmSystemTools.Application.view.components.Registration
 
 import androidx.compose.foundation.Image
@@ -16,40 +15,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.dto.AssociateDto
+import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @Composable
 fun AssociateProfile(associated: AssociateDto) {
-  Row(
-    verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+	Row(
+		verticalAlignment = Alignment.CenterVertically, modifier = Modifier
       .height(64.dp)
       .width(270.dp)
-  ) {
-    Image(
-      painter = painterResource(id = R.drawable.ic_launcher_background),
-      contentDescription = null,
-      modifier = Modifier
+	) {
+		Image(
+			painter = painterResource(id = R.drawable.ic_launcher_background),
+			contentDescription = null,
+			modifier = Modifier
         .size(64.dp)
         .clip(CircleShape)
-    )
-    Column(Modifier.padding(start = 8.dp)) {
-      Text(
-        LoremIpsum(50).values.first(),
-        fontSize = 18.sp,
-        fontWeight = FontWeight(500),
-        maxLines = 2
-      )
-      Row {
-        Text(
-          "Grupo: ${associated.groupId} Carterinha: ${associated.numberCard}",
-          fontSize = 12.sp,
-          fontWeight = FontWeight(400)
-        )
-      }
-    }
-  }
+		)
+		Column(Modifier.padding(start = 8.dp)) {
+			Text(
+				associated.name,
+				fontSize = AppConstants.FontSize.medium,
+				fontWeight = FontWeight(500),
+				maxLines = 1
+			)
+			Row {
+				Text(
+					"Grupo: ${associated.groupId} Carterinha: ${associated.numberCard}",
+					fontSize = AppConstants.FontSize.small,
+					fontWeight = FontWeight(400)
+				)
+			}
+		}
+	}
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun AssociateProfilePreview() {
+	val assoc = AssociateDto(1, 1, "João da Silva Pereira")
+	AssociateProfile(assoc)
 }
