@@ -30,7 +30,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.MdmSystemTools.Application.model.dto.CalendarData
+import org.MdmSystemTools.Application.model.dto.CalendarDataDto
 import org.MdmSystemTools.Application.model.utils.getNextMonth
 import org.MdmSystemTools.Application.model.utils.getPreviousMonth
 import org.MdmSystemTools.Application.view.theme.AppConstants
@@ -42,7 +42,7 @@ internal fun CalendarGrid(
 	month: Int,
 	year: Int,
 	selectedDate: Triple<Int, Int, Int>?,
-	calendarData: CalendarData,
+	calendarDataDto: CalendarDataDto,
 	today: Triple<Int, Int, Int>,
 	onDateClick: (Int, Int, Int) -> Unit,
 	onMonthChange: (Int, Int) -> Unit,
@@ -84,7 +84,7 @@ internal fun CalendarGrid(
 				}
 		) {
 			DaysGrid(
-				calendarData = calendarData,
+				calendarDataDto = calendarDataDto,
 				month = month,
 				year = year,
 				today = today,
@@ -120,7 +120,7 @@ internal fun WeekDaysHeader(modifier: Modifier = Modifier) {
 
 @Composable
 internal fun DaysGrid(
-	calendarData: CalendarData,
+	calendarDataDto: CalendarDataDto,
 	month: Int,
 	year: Int,
 	today: Triple<Int, Int, Int>,
@@ -132,7 +132,7 @@ internal fun DaysGrid(
 ) {
 	val totalCells = 42 // 6 semanas x 7 dias
 	val days = (0 until totalCells).map { index ->
-		index - calendarData.firstDayOfWeek + 1
+		index - calendarDataDto.firstDayOfWeek + 1
 	}
 
 	Column(modifier = modifier) {
@@ -141,7 +141,7 @@ internal fun DaysGrid(
 				for (dayOfWeek in 0 until 7) {
 					val cellIndex = week * 7 + dayOfWeek
 					val dayNumber = days[cellIndex]
-					val isValidDay = dayNumber in 1..calendarData.daysInMonth
+					val isValidDay = dayNumber in 1..calendarDataDto.daysInMonth
 
 					CalendarDay(
 						day = dayNumber,

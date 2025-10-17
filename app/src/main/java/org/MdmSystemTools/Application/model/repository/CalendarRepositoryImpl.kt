@@ -3,7 +3,7 @@ package org.MdmSystemTools.Application.model.repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.MdmSystemTools.Application.model.dto.CalendarData
+import org.MdmSystemTools.Application.model.dto.CalendarDataDto
 import org.MdmSystemTools.Application.model.utils.*
 import java.util.Calendar
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class CalendarRepositoryImpl @Inject constructor() : CalendarRepository {
             _currentYear.value
         )
     )
-    override val calendarData: StateFlow<CalendarData> = _calendarData.asStateFlow()
+    override val calendarDataDto: StateFlow<CalendarDataDto> = _calendarData.asStateFlow()
 
     private val _today = MutableStateFlow(getToday())
     override val today: StateFlow<Triple<Int, Int, Int>> = _today.asStateFlow()

@@ -1,13 +1,13 @@
 package org.MdmSystemTools.Application.model.utils
 
-import org.MdmSystemTools.Application.model.dto.CalendarData
+import org.MdmSystemTools.Application.model.dto.CalendarDataDto
 import java.util.Calendar
 
-fun calculateCalendarData(month: Int, year: Int): CalendarData {
+fun calculateCalendarData(month: Int, year: Int): CalendarDataDto {
 	val calendar = Calendar.getInstance().apply {
 		set(year, month, 1)
 	}
-	return CalendarData(
+	return CalendarDataDto(
 		daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH),
 		firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
 	)

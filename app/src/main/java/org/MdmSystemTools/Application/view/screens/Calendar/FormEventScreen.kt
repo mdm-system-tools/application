@@ -112,7 +112,7 @@ fun FormEventScreen(
 				onGrupoChange = {
 					grupoEvento = it
 					// Atualizar cor do evento quando grupo for selecionado
-					it?.let { grupo -> corEvento = grupo.cor }
+					it?.let { grupo -> corEvento = grupo.color }
 				},
 				onStartTimeClick = { showStartTimePicker = true },
 				onEndTimeClick = { showEndTimePicker = true },

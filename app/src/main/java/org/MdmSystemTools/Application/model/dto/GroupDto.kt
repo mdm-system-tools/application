@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 data class GroupDto(
 	val id: String,
-	val nome: String,
-	val cor: Color,
-	val descricao: String = ""
+	val name: String,
+	val color: Color,
+	val description: String = ""
 )

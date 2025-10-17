@@ -138,7 +138,7 @@ fun GroupSelector(
 										modifier = Modifier
                       .size(24.dp)
                       .clip(CircleShape)
-                      .background(grupo.cor)
+                      .background(grupo.color)
                       .border(
                         1.dp,
                         if (selectedGrupo?.id == grupo.id) {
@@ -151,12 +151,12 @@ fun GroupSelector(
 									)
 									Column {
 										Text(
-											text = grupo.nome,
+											text = grupo.name,
 											fontWeight = FontWeight.Medium
 										)
-										if (grupo.descricao.isNotEmpty()) {
+										if (grupo.description.isNotEmpty()) {
 											Text(
-												text = grupo.descricao,
+												text = grupo.description,
 												fontSize = 12.sp,
 												color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
 											)
@@ -183,7 +183,7 @@ private fun GrupoDisplayField(
 	modifier: Modifier = Modifier
 ) {
 	TextField(
-		value = selectedGrupo?.nome ?: "",
+		value = selectedGrupo?.name ?: "",
 		onValueChange = { },
 		readOnly = true,
 		placeholder = {
@@ -198,7 +198,7 @@ private fun GrupoDisplayField(
 					modifier = Modifier
             .size(20.dp)
             .clip(CircleShape)
-            .background(selectedGrupo.cor)
+            .background(selectedGrupo.color)
 				)
 			}
 		} else null,

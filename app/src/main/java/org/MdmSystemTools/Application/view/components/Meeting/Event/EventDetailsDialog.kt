@@ -136,10 +136,10 @@ fun EventDetailsDialog(
                                 modifier = Modifier
                                     .size(AppConstants.ComponentSize.iconSmall)
                                     .clip(CircleShape)
-                                    .background(grupo.cor)
+                                    .background(grupo.color)
                             )
                             Text(
-                                text = grupo.nome,
+                                text = grupo.name,
                                 fontSize = AppConstants.FontSize.medium,
                                 fontWeight = FontWeight.Medium
                             )

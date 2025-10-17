@@ -11,7 +11,6 @@ import org.MdmSystemTools.Application.model.repository.CalendarRepository
 import org.MdmSystemTools.Application.model.repository.EventRepository
 import org.MdmSystemTools.Application.view.components.Common.ButtonFormAdd
 import org.MdmSystemTools.Application.view.components.Meeting.Calendar.Calendar
-import org.MdmSystemTools.Application.view.components.Meeting.Calendar.MonthTitle
 import org.MdmSystemTools.Application.view.components.Meeting.Event.EventsList
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -43,7 +42,7 @@ fun CalendarScreen(
 	val currentMonth by calendarRepository.currentMonth.collectAsState()
 	val currentYear by calendarRepository.currentYear.collectAsState()
 	val events by eventRepository.events.collectAsState()
-	val calendarData by calendarRepository.calendarData.collectAsState()
+	val calendarData by calendarRepository.calendarDataDto.collectAsState()
 	val today by calendarRepository.today.collectAsState()
 
 	var selectedDate by remember { mutableStateOf<Triple<Int, Int, Int>?>(null) }
@@ -62,7 +61,7 @@ fun CalendarScreen(
 				currentYear = currentYear,
 				selectedDate = selectedDate,
 				showHeader = false,
-				calendarData = calendarData,
+				calendarDataDto = calendarData,
 				today = today,
 				onDateClick = { day, month, year ->
 					handleDateClick(

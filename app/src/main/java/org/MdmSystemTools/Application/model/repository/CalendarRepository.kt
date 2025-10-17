@@ -1,7 +1,7 @@
 package org.MdmSystemTools.Application.model.repository
 
 import kotlinx.coroutines.flow.StateFlow
-import org.MdmSystemTools.Application.model.dto.CalendarData
+import org.MdmSystemTools.Application.model.dto.CalendarDataDto
 
 
 interface CalendarRepository {
@@ -10,7 +10,7 @@ interface CalendarRepository {
 
     val currentYear: StateFlow<Int>
 
-    val calendarData: StateFlow<CalendarData>
+    val calendarDataDto: StateFlow<CalendarDataDto>
 
 
     val today: StateFlow<Triple<Int, Int, Int>>

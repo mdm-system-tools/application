@@ -39,7 +39,7 @@ fun DatePickerDialog(
 				currentMonth = currentMonth,
 				currentYear = currentYear,
 				showHeader = false,
-				calendarData = calendarData,
+				calendarDataDto = calendarData,
 				today = today,
 				onDateClick = { clickedDay, clickedMonth, clickedYear ->
 					selectedDay = clickedDay

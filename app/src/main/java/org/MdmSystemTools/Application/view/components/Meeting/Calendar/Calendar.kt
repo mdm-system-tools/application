@@ -14,7 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import org.MdmSystemTools.Application.model.dto.CalendarData
+import org.MdmSystemTools.Application.model.dto.CalendarDataDto
 import org.MdmSystemTools.Application.model.utils.calculateCalendarData
 import org.MdmSystemTools.Application.model.utils.getToday
 
@@ -24,7 +24,7 @@ fun Calendar(
 	currentYear: Int,
 	selectedDate: Triple<Int, Int, Int>? = null,
 	showHeader: Boolean = true,
-	calendarData: CalendarData,
+	calendarDataDto: CalendarDataDto,
 	today: Triple<Int, Int, Int>,
 	onDateClick: (day: Int, month: Int, year: Int) -> Unit = { _, _, _ -> },
 	onMonthChange: (month: Int, year: Int) -> Unit = { _, _ -> },
@@ -68,7 +68,7 @@ fun Calendar(
 				month = month,
 				year = year,
 				selectedDate = selectedDate,
-				calendarData = calendarData,
+				calendarDataDto = calendarDataDto,
 				today = today,
 				onDateClick = onDateClick,
 				onMonthChange = onMonthChange,
@@ -88,7 +88,7 @@ private fun CalendarPreview() {
 			currentYear = 2025,
 			selectedDate = Triple(15, 10, 2025),
 			showHeader = true,
-			calendarData = calculateCalendarData(10, 2025),
+			calendarDataDto = calculateCalendarData(10, 2025),
 			today = getToday(),
 			hasEventsCallback = { day, _, _ ->
 				day in listOf(4, 10, 15, 20, 25)

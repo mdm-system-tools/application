@@ -63,7 +63,7 @@ fun EventCard(
 						modifier = Modifier
 							.size(AppConstants.ComponentSize.iconTiny)
 							.clip(CircleShape)
-							.background(event.groups?.cor ?: event.color)
+							.background(event.groups?.color ?: event.color)
 							.border(
 								AppConstants.ComponentSize.borderWidth,
 								MaterialTheme.colorScheme.outline.copy(alpha = AppConstants.Alpha.disabled),
@@ -259,7 +259,7 @@ fun EventCard(
 								modifier = Modifier.size(AppConstants.ComponentSize.iconExtraSmall)
 							)
 							Text(
-								text = grupo.nome,
+								text = grupo.name,
 								style = MaterialTheme.typography.bodySmall,
 								color = MaterialTheme.colorScheme.onSurfaceVariant,
 								maxLines = 1,
