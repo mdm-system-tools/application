@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,34 +23,39 @@ import org.MdmSystemTools.Application.model.dto.AssociateDto
 import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @Composable
-fun AssociateProfile(associated: AssociateDto) {
-	Row(
-		verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+fun AssociateProfile(associated: AssociateDto, onClick: () -> Unit) {
+	Card(
+		modifier = Modifier
       .height(64.dp)
-      .width(270.dp)
+      .width(270.dp), onClick = onClick
 	) {
-		Image(
-			painter = painterResource(id = R.drawable.ic_launcher_background),
-			contentDescription = null,
-			modifier = Modifier
-        .size(64.dp)
-        .clip(CircleShape)
-		)
-		Column(Modifier.padding(start = 8.dp)) {
-			Text(
-				associated.name,
-				fontSize = AppConstants.FontSize.medium,
-				fontWeight = FontWeight(500),
-				maxLines = 1
+		Row(
+			verticalAlignment = Alignment.CenterVertically,
+		) {
+			Image(
+				painter = painterResource(id = R.drawable.ic_launcher_background),
+				contentDescription = null,
+				modifier = Modifier
+          .size(64.dp)
+          .clip(CircleShape)
 			)
-			Row {
+			Column(Modifier.padding(start = 8.dp)) {
 				Text(
-					"Grupo: ${associated.groupId} Carterinha: ${associated.numberCard}",
-					fontSize = AppConstants.FontSize.small,
-					fontWeight = FontWeight(400)
+					associated.name,
+					fontSize = AppConstants.FontSize.medium,
+					fontWeight = FontWeight(500),
+					maxLines = 1
 				)
+				Row {
+					Text(
+						"Grupo: ${associated.groupId} Carterinha: ${associated.numberCard}",
+						fontSize = AppConstants.FontSize.small,
+						fontWeight = FontWeight(400)
+					)
+				}
 			}
 		}
+
 	}
 }
 
@@ -57,5 +63,5 @@ fun AssociateProfile(associated: AssociateDto) {
 @Composable
 private fun AssociateProfilePreview() {
 	val assoc = AssociateDto(1, 1, "João da Silva Pereira")
-	AssociateProfile(assoc)
+	AssociateProfile(assoc, {})
 }
