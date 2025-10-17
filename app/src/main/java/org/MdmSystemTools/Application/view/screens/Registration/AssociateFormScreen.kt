@@ -45,8 +45,8 @@ sealed interface field {
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun FormAssociateScreen(
-	onClick: () -> Unit,
+fun AssociateFormScreen(
+	onClickConfirmButton: () -> Unit,
 	viewModel: AssociateListViewModel = hiltViewModel()
 ) {
 	val fields = remember {
@@ -82,7 +82,7 @@ fun FormAssociateScreen(
 				onClick = {
 					val newAssociate = AssociateDto(101010, 1, fields[1].data)
 					viewModel.createAssociate(newAssociate)
-					onClick()
+					onClickConfirmButton()
 					Log.i("viewmodel", "FormScreen - create new associate: $newAssociate")
 				},
 				modifier = Modifier.fillMaxWidth()
@@ -96,5 +96,5 @@ fun FormAssociateScreen(
 @Preview(showBackground = true)
 @Composable
 private fun FormScreenPreview() {
-	FormAssociateScreen({})
+	AssociateFormScreen({})
 }
