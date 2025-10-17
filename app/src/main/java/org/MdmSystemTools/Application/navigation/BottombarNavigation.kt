@@ -41,37 +41,32 @@ sealed interface Route {
 
 	@Serializable
 	data object Calendar : Route
-
 }
 
 @Serializable
 data class TopLevelDestination(
-	val route: Route,
 	val icon: Int,
 	val label: Int
 )
 
 val TOP_LEVEL_DESTINATIONS = listOf(
 	TopLevelDestination(
-		route = Route.Associate,
-		icon =  R.drawable.ic_associate,
+		icon = R.drawable.ic_associate,
 		label = R.string.label_associate,
-	),
+	) to Route.Associate,
 	TopLevelDestination(
-		route = Route.Collaboration,
-		icon =  R.drawable.ic_associate,
+		icon = R.drawable.ic_associate,
 		label = R.string.label_collaboration,
-	),
+	) to Route.Collaboration,
 	TopLevelDestination(
-		route = Route.Calendar,
 		icon = R.drawable.ic_associate,
 		label = R.string.label_calendar,
-	)
+	) to Route.Calendar
 )
 
 class NavigationActions(private val navController: NavHostController) {
-	fun navigateTo(destination: TopLevelDestination) {
-		navController.navigate(destination.route) {
+	fun navigateTo(destination: Route) {
+		navController.navigate(destination) {
 			popUpTo(navController.graph.findStartDestination().id) {
 				saveState = true
 			}
@@ -80,4 +75,3 @@ class NavigationActions(private val navController: NavHostController) {
 		}
 	}
 }
-

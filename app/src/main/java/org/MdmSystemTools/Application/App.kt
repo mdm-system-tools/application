@@ -44,8 +44,8 @@ fun App() {
 @Composable
 private fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
 	NavHost(navController = navController, startDestination = Route.Associate) {
-		calendar()
 		associate()
+		calendar()
 		collaboration()
 		login(
 			onNavigateToDashboard = { navController.navigateToDashboard() },
