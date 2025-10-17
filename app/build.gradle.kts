@@ -2,6 +2,7 @@ plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.android)
   alias(libs.plugins.kotlin.compose)
+  alias(libs.plugins.kotlin.serialization)
   id("com.google.devtools.ksp")
   id("com.google.dagger.hilt.android")
 }
@@ -10,9 +11,10 @@ android {
   buildFeatures {
     compose = true
   }
-  composeOptions {
-    kotlinCompilerExtensionVersion = "1.5.15"
-  }
+
+  //composeOptions {
+  //  kotlinCompilerExtensionVersion = "1.5.15"
+  //}
 
   namespace = "org.MdmSystemTools.Application"
   compileSdk = 36
@@ -40,8 +42,8 @@ android {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
   }
-  kotlinOptions {
-    jvmTarget = "21"
+  kotlin {
+      jvmToolchain(21)
   }
   buildFeatures {
     compose = true
@@ -49,6 +51,7 @@ android {
 }
 
 dependencies {
+  implementation(libs.kotlinx.serialization.json)
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.lifecycle.runtime.ktx)
   implementation(libs.androidx.activity.compose)
@@ -62,6 +65,7 @@ dependencies {
   implementation(libs.androidx.navigation.compose)
   implementation(libs.androidx.foundation.layout)
   implementation(libs.androidx.animation)
+  implementation(libs.androidx.material3.adaptive.navigation.suite)
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
