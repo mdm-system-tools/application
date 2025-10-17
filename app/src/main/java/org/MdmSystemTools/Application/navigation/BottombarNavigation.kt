@@ -8,14 +8,6 @@ import kotlinx.serialization.Serializable
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.view.screens.Calendar.CalendarScreen
 import org.MdmSystemTools.Application.view.screens.Collaborators.CollaboratorsScreen
-import org.MdmSystemTools.Application.view.screens.Registration.AssociateListScreen
-
-fun NavGraphBuilder.associate() {
-	composable<Route.Associate> {
-		AssociateListScreen()
-	}
-}
-
 fun NavGraphBuilder.collaboration() {
 	composable<Route.Collaboration> {
 		CollaboratorsScreen()
@@ -41,6 +33,10 @@ sealed interface Route {
 
 	@Serializable
 	data object Calendar : Route
+	@Serializable
+	data object AssociateProfileDetails : Route
+	@Serializable
+	data object AssociateForm: Route
 }
 
 @Serializable

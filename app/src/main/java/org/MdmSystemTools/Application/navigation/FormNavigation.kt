@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 import org.MdmSystemTools.Application.view.screens.Calendar.FormEventScreen
-import org.MdmSystemTools.Application.view.screens.Registration.FormAssociateScreen
+import org.MdmSystemTools.Application.view.screens.Registration.AssociateFormScreen
 
 @Serializable
 object AddEvent
@@ -14,8 +14,8 @@ object Form
 
 fun NavGraphBuilder.form() {
 	composable<Form> {
-		FormAssociateScreen(
-			onClick = {
+		AssociateFormScreen(
+			onClickConfirmButton = {
 				//appState::navigateToAssociate
 			})
 	}
