@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.MdmSystemTools.Application.model.DTO.AssociateDto
+import org.MdmSystemTools.Application.model.dto.AssociateDto
 import org.MdmSystemTools.Application.model.repository.ListAssociateRepository
 
 @HiltViewModel

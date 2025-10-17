@@ -3,7 +3,7 @@ package org.MdmSystemTools.Application.model.repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.MdmSystemTools.Application.model.DTO.CalendarData
+import org.MdmSystemTools.Application.model.dto.CalendarData
 import org.MdmSystemTools.Application.model.utils.*
 import java.util.Calendar
 import javax.inject.Inject

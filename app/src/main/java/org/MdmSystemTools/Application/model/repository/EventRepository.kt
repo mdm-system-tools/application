@@ -1,7 +1,7 @@
 package org.MdmSystemTools.Application.model.repository
 
 import kotlinx.coroutines.flow.StateFlow
-import org.MdmSystemTools.Application.model.DTO.EventDto
+import org.MdmSystemTools.Application.model.dto.EventDto
 
 interface EventRepository {
 	val events: StateFlow<List<EventDto>>

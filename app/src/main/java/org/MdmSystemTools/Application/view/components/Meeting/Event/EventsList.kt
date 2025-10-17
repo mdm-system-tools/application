@@ -7,9 +7,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
-import org.MdmSystemTools.Application.model.DTO.EventDto
+import org.MdmSystemTools.Application.model.dto.EventDto
 import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @Composable

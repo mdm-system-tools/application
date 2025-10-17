@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.MdmSystemTools.Application.model.DTO.EventDto
-import org.MdmSystemTools.Application.model.DTO.EventDate
-import org.MdmSystemTools.Application.model.DTO.GroupDto
+import org.MdmSystemTools.Application.model.dto.EventDto
+import org.MdmSystemTools.Application.model.dto.EventDate
+import org.MdmSystemTools.Application.model.dto.GroupDto
 import org.MdmSystemTools.Application.view.components.*
 import org.MdmSystemTools.Application.view.components.Forms.LocalSelector
 import org.MdmSystemTools.Application.view.components.Forms.RegiaoSelector

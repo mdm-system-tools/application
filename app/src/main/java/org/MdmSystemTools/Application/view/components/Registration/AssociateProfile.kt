@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.MdmSystemTools.Application.R
-import org.MdmSystemTools.Application.model.DTO.AssociateDto
+import org.MdmSystemTools.Application.model.dto.AssociateDto
 
 @Composable
 fun AssociateProfile(associated: AssociateDto) {

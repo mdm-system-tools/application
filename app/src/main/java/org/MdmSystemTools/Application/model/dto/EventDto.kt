@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.model.DTO
+package org.MdmSystemTools.Application.model.dto
 
 import androidx.compose.ui.graphics.Color
 import java.util.UUID

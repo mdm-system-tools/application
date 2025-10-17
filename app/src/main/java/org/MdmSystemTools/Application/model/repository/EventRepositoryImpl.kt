@@ -3,7 +3,7 @@ package org.MdmSystemTools.Application.model.repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.MdmSystemTools.Application.model.DTO.EventDto
+import org.MdmSystemTools.Application.model.dto.EventDto
 import javax.inject.Inject
 import javax.inject.Singleton
 

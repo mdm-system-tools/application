@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.model.DTO
+package org.MdmSystemTools.Application.model.dto
 
 data class CalendarData(
 	val daysInMonth: Int,

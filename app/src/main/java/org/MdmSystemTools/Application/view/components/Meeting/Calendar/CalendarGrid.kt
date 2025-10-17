@@ -30,11 +30,10 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.MdmSystemTools.Application.model.DTO.CalendarData
+import org.MdmSystemTools.Application.model.dto.CalendarData
 import org.MdmSystemTools.Application.model.utils.getNextMonth
 import org.MdmSystemTools.Application.model.utils.getPreviousMonth
 import org.MdmSystemTools.Application.view.theme.AppConstants
-import java.util.Calendar
 import kotlin.math.abs
 
 

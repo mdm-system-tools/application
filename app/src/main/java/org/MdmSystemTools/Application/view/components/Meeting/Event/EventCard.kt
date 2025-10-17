@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import org.MdmSystemTools.Application.model.DTO.EventDto
+import org.MdmSystemTools.Application.model.dto.EventDto
 import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,6 +1,6 @@
 package org.MdmSystemTools.Application.model.repository
 
-import org.MdmSystemTools.Application.model.DTO.GroupDto
+import org.MdmSystemTools.Application.model.dto.GroupDto
 import org.MdmSystemTools.Application.view.theme.AppConstants
 
 class GroupRepositoryImpl : GroupRepository {

@@ -1,6 +1,6 @@
 package org.MdmSystemTools.Application.model.repository
 
-import org.MdmSystemTools.Application.model.DTO.AssociateDto
+import org.MdmSystemTools.Application.model.dto.AssociateDto
 
 interface ListAssociateRepository {
   fun getListAssociates(): List<AssociateDto>

@@ -14,7 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import org.MdmSystemTools.Application.model.DTO.CalendarData
+import org.MdmSystemTools.Application.model.dto.CalendarData
 import org.MdmSystemTools.Application.model.utils.calculateCalendarData
 import org.MdmSystemTools.Application.model.utils.getToday
 

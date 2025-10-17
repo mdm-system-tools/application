@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import org.MdmSystemTools.Application.model.DTO.AssociateDto
+import org.MdmSystemTools.Application.model.dto.AssociateDto
 
 sealed interface field {
 	val label: String

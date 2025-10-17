@@ -1,8 +1,7 @@
 package org.MdmSystemTools.Application.model.repository
 
 import android.app.Application
-import org.MdmSystemTools.Application.model.DTO.AssociateDto
-import org.MdmSystemTools.Application.R
+import org.MdmSystemTools.Application.model.dto.AssociateDto
 
 class ListAssociateRepositoryImpl(private val appContext: Application) : ListAssociateRepository {
 	val listAssociateds = mutableListOf<AssociateDto>()

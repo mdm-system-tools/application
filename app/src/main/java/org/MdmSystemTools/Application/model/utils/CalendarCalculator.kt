@@ -1,6 +1,6 @@
 package org.MdmSystemTools.Application.model.utils
 
-import org.MdmSystemTools.Application.model.DTO.CalendarData
+import org.MdmSystemTools.Application.model.dto.CalendarData
 import java.util.Calendar
 
 fun calculateCalendarData(month: Int, year: Int): CalendarData {

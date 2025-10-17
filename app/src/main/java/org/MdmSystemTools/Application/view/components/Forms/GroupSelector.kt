@@ -41,7 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.MdmSystemTools.Application.model.DTO.GroupDto
+import org.MdmSystemTools.Application.model.dto.GroupDto
 import org.MdmSystemTools.Application.model.repository.GroupRepositoryImpl
 
 @OptIn(ExperimentalMaterial3Api::class)
