@@ -43,19 +43,25 @@ fun BottomNavigationBar(
 	currentDestination: NavDestination?,
 	navigateToTopLevelDestination: (Route) -> Unit
 ) {
-	NavigationBar {
-		TOP_LEVEL_DESTINATIONS.forEach { (item, destination) ->
-			NavigationBarItem(
-				selected = currentSelected(currentDestination, destination),
-				onClick = { navigateToTopLevelDestination(destination) },
-				icon = {
-					Icon(
-						painterResource(item.icon),
-						contentDescription = stringResource(item.label)
-					)
-				},
-				label = { Text(stringResource(item.label)) },
-			)
+	//TODO duplicação de codigo
+	val showBar = TOP_LEVEL_DESTINATIONS.any { (_, destination) ->
+		currentDestination?.hasRoute(destination::class) ?: false
+	}
+	if (showBar) {
+		NavigationBar {
+			TOP_LEVEL_DESTINATIONS.forEach { (item, destination) ->
+				NavigationBarItem(
+					selected = currentSelected(currentDestination, destination),
+					onClick = { navigateToTopLevelDestination(destination) },
+					icon = {
+						Icon(
+							painterResource(item.icon),
+							contentDescription = stringResource(item.label)
+						)
+					},
+					label = { Text(stringResource(item.label)) },
+				)
+			}
 		}
 	}
 }
