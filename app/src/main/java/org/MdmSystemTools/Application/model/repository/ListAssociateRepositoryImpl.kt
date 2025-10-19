@@ -1,24 +1,27 @@
 package org.MdmSystemTools.Application.model.repository
 
-import android.app.Application
 import org.MdmSystemTools.Application.model.dto.AssociateDto
 
-class ListAssociateRepositoryImpl(private val appContext: Application) : ListAssociateRepository {
+class ListAssociateRepositoryImpl() : ListAssociateRepository {
 	val listAssociateds = mutableListOf<AssociateDto>()
 
-  init {
-		val assoc = AssociateDto(1, 1, "João da Silva Pereira")
+	init {
+		val assoc = AssociateDto(
+			name = "João da Silva Pereira",
+			groupId = 1,
+			numberCard = 1,
+		)
 		addAssociate(assoc)
 	}
 
-  override fun getListAssociates(): List<AssociateDto> {
-    return listAssociateds
-  }
+	override fun getListAssociates(): List<AssociateDto> {
+		return listAssociateds
+	}
 
 	override fun getAssociate(id: Int): AssociateDto? {
 		val associate = listAssociateds.find { associate ->
 			associate.numberCard == id
-		}?: return null
+		} ?: return null
 
 		return associate
 	}

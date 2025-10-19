@@ -18,8 +18,8 @@ import javax.inject.Singleton
 object NetworkModule {
   @Provides
   @Singleton
-  fun provideListAssociateRepository(app: Application): ListAssociateRepository {
-    return ListAssociateRepositoryImpl(app)
+  fun provideListAssociateRepository(): ListAssociateRepository {
+    return ListAssociateRepositoryImpl()
   }
 
   @Provides
