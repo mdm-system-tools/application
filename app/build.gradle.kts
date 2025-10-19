@@ -81,4 +81,6 @@ dependencies {
   implementation("androidx.compose.material:material-icons-extended:1.7.7")
   implementation("androidx.navigation:navigation-compose:2.9.4")
   implementation("androidx.compose.material:material:1.9.2")
+  implementation("com.google.dagger:hilt-android-testing:2.57.1")
+  testImplementation(kotlin("test"))
 }
