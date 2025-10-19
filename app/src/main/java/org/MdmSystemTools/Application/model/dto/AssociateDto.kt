@@ -4,7 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AssociateDto(
-  val numberCard: Int,
-  val groupId: Int,
-  val name: String,
+	val name: String = "",
+	val numberCard: Int = 0,
+	val groupId: Int = 0,
+	val isValid: Boolean = false,
+	val errorMessage: String? = null,
 )

@@ -62,6 +62,6 @@ fun AssociateProfile(associated: AssociateDto, onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun AssociateProfilePreview() {
-	val assoc = AssociateDto(1, 1, "João da Silva Pereira")
+	val assoc = AssociateDto("João da Silva Pereira", 1, 1)
 	AssociateProfile(assoc, {})
 }
