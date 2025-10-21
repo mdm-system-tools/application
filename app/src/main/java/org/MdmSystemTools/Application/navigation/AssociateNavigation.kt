@@ -4,9 +4,13 @@ import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import kotlinx.serialization.Serializable
 import org.MdmSystemTools.Application.view.screens.Registration.AssociateFormScreen
 import org.MdmSystemTools.Application.view.screens.Registration.AssociateListScreen
 import org.MdmSystemTools.Application.view.screens.Registration.AssociateProfileDetails
+
+@Serializable
+internal data class AssociateProfileDetails(val id: Int)
 
 fun NavGraphBuilder.associate(
 	onClickAssociateProfile: () -> Unit,
@@ -18,7 +22,6 @@ fun NavGraphBuilder.associate(
 			onClickFloatingButtom = onClickFloatingButtom
 		)
 	}
-
 }
 
 fun NavGraphBuilder.associateForm(
@@ -34,14 +37,14 @@ fun NavGraphBuilder.associateForm(
 }
 
 fun NavGraphBuilder.associateProfileDetails(onClickBackScreen: () -> Unit) {
-	Log.i("navegação", "chamada para associate profile details")
-	composable<Route.AssociateProfileDetails> {
+	Log.i("navegação", "chamada para associate profile details id $id")
+	composable<AssociateProfileDetails> {
 		AssociateProfileDetails(onClickBackScreen)
 	}
 }
 
-fun NavController.navigateToAssociateProfileDetails() {
-	navigate(route = Route.AssociateProfileDetails)
+fun NavController.navigateToAssociateProfileDetails(id: Int) {
+	navigate(route = AssociateProfileDetails(id = id))
 }
 
 fun NavController.navigateToAssociateForm() {

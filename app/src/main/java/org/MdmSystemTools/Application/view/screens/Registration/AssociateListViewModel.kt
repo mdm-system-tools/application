@@ -37,6 +37,10 @@ class AssociateListViewModel @Inject constructor(
 		}
 	}
 
+	fun getAssociate(id: Int): AssociateDto {
+		return _listAssociates.value[id]
+	}
+
 	fun validate(): Boolean {
 		return name.text.toString().isNotBlank() &&
 			numberCard.text.toString().toInt() != 0 &&

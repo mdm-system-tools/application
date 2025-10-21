@@ -34,8 +34,6 @@ sealed interface Route {
 	@Serializable
 	data object Calendar : Route
 	@Serializable
-	data object AssociateProfileDetails : Route
-	@Serializable
 	data object AssociateForm: Route
 }
 
