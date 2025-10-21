@@ -12,6 +12,7 @@ class ListAssociateRepositoryImpl() : ListAssociateRepository {
 			numberCard = 1,
 		)
 		addAssociate(assoc)
+		addAssociate(assoc)
 	}
 
 	override fun getListAssociates(): List<AssociateDto> {

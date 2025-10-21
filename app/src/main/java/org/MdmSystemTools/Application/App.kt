@@ -48,8 +48,8 @@ fun App() {
 private fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
 	NavHost(navController = navController, startDestination = Route.Associate) {
 		associate(
-			onClickAssociateProfile = { profileid ->
-				navController.navigateToAssociateProfileDetails(id = profileid)
+			onClickAssociateProfile = { id ->
+				navController.navigateToAssociateProfileDetails(id = id)
 			},
 			onClickFloatingButtom = {
 				navController.navigateToAssociateForm()

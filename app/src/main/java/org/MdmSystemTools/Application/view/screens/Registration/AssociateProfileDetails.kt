@@ -19,6 +19,7 @@ import org.MdmSystemTools.Application.model.dto.AssociateDto
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AssociateProfileDetails(
+	id:Int,
 	onClickBackScreen: () -> Unit,
 	viewModel: AssociateListViewModel = hiltViewModel()
 ) {
@@ -36,7 +37,7 @@ fun AssociateProfileDetails(
 			)
 		}
 	) { paddingValues ->
-		val assoc: AssociateDto = viewModel.getAssociate(0)
+		val assoc: AssociateDto = viewModel.getAssociate(id)
 		val name = assoc.name
 		val numberCard = assoc.numberCard
 		val groupId = assoc.groupId
