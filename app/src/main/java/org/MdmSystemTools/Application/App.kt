@@ -18,7 +18,6 @@ import org.MdmSystemTools.Application.navigation.associateForm
 import org.MdmSystemTools.Application.navigation.associateProfileDetails
 import org.MdmSystemTools.Application.navigation.calendar
 import org.MdmSystemTools.Application.navigation.collaboration
-import org.MdmSystemTools.Application.navigation.form
 import org.MdmSystemTools.Application.navigation.login
 import org.MdmSystemTools.Application.navigation.navigateToAssociateForm
 import org.MdmSystemTools.Application.navigation.navigateToAssociateProfileDetails
@@ -57,9 +56,13 @@ private fun AppNavHost(navController: NavHostController, modifier: Modifier = Mo
 			}
 		)
 
-		associateForm(onClickConfirmButton = {
-			navController.popBackStack()
-		})
+		associateForm(
+			onClickBackScreen = {
+				navController.popBackStack()
+			},
+			onClickConfirmButton = {
+				navController.popBackStack()
+			})
 
 		calendar()
 		collaboration()
@@ -70,7 +73,6 @@ private fun AppNavHost(navController: NavHostController, modifier: Modifier = Mo
 		login(
 			onNavigateToDashboard = { navController.navigateToDashboard() },
 			onNavigateToRegister = {})
-		form()
 		addEvent()
 		register()
 	}

@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import org.MdmSystemTools.Application.view.screens.Registration.AssociateFormScreen
 import org.MdmSystemTools.Application.view.screens.Registration.AssociateListScreen
 import org.MdmSystemTools.Application.view.screens.Registration.AssociateProfileDetails
-import org.MdmSystemTools.Application.view.screens.Registration.AssociateFormScreen
 
 fun NavGraphBuilder.associate(
 	onClickAssociateProfile: () -> Unit,
@@ -21,9 +21,15 @@ fun NavGraphBuilder.associate(
 
 }
 
-fun NavGraphBuilder.associateForm(onClickConfirmButton: () -> Unit) {
+fun NavGraphBuilder.associateForm(
+	onClickBackScreen: () -> Unit,
+	onClickConfirmButton: () -> Unit
+) {
 	composable<Route.AssociateForm> {
-		AssociateFormScreen(onClickConfirmButton)
+		AssociateFormScreen(
+			onClickIcon = onClickBackScreen,
+			onClickConfirmButton = onClickConfirmButton
+		)
 	}
 }
 
