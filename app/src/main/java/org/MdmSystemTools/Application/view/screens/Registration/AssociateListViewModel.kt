@@ -1,8 +1,6 @@
 package org.MdmSystemTools.Application.view.screens.Registration
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,9 +19,9 @@ class AssociateListViewModel @Inject constructor(
 ) : ViewModel() {
 	private val _listAssociates = MutableStateFlow<List<AssociateDto>>(emptyList())
 	val listAssociates: StateFlow<List<AssociateDto>> = _listAssociates.asStateFlow()
-
-	var formState by mutableStateOf(AssociateDto())
-		private set
+	val name: TextFieldState = TextFieldState()
+	val numberCard: TextFieldState = TextFieldState()
+	val groupId: TextFieldState = TextFieldState()
 
 	init {
 		getListAssociates()
@@ -39,38 +37,20 @@ class AssociateListViewModel @Inject constructor(
 		}
 	}
 
-	fun onNameChange(newName: String) {
-		formState = formState.copy(name = newName)
-		validate()
+	fun validate(): Boolean {
+		return name.text.toString().isNotBlank() &&
+			numberCard.text.toString().toInt() != 0 &&
+			groupId.text.toString().toInt() != 0
 	}
 
-	fun onNumberCardChange(newNumberCard: Int) {
-		formState = formState.copy(numberCard = newNumberCard)
-		validate()
-	}
-
-	fun onGroupChange(newGroup: Int) {
-		formState = formState.copy(groupId = newGroup)
-		validate()
-	}
-
-	private fun validate() {
-		val valid = formState.name.isNotBlank() &&
-			formState.groupId != 0 && formState.numberCard != 0
-
-		formState = formState.copy(
-			//TODO essa abordagem adicionou um novo atributo a estrutuda de dados
-			//não sei se está correto essa abordagem
-			isValid = valid,
-			errorMessage = if (!valid) "Preencha todos os campos corretamente" else null
+	fun onSubmit() {
+		val assoc = AssociateDto(
+			name.text.toString(),
+			numberCard.text.toString().toInt(),
+			groupId.text.toString().toInt()
 		)
-	}
-
-	fun onSubmit(name: String, numberCard: String, groupId: String) {
-		val assoc = AssociateDto(name, numberCard.toInt(), groupId.toInt())
-		repository.addAssociate(assoc)
-		if (formState.isValid) {
-			//repository.addAssociate(assoc)
-		}
+		if (validate()) {
+			repository.addAssociate(assoc)
+		} else throw Exception("algum valor esta nulo")
 	}
 }
