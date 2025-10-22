@@ -36,13 +36,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import org.MdmSystemTools.Application.model.dto.AssociateDto
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AssociateFormScreen(
 	onClickIcon: () -> Unit,
 	onClickConfirmButton: () -> Unit,
-	viewModel: AssociateListViewModel = hiltViewModel()
+	viewModel: AssociateFormViewModel = hiltViewModel()
 ) {
 	val listOptions = (1..5).map { it.toString() }
 
@@ -84,10 +85,14 @@ fun AssociateFormScreen(
 			)
 			FieldDropdownMenu("Grupo", listOptions, viewModel.groupId)
 			Button(
-				enabled = viewModel.validate(), modifier = Modifier.fillMaxWidth(), onClick = {
-					viewModel.onSubmit()
+				enabled = viewModel.validate(),
+				modifier = Modifier.fillMaxWidth(),
+				onClick = {
+					val associate: AssociateDto = viewModel.createAssociate()
+					viewModel.onSubmit(associate)
 					onClickConfirmButton()
-				}) { Text("Confirmar") }
+				}
+			) { Text("Confirmar") }
 		}
 
 	}

@@ -19,36 +19,37 @@ import org.MdmSystemTools.Application.model.dto.AssociateDto
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AssociateProfileDetails(
-	id:Int,
-	onClickBackScreen: () -> Unit,
-	viewModel: AssociateListViewModel = hiltViewModel()
+  id: Int?,
+  onClickBackScreen: () -> Unit,
+  viewModel: AssociateListViewModel = hiltViewModel()
 ) {
-	Scaffold(
-		topBar = {
-			TopAppBar(
-				title = {
-					Text("Associate Profile")
-				},
-				navigationIcon = {
-					IconButton(onClick = onClickBackScreen) {
-						Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
-					}
-				}
-			)
-		}
-	) { paddingValues ->
-		val assoc: AssociateDto = viewModel.getAssociate(id)
-		val name = assoc.name
-		val numberCard = assoc.numberCard
-		val groupId = assoc.groupId
+  if (id == -1) throw Exception("associate id invalido")
+  Scaffold(
+    topBar = {
+      TopAppBar(
+        title = {
+          Text("Associate Profile")
+        },
+        navigationIcon = {
+          IconButton(onClick = onClickBackScreen) {
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
+          }
+        }
+      )
+    }
+  ) { paddingValues ->
+    val assoc: AssociateDto = viewModel.getAssociate(id)
+    val name = assoc.name
+    val numberCard = assoc.numberCard
+    val groupId = assoc.groupId
 
-		Column(modifier = Modifier.padding(paddingValues)) {
-			Row {
-				Text(name)
-				Text(numberCard.toString())
-				Text(groupId.toString())
-			}
+    Column(modifier = Modifier.padding(paddingValues)) {
+      Row {
+        Text(name)
+        Text(numberCard.toString())
+        Text(groupId.toString())
+      }
 
-		}
-	}
+    }
+  }
 }

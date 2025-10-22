@@ -1,10 +1,10 @@
 package org.MdmSystemTools.Application
 
+import android.util.Log
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -27,53 +27,54 @@ import org.MdmSystemTools.Application.navigation.register
 
 @Composable
 fun App() {
-	val navController = rememberNavController()
-	val navigationActions = remember(navController) {
-		NavigationActions(navController)
-	}
-	val navBackStackEntry by navController.currentBackStackEntryAsState()
-	val currentDestination = navBackStackEntry?.destination
+  val navController = rememberNavController()
+  val navigationActions = remember(navController) {
+    NavigationActions(navController)
+  }
+  val navBackStackEntry by navController.currentBackStackEntryAsState()
+  val currentDestination = navBackStackEntry?.destination
 
-	Surface {
-		AppNavigation(
-			currentDestination = currentDestination,
-			navigateToTopLevelDestination = navigationActions::navigateTo
-		) {
-			AppNavHost(navController)
-		}
-	}
+  Surface {
+    AppNavigation(
+      currentDestination = currentDestination,
+      navigateToTopLevelDestination = navigationActions::navigateTo
+    ) {
+      AppNavHost(navController)
+    }
+  }
 }
 
 @Composable
-private fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
-	NavHost(navController = navController, startDestination = Route.Associate) {
-		associate(
-			onClickAssociateProfile = { id ->
-				navController.navigateToAssociateProfileDetails(id = id)
-			},
-			onClickFloatingButtom = {
-				navController.navigateToAssociateForm()
-			}
-		)
+private fun AppNavHost(navController: NavHostController) {
+  NavHost(navController = navController, startDestination = Route.Associate) {
+    associate(
+      onClickAssociateProfile = { id ->
+        Log.i("NavGraph", "chamada para $id")
+        navController.navigateToAssociateProfileDetails(id = id)
+      },
+      onClickFloatingButtom = {
+        navController.navigateToAssociateForm()
+      }
+    )
+    associateProfileDetails(onClickBackScreen = {
+      navController.popBackStack()
+    })
 
-		associateForm(
-			onClickBackScreen = {
-				navController.popBackStack()
-			},
-			onClickConfirmButton = {
-				navController.popBackStack()
-			})
+    associateForm(
+      onClickBackScreen = {
+        navController.popBackStack()
+      },
+      onClickConfirmButton = {
+        navController.popBackStack()
+      })
 
-		calendar()
-		collaboration()
-		associateProfileDetails(onClickBackScreen = {
-			navController.popBackStack()
-		})
+    login(
+      onNavigateToDashboard = { navController.navigateToDashboard() },
+      onNavigateToRegister = {})
 
-		login(
-			onNavigateToDashboard = { navController.navigateToDashboard() },
-			onNavigateToRegister = {})
-		addEvent()
-		register()
-	}
+    calendar()
+    collaboration()
+    addEvent()
+    register()
+  }
 }

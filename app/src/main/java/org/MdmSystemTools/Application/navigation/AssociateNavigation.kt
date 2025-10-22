@@ -14,12 +14,14 @@ import org.MdmSystemTools.Application.view.screens.Registration.AssociateProfile
 internal data class AssociateProfileDetails(val id: Int)
 
 fun NavGraphBuilder.associate(
-	onClickAssociateProfile: (associateId : Int) -> Unit,
+	onClickAssociateProfile: (associateId: Int) -> Unit,
 	onClickFloatingButtom: () -> Unit
 ) {
 	composable<Route.Associate> {
 		AssociateListScreen(
-			onClickAssociateProfile = onClickAssociateProfile,
+			onClickAssociateProfile = { id ->
+				onClickAssociateProfile(id)
+			},
 			onClickFloatingButtom = onClickFloatingButtom
 		)
 	}
@@ -37,10 +39,12 @@ fun NavGraphBuilder.associateForm(
 	}
 }
 
-fun NavGraphBuilder.associateProfileDetails(onClickBackScreen: (id : Int) -> Unit) {
+fun NavGraphBuilder.associateProfileDetails(onClickBackScreen: () -> Unit) {
 	Log.i("navegação", "chamada para associate profile details id $id")
 	composable<AssociateProfileDetails> { navBackStackEntry ->
-		AssociateProfileDetails(id = navBackStackEntry.toRoute(), onClickBackScreen as () -> Unit)
+		AssociateProfileDetails(
+			id = navBackStackEntry.toRoute<AssociateProfileDetails>().id, onClickBackScreen
+		)
 	}
 }
 
@@ -49,5 +53,5 @@ fun NavController.navigateToAssociateProfileDetails(id: Int) {
 }
 
 fun NavController.navigateToAssociateForm() {
-	navigate(route = AssociateProfileDetails)
+	navigate(route = Route.AssociateForm)
 }
