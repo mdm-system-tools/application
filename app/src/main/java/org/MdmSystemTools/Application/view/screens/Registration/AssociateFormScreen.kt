@@ -32,6 +32,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.text.isDigitsOnly
@@ -49,22 +52,23 @@ fun AssociateFormScreen(
 
 	Scaffold(
 		topBar = {
-			TopAppBar(
-				title = {
-					Text("Cadastrar novo Associado")
-				},
-				navigationIcon = {
-					IconButton(onClick = onClickIcon) {
-						Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
-					}
+			TopAppBar(title = {
+				Text("Cadastrar novo Associado")
+			}, navigationIcon = {
+				IconButton(onClick = onClickIcon) {
+					Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
 				}
-			)
+			})
 		}) { paddingValues ->
 		Column(modifier = Modifier.padding(paddingValues)) {
 			OutlinedTextField(
 				state = viewModel.name,
 				label = { Text("Nome Completo") },
-				modifier = Modifier.fillMaxWidth(),
+				modifier = Modifier
+					.fillMaxWidth()
+					.semantics {
+						contentType = ContentType.PersonFullName
+					},
 				keyboardOptions = KeyboardOptions(
 					keyboardType = KeyboardType.Text
 				),
@@ -73,7 +77,9 @@ fun AssociateFormScreen(
 			OutlinedTextField(
 				state = viewModel.numberCard,
 				label = { Text("Numero da Carterinha") },
-				modifier = Modifier.fillMaxWidth(),
+				modifier = Modifier
+					.fillMaxWidth()
+					.semantics {},
 				keyboardOptions = KeyboardOptions(
 					keyboardType = KeyboardType.Number
 				),
@@ -85,18 +91,13 @@ fun AssociateFormScreen(
 			)
 			FieldDropdownMenu("Grupo", listOptions, viewModel.groupId)
 			Button(
-				enabled = viewModel.validate(),
-				modifier = Modifier.fillMaxWidth(),
-				onClick = {
+				enabled = viewModel.validate(), modifier = Modifier.fillMaxWidth(), onClick = {
 					val associate: AssociateDto = viewModel.createAssociate()
 					viewModel.onSubmit(associate)
 					onClickConfirmButton()
-				}
-			) { Text("Confirmar") }
+				}) { Text("Confirmar") }
 		}
-
 	}
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -108,12 +109,12 @@ fun FieldDropdownMenu(title: String, menuOptions: List<String>, fieldState: Text
 		expanded = expanded, onExpandedChange = { expanded = !expanded }) {
 		OutlinedTextField(
 			state = fieldState, label = { Text(title) }, trailingIcon = {
-				ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-			}, readOnly = true, modifier = Modifier
-        .menuAnchor(
-          type = ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled = true
-        )
-        .fillMaxWidth()
+			ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+		}, readOnly = true, modifier = Modifier
+				.menuAnchor(
+					type = ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled = true
+				)
+				.fillMaxWidth()
 		)
 
 		ExposedDropdownMenu(
