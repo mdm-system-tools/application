@@ -22,7 +22,7 @@ fun NavGraphBuilder.associate(
 			onClickAssociateProfile = { id ->
 				onClickAssociateProfile(id)
 			},
-			onClickFloatingButtom = onClickFloatingButtom
+			onClickFloatingButton = onClickFloatingButtom
 		)
 	}
 }
@@ -40,11 +40,10 @@ fun NavGraphBuilder.associateForm(
 }
 
 fun NavGraphBuilder.associateProfileDetails(onClickBackScreen: () -> Unit) {
-	Log.i("navegação", "chamada para associate profile details id $id")
 	composable<AssociateProfileDetails> { navBackStackEntry ->
-		AssociateProfileDetails(
-			id = navBackStackEntry.toRoute<AssociateProfileDetails>().id, onClickBackScreen
-		)
+		val id: Int = navBackStackEntry.toRoute<AssociateProfileDetails>().id
+		Log.i("navegação", "chamada para associate profile details id $id")
+		AssociateProfileDetails(id, onClickBackScreen, onClickEdit = {}, onCLickExport = {})
 	}
 }
 

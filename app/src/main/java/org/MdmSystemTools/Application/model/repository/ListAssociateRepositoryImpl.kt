@@ -31,4 +31,8 @@ class ListAssociateRepositoryImpl() : ListAssociateRepository {
 		listAssociateds.add(associate)
 	}
 
+	override fun deleteAssociate(id: Int) {
+		listAssociateds.removeAt(id)
+	}
+
 }
