@@ -6,20 +6,26 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 import org.MdmSystemTools.Application.R
-import org.MdmSystemTools.Application.view.screens.Calendar.CalendarScreen
+import org.MdmSystemTools.Application.view.screens.Calendar.EventListScreen
 import org.MdmSystemTools.Application.view.screens.Collaborators.CollaboratorsScreen
+
 fun NavGraphBuilder.collaboration() {
 	composable<Route.Collaboration> {
 		CollaboratorsScreen()
 	}
 }
 
-fun NavGraphBuilder.calendar() {
+fun NavGraphBuilder.calendar(
+	onClickEventProfile: (eventId: String) -> Unit,
+	onClickFloatingButton: () -> Unit
+) {
 	composable<Route.Calendar> {
-		CalendarScreen(
-			onNavigateToAddEvent = {
-				//appState::navigateToEventForm
-			})
+		EventListScreen(
+			onClickEventProfile = { id ->
+				onClickEventProfile(id)
+			},
+			onClickFloatingButton = onClickFloatingButton
+		)
 	}
 }
 
@@ -35,6 +41,8 @@ sealed interface Route {
 	data object Calendar : Route
 	@Serializable
 	data object AssociateForm: Route
+	@Serializable
+	data object EventForm: Route
 }
 
 @Serializable

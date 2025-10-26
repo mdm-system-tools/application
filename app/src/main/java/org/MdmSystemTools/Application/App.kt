@@ -18,10 +18,14 @@ import org.MdmSystemTools.Application.navigation.associateForm
 import org.MdmSystemTools.Application.navigation.associateProfileDetails
 import org.MdmSystemTools.Application.navigation.calendar
 import org.MdmSystemTools.Application.navigation.collaboration
+import org.MdmSystemTools.Application.navigation.eventForm
+import org.MdmSystemTools.Application.navigation.eventProfileDetails
 import org.MdmSystemTools.Application.navigation.login
 import org.MdmSystemTools.Application.navigation.navigateToAssociateForm
 import org.MdmSystemTools.Application.navigation.navigateToAssociateProfileDetails
 import org.MdmSystemTools.Application.navigation.navigateToDashboard
+import org.MdmSystemTools.Application.navigation.navigateToEventForm
+import org.MdmSystemTools.Application.navigation.navigateToEventProfileDetails
 import org.MdmSystemTools.Application.navigation.register
 
 
@@ -72,7 +76,30 @@ private fun AppNavHost(navController: NavHostController) {
       onNavigateToDashboard = { navController.navigateToDashboard() },
       onNavigateToRegister = {})
 
-    calendar()
+    calendar(
+      onClickEventProfile = { eventId ->
+        navController.navigateToEventProfileDetails(eventId)
+      },
+      onClickFloatingButton = {
+        navController.navigateToEventForm()
+      }
+    )
+
+    eventProfileDetails(
+      onClickBackScreen = {
+        navController.popBackStack()
+      }
+    )
+
+    eventForm(
+      onClickBackScreen = {
+        navController.popBackStack()
+      },
+      onClickConfirmButton = {
+        navController.popBackStack()
+      }
+    )
+
     collaboration()
     addEvent()
     register()
