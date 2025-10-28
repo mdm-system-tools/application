@@ -3,4 +3,20 @@
     <string name="label_associate">Associados</string>
     <string name="label_collaboration">Colaboradores</string>
     <string name="label_calendar">Calendario</string>
+    <string name="dashboardAssociate_topbar_title">Associado</string>
+    <string name="meetingdetails_topbar_title">Detalhes da Reunião</string>
+    <string name="meetingdetails_topbar_subtitle">Registro de presença em reuniões</string>
+    <string name="rollcall_topbar_title">Chamada</string>
+    <string name="rollcall_topbar_subtitle">Registro de presença em reunições</string>
+    <string name="dashboardAssociate_topbar_subtitle">Gerencie Associados, Groupos e Projetos</string>
+    <string name="associateProfileDetails_topbar_title">Perfil do Associado</string>
+    <string name="associateProfileDetails_popup_text">tem certeza que deseja bloquear esse associado ??</string>
+    <string name="associateProfileDetails_popup_title">Bloquear Associado</string>
+    <string name="associateProfileDetails_button_block">Bloquear</string>
+    <string name="associateProfileDetails_button_edit">Editar</string>
+    <string name="associateProfileDetails_button_export">Exportar</string>
+    <string name="associateProfileDetails_info_name">Nome do Associado %1$s</string>
+    <string name="associateProfileDetails_info_group">Numero do Grupo %1$s</string>
+    <string name="associateProfileDetails_info_numbercard">Numero da carterinha %1$s</string>
+    <string name="associateProfileDetails_button_cancel">cancelar</string>
 </resources>

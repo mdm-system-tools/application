@@ -32,8 +32,9 @@ fun NavGraphBuilder.calendar(
 @Serializable
 sealed interface Route {
 	@Serializable
-	data object Associate : Route
-
+	data object AssociateList : Route
+	@Serializable
+	data object AssociateDashboard : Route
 	@Serializable
 	data object Collaboration : Route
 
@@ -55,7 +56,7 @@ val TOP_LEVEL_DESTINATIONS = listOf(
 	TopLevelDestination(
 		icon = R.drawable.ic_associate,
 		label = R.string.label_associate,
-	) to Route.Associate,
+	) to Route.AssociateDashboard,
 	TopLevelDestination(
 		icon = R.drawable.ic_associate,
 		label = R.string.label_collaboration,

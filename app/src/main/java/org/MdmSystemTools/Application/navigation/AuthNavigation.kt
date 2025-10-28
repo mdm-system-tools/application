@@ -22,7 +22,7 @@ fun NavGraphBuilder.login(
 }
 
 fun NavController.navigateToDashboard() {
-	navigate(route = Route.Associate)
+	navigate(route = Route.AssociateList)
 }
 
 fun NavGraphBuilder.register() {
