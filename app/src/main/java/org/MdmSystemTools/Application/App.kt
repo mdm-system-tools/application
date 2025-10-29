@@ -1,8 +1,10 @@
 package org.MdmSystemTools.Application
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
@@ -25,7 +27,6 @@ import org.MdmSystemTools.Application.navigation.login
 import org.MdmSystemTools.Application.navigation.meetingDetails
 import org.MdmSystemTools.Application.navigation.meetingRollCall
 import org.MdmSystemTools.Application.navigation.navigateToAssociateForm
-import org.MdmSystemTools.Application.navigation.navigateToAssociateList
 import org.MdmSystemTools.Application.navigation.navigateToAssociateProfileDetails
 import org.MdmSystemTools.Application.navigation.navigateToDashboard
 import org.MdmSystemTools.Application.navigation.navigateToEventForm
@@ -51,14 +52,18 @@ fun App() {
   }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 private fun AppNavHost(navController: NavHostController) {
+  LaunchedEffect(navController) {
+    navController.addOnDestinationChangedListener { _, destination, _ ->
+      Log.d("Navigation", "navigation to ${destination.route}")
+    }
+  }
+
   NavHost(navController = navController, startDestination = Route.AssociateDashboard) {
     associateList(
-      onClickAssociateProfile = { id ->
-        Log.i("NavGraph", "chamada para $id")
-        navController.navigateToAssociateProfileDetails(id = id)
-      },
+      onClickAssociateProfile = { id -> navController.navigateToAssociateProfileDetails(id) },
       onClickFloatingButtom = { navController.navigateToAssociateForm() },
       onClickBack = { navController.popBackStack() },
     )
@@ -69,11 +74,7 @@ private fun AppNavHost(navController: NavHostController) {
       onClickConfirmButton = { navController.popBackStack() },
     )
 
-    associateDashboard(
-      onClickViewMeeting = { navController.navigateToMeetingDetails() },
-      createAssociateButton = { navController.navigateToAssociateForm() },
-      listAssociateButton = { navController.navigateToAssociateList() },
-    )
+    associateDashboard(onClickViewMeeting = { navController.navigateToMeetingDetails() })
     meetingDetails(
       onClickBack = { navController.popBackStack() },
       onClick = { navController.navigateToMeetingRollCall() },

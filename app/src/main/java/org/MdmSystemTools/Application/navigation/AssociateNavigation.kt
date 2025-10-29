@@ -58,11 +58,9 @@ fun NavController.navigateToAssociateForm() {
 
 fun NavGraphBuilder.associateDashboard(
   onClickViewMeeting: () -> Unit,
-  createAssociateButton: () -> Unit,
-  listAssociateButton: () -> Unit,
 ) {
   composable<Route.AssociateDashboard> {
-    DashBoard(onClickViewMeeting, createAssociateButton, listAssociateButton)
+    DashBoard(onClickViewMeeting)
   }
 }
 

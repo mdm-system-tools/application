@@ -50,26 +50,31 @@ fun MeetingDetails(onClickBack: () -> Unit, onClick: () -> Unit) {
     Column(Modifier.padding(paddingValues)) {
       var selectedTab by remember { mutableIntStateOf(0) }
       Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        listOf("Registrar Chamada", "Justificativas", "Histórico").forEachIndexed { index, title ->
-          Button(
-            onClick = { selectedTab = index },
-            colors =
-              ButtonDefaults.buttonColors(
-                containerColor = if (selectedTab == index) Color(0xFF1C6AEA) else Color.Transparent,
-                contentColor = if (selectedTab == index) Color.White else Color.Gray,
-              ),
-            border = BorderStroke(1.dp, Color.Gray),
-            shape = RoundedCornerShape(8.dp),
-          ) {
-            Text(title)
+        listOf(
+            "Registrar Chamada"
+            /*"Justificativas", "Histórico"*/
+          )
+          .forEachIndexed { index, title ->
+            Button(
+              onClick = { selectedTab = index },
+              colors =
+                ButtonDefaults.buttonColors(
+                  containerColor =
+                    if (selectedTab == index) Color(0xFF1C6AEA) else Color.Transparent,
+                  contentColor = if (selectedTab == index) Color.White else Color.Gray,
+                ),
+              border = BorderStroke(1.dp, Color.Gray),
+              shape = RoundedCornerShape(8.dp),
+            ) {
+              Text(title)
+            }
           }
-        }
       }
 
       when (selectedTab) {
         0 -> RegisterMeeting(onClick = onClick)
-      // 1 -> Actions(buttonsGroups)
-      // 2 -> Actions(buttonsProjects)
+      // 1 -> Actions(buttonsGroups) TODO Implementar tela de justificaitva
+      // 2 -> Actions(buttonsProjects) TODO Implementar tela de historico
       }
     }
   }
