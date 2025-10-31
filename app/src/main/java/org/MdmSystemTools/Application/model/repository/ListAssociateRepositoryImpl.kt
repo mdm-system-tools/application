@@ -3,7 +3,7 @@ package org.MdmSystemTools.Application.model.repository
 import org.MdmSystemTools.Application.model.dto.AssociateDto
 
 class ListAssociateRepositoryImpl() : ListAssociateRepository {
-	val listAssociateds = mutableListOf<AssociateDto>()
+	val listAssociates = mutableListOf<AssociateDto>()
 
 	init {
 		val assoc = AssociateDto(
@@ -16,11 +16,11 @@ class ListAssociateRepositoryImpl() : ListAssociateRepository {
 	}
 
 	override fun getListAssociates(): List<AssociateDto> {
-		return listAssociateds
+		return listAssociates
 	}
 
 	override fun getAssociate(id: Int): AssociateDto? {
-		val associate = listAssociateds.find { associate ->
+		val associate = listAssociates.find { associate ->
 			associate.numberCard == id
 		} ?: return null
 
@@ -28,11 +28,11 @@ class ListAssociateRepositoryImpl() : ListAssociateRepository {
 	}
 
 	override fun addAssociate(associate: AssociateDto) {
-		listAssociateds.add(associate)
+		listAssociates.add(associate)
 	}
 
 	override fun deleteAssociate(id: Int) {
-		listAssociateds.removeAt(id)
+		listAssociates.removeAt(id)
 	}
 
 }
