@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.dto.AssociateDto
-import org.MdmSystemTools.Application.view.components.Common.AssociateProfile
+import org.MdmSystemTools.Application.view.components.AssociateProfile
 
 @Composable
 fun AssociateListScreen(

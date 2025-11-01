@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.components.Common
+package org.MdmSystemTools.Application.view.components
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon

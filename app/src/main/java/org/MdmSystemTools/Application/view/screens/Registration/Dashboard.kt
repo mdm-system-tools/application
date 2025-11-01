@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.dto.EventDto
-import org.MdmSystemTools.Application.view.components.Common.BannerTitle
-import org.MdmSystemTools.Application.view.components.Common.CicleIcon
+import org.MdmSystemTools.Application.view.components.BannerTitle
+import org.MdmSystemTools.Application.view.components.CicleIcon
 import org.MdmSystemTools.Application.view.screens.Calendar.EventListViewModel
 
 @Composable

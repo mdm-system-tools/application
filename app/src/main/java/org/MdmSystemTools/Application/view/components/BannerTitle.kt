@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.components.Common
+package org.MdmSystemTools.Application.view.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons

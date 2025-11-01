@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.dto.EventDto
-import org.MdmSystemTools.Application.view.components.Common.BannerTitle
+import org.MdmSystemTools.Application.view.components.BannerTitle
 
 @Composable
 fun MeetingDetailsScreen(onClickBack: () -> Unit, onClick: () -> Unit) {

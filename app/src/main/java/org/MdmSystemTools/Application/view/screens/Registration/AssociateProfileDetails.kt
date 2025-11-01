@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.dto.AssociateDto
-import org.MdmSystemTools.Application.view.components.Common.AlertDialog
+import org.MdmSystemTools.Application.view.components.AlertDialog
 
 // TODO REFATORAR O CODIGO
 @OptIn(ExperimentalMaterial3Api::class)

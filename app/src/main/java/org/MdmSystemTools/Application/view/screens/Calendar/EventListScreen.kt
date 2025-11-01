@@ -29,7 +29,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import org.MdmSystemTools.Application.model.dto.EventDate
 import org.MdmSystemTools.Application.model.dto.EventDto
 import org.MdmSystemTools.Application.model.dto.GroupDto
-import org.MdmSystemTools.Application.view.components.Common.EventCard
+import org.MdmSystemTools.Application.view.components.EventCard
 
 @Composable
 fun EventListScreen(

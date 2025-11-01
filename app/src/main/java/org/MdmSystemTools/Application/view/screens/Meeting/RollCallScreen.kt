@@ -37,10 +37,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.dto.AssociateDto
-import org.MdmSystemTools.Application.view.components.Common.AlertDialog
-import org.MdmSystemTools.Application.view.components.Common.BannerTitle
-import org.MdmSystemTools.Application.view.components.Common.CicleIcon
-import org.MdmSystemTools.Application.view.components.Common.GridButtons
+import org.MdmSystemTools.Application.view.components.AlertDialog
+import org.MdmSystemTools.Application.view.components.BannerTitle
+import org.MdmSystemTools.Application.view.components.CicleIcon
+import org.MdmSystemTools.Application.view.components.GridButtons
 
 data class button(
   val text: String,

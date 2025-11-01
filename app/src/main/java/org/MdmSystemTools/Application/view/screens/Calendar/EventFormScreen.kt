@@ -51,9 +51,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.dto.EventDto
-import org.MdmSystemTools.Application.view.components.Common.FieldDropdownMenuStyled
+import org.MdmSystemTools.Application.view.components.FieldDropdownMenuStyled
 import org.MdmSystemTools.Application.view.components.EventField
-import org.MdmSystemTools.Application.view.components.Common.LocalSelector
+import org.MdmSystemTools.Application.view.components.LocalSelector
 import org.MdmSystemTools.Application.view.components.TimePickerDialog
 import org.MdmSystemTools.Application.view.screens.Meeting.UiEvent
 import org.MdmSystemTools.Application.view.theme.AppConstants
