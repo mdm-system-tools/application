@@ -1,5 +1,7 @@
 package org.MdmSystemTools.Application.view.screens.Calendar
 
+import android.content.res.Resources
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,8 +33,13 @@ class EventListViewModel @Inject constructor(private val repository: EventReposi
     }
   }
 
-  fun getEvent(id: String): EventDto? {
-    return _listEvents.value.find { it.id == id }
+  fun getEvent(id: Int): EventDto {
+    return try {
+      _listEvents.value[id]
+    } catch (e: Resources.NotFoundException) {
+      Log.e("ViewModelEventList", e.toString())
+      EventDto()
+    }
   }
 
   fun deleteEvent(id: Int) {
