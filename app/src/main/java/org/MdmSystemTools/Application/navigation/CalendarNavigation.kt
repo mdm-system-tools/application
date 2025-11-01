@@ -5,9 +5,23 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
+import org.MdmSystemTools.Application.view.screens.Calendar.EventDetailsScreen
 import org.MdmSystemTools.Application.view.screens.Calendar.EventFormScreen
+import org.MdmSystemTools.Application.view.screens.Calendar.EventListScreen
 
-@Serializable internal data class EventProfileDetails(val id: String)
+@Serializable internal data class EventProfileDetails(val id: Int)
+
+fun NavGraphBuilder.calendar(
+  onClickEventProfile: (eventId: Int) -> Unit,
+  onClickFloatingButton: () -> Unit,
+) {
+  composable<Route.Calendar> {
+    EventListScreen(
+      onClickEventProfile = { id -> onClickEventProfile(id) },
+      onClickFloatingButton = onClickFloatingButton,
+    )
+  }
+}
 
 fun NavGraphBuilder.eventForm(onClickBackScreen: () -> Unit, onClickConfirmButton: () -> Unit) {
   composable<Route.EventForm> {
@@ -17,13 +31,12 @@ fun NavGraphBuilder.eventForm(onClickBackScreen: () -> Unit, onClickConfirmButto
 
 fun NavGraphBuilder.eventProfileDetails(onClickBackScreen: () -> Unit) {
   composable<EventProfileDetails> { navBackStackEntry ->
-    val id: String = navBackStackEntry.toRoute<EventProfileDetails>().id
-    // TODO: Criar EventProfileDetails screen
-    EventProfileDetails(id)
+    val id: Int = navBackStackEntry.toRoute<EventProfileDetails>().id
+    EventDetailsScreen(id, onClickBackScreen)
   }
 }
 
-fun NavController.navigateToEventProfileDetails(id: String) {
+fun NavController.navigateToEventProfileDetails(id: Int) {
   navigate(route = EventProfileDetails(id = id))
 }
 

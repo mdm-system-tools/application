@@ -87,7 +87,7 @@ private fun AppNavHost(navController: NavHostController) {
     )
 
     calendar(
-      onClickEventProfile = { eventId -> navController.navigateToEventProfileDetails(eventId) },
+      onClickEventProfile = { id -> navController.navigateToEventProfileDetails(id) },
       onClickFloatingButton = { navController.navigateToEventForm() },
     )
 
