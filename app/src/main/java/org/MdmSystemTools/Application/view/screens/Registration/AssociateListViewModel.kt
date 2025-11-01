@@ -9,16 +9,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.dto.AssociateDto
-import org.MdmSystemTools.Application.model.repository.ListAssociateRepository
+import org.MdmSystemTools.Application.model.repository.AssociateRepository
 
 
 @HiltViewModel
 class AssociateListViewModel @Inject constructor(
-	private val repository: ListAssociateRepository
+	private val repository: AssociateRepository
 ) : ViewModel() {
 	private val _listAssociates = MutableStateFlow<List<AssociateDto>>(emptyList())
 	val listAssociates: StateFlow<List<AssociateDto>> = _listAssociates.asStateFlow()
-
 
 	init {
 		getListAssociates()
@@ -27,7 +26,7 @@ class AssociateListViewModel @Inject constructor(
 	private fun getListAssociates() {
 		viewModelScope.launch {
 			try {
-				_listAssociates.value = repository.getListAssociates()
+				_listAssociates.value = repository.getAssociates()
 			} catch (e: Exception) {
 				e.printStackTrace()
 			}
@@ -44,6 +43,4 @@ class AssociateListViewModel @Inject constructor(
 	fun deleteAssociate(id: Int) {
 		repository.deleteAssociate(id)
 	}
-
-
 }

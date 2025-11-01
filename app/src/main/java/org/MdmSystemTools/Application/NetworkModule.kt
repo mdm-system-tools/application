@@ -1,7 +1,7 @@
 package org.MdmSystemTools.Application
 
-import org.MdmSystemTools.Application.model.repository.ListAssociateRepository
-import org.MdmSystemTools.Application.model.repository.ListAssociateRepositoryImpl
+import org.MdmSystemTools.Application.model.repository.AssociateRepository
+import org.MdmSystemTools.Application.model.repository.AssociateRepositoryImpl
 import org.MdmSystemTools.Application.model.repository.EventRepository
 import org.MdmSystemTools.Application.model.repository.EventRepositoryImpl
 import dagger.Module
@@ -15,8 +15,8 @@ import javax.inject.Singleton
 object NetworkModule {
   @Provides
   @Singleton
-  fun provideListAssociateRepository(): ListAssociateRepository {
-    return ListAssociateRepositoryImpl()
+  fun provideListAssociateRepository(): AssociateRepository {
+    return AssociateRepositoryImpl()
   }
 
   @Provides
