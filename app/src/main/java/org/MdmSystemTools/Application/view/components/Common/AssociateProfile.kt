@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.components.Registration
+package org.MdmSystemTools.Application.view.components.Common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

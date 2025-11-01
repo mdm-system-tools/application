@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -33,14 +32,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.dto.AssociateDto
-import org.MdmSystemTools.Application.view.components.Registration.AssociateProfile
+import org.MdmSystemTools.Application.view.components.Common.AssociateProfile
 
 @Composable
 fun AssociateListScreen(
   viewModel: AssociateListViewModel = hiltViewModel(),
   onClickAssociateProfile: (associateId: Int) -> Unit,
   onClickFloatingButton: () -> Unit,
-	onClickBack: () -> Unit
+  onClickBack: () -> Unit,
 ) {
   val listAssociates by viewModel.listAssociates.collectAsState()
   ListAssociates(onClickFloatingButton, listAssociates, onClickAssociateProfile, onClickBack)
@@ -114,5 +113,10 @@ private fun ButtonsActions(onClick: () -> Unit) {
 @Composable
 private fun AssociateListScreenPreview() {
   val list = listOf(AssociateDto("jose", 1, 1), AssociateDto("maria", 1, 1))
-  ListAssociates(onClickAssociateProfile = {}, onClickAdd = {}, listAssociates = list, onClickBack = {})
+  ListAssociates(
+    onClickAssociateProfile = {},
+    onClickAdd = {},
+    listAssociates = list,
+    onClickBack = {},
+  )
 }

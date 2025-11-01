@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -33,10 +31,9 @@ import androidx.compose.ui.unit.sp
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.dto.EventDto
 import org.MdmSystemTools.Application.view.components.Common.BannerTitle
-import org.MdmSystemTools.Application.view.screens.Registration.meetings
 
 @Composable
-fun MeetingDetails(onClickBack: () -> Unit, onClick: () -> Unit) {
+fun MeetingDetailsScreen(onClickBack: () -> Unit, onClick: () -> Unit) {
   Scaffold(
     topBar = {
       BannerTitle(
@@ -72,7 +69,7 @@ fun MeetingDetails(onClickBack: () -> Unit, onClick: () -> Unit) {
       }
 
       when (selectedTab) {
-        0 -> RegisterMeeting(onClick = onClick)
+      // 0 -> RegisterMeeting(onClick = onClick)
       // 1 -> Actions(buttonsGroups) TODO Implementar tela de justificaitva
       // 2 -> Actions(buttonsProjects) TODO Implementar tela de historico
       }
@@ -80,13 +77,13 @@ fun MeetingDetails(onClickBack: () -> Unit, onClick: () -> Unit) {
   }
 }
 
-@Composable
-fun RegisterMeeting(modifier: Modifier = Modifier, onClick: () -> Unit) {
-  Text(text = "Selecione uma Reunião", fontSize = 24.sp)
-  // SearchBar() TODO Implementar barra de pesquisa
-  // TODO Implementar filtro, semelhante ao listassociate
-  LazyColumn { items(meetings) { meeting -> MeetingButton(meeting, onClick = onClick) } }
-}
+// @Composable
+// fun RegisterMeeting(modifier: Modifier = Modifier, onClick: () -> Unit) {
+//  Text(text = "Selecione uma Reunião", fontSize = 24.sp)
+//  // SearchBar() TODO Implementar barra de pesquisa
+//  // TODO Implementar filtro, semelhante ao listassociate
+//  LazyColumn { items(meetings) { meeting -> MeetingButton(meeting, onClick = onClick) } }
+// }
 
 @Composable
 fun MeetingButton(meeting: EventDto, modifier: Modifier = Modifier, onClick: () -> Unit) {
@@ -120,5 +117,5 @@ fun MeetingButton(meeting: EventDto, modifier: Modifier = Modifier, onClick: () 
 @Preview(showBackground = true)
 @Composable
 private fun MeetingDetailsPrev() {
-  MeetingDetails({}, {})
+  MeetingDetailsScreen({}, {})
 }

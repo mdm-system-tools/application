@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.components.Event
+package org.MdmSystemTools.Application.view.components.Common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
