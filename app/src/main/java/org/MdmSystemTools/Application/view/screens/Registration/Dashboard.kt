@@ -123,7 +123,6 @@ private fun notifierMeeting(meeting: EventDto) {
     }
     Column {
       Text(meeting.title)
-      Text(meeting.description)
     }
     Column {
       Text(meeting.hourStart)

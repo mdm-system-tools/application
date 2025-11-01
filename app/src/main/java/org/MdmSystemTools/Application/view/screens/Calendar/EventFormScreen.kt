@@ -1,5 +1,7 @@
 package org.MdmSystemTools.Application.view.screens.Calendar
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +27,8 @@ import androidx.compose.material.icons.filled.Title
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,9 +36,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDialog
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,10 +59,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.dto.EventDto
-import org.MdmSystemTools.Application.view.components.FieldDropdownMenuStyled
 import org.MdmSystemTools.Application.view.components.EventField
+import org.MdmSystemTools.Application.view.components.FieldDropdownMenuStyled
 import org.MdmSystemTools.Application.view.components.LocalSelector
-import org.MdmSystemTools.Application.view.components.TimePickerDialog
 import org.MdmSystemTools.Application.view.screens.Meeting.UiEvent
 import org.MdmSystemTools.Application.view.theme.AppConstants
 
@@ -64,8 +71,9 @@ private fun AddEventScreenPreview() {
   EventFormScreen({}, {})
 }
 
-private val regioesPredefinidas = listOf("Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul")
-private val grupos =
+private val regioesPredefinidas: List<String> =
+  listOf("Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul")
+private val grupos: List<String> =
   listOf(
     "Desenvolvimento",
     "Design",
@@ -77,7 +85,7 @@ private val grupos =
     "Operações",
   )
 
-private val projetosPredefinidos =
+private val projetosPredefinidos: List<String> =
   listOf(
     "Sistema MDM",
     "Portal Web",
@@ -94,6 +102,7 @@ private val projetosPredefinidos =
 // TODO FEATURE adicionar botão para apagar evento
 // TODO FEATURE adicionar efeitos de voltar e fechar tela
 // TODO Implementar acesso ao repository
+@SuppressLint("DefaultLocale")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventFormScreen(
@@ -101,10 +110,11 @@ fun EventFormScreen(
   onEventSaved: () -> Unit = {},
   viewModel: EventFormViewModel = hiltViewModel(),
 ) {
-  val showStartTimePicker = remember { mutableStateOf(false) }
-  val showEndTimePicker = remember { mutableStateOf(false) }
-  val context = LocalContext.current
-  val state by viewModel.uiState.collectAsState()
+  val showStartTimePicker: MutableState<Boolean> = remember { mutableStateOf(false) }
+  val showEndTimePicker: MutableState<Boolean> = remember { mutableStateOf(false) }
+  val showDatePicker: MutableState<Boolean> = remember { mutableStateOf(false) }
+  val context: Context = LocalContext.current
+  val state: EventFormUiState by viewModel.uiState.collectAsState()
 
   LaunchedEffect(Unit) {
     viewModel.uiEvent.collect { event ->
@@ -139,19 +149,21 @@ fun EventFormScreen(
       verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
       EventForm(
-        descricao = state.description,
-        localEvento = state.local,
-        regiaoEvento = state.region,
-        projetoEvento = state.project,
-        grupoEvento = state.groupId,
+        descricao = state.title,
+        local = state.local,
+        regiao = state.region,
+        projeto = state.project,
+        grupo = state.groupId,
       )
 
       // Horários
       Horario(
         onStartTimeClick = { showStartTimePicker.value = !showStartTimePicker.value },
         onEndTimeClick = { showEndTimePicker.value = !showEndTimePicker.value },
-        horaInicio = state.hourStart.text.toString(),
-        horaFim = state.hourEnd.text.toString(),
+        onDateClick = { showDatePicker.value = !showDatePicker.value },
+        horaInicio = String.format("%02d:%02d", state.startTime.hour, state.startTime.minute),
+        horaFim = String.format("%02d:%02d", state.endTime.hour, state.endTime.minute),
+        date = viewModel.formatDate(state.date.selectedDateMillis),
       )
 
       // Botões Salvar e Cancelar
@@ -161,24 +173,39 @@ fun EventFormScreen(
 
   when {
     showStartTimePicker.value -> {
-      val (hour, minute) = viewModel.getHourAndMinuteFromStateStart()
       TimePickerDialog(
-        title = "Horário de inicio",
-        hour = hour,
-        minute = minute,
-        onDismiss = { showStartTimePicker.value = !showStartTimePicker.value },
-        updateHourStart = viewModel::updateHourStart,
-      )
+        onDismissRequest = { showStartTimePicker.value = false },
+        confirmButton = {
+          TextButton(onClick = { showStartTimePicker.value = false }) { Text("Confirmar") }
+        },
+        title = { Text("Alterar Horas") },
+      ) {
+        TimePicker(state = state.startTime)
+      }
     }
+
     showEndTimePicker.value -> {
-      val (hour, minute) = viewModel.getHourAndMinuteFromStateEnd()
       TimePickerDialog(
-        title = "Horário de Fim",
-        hour = hour,
-        minute = minute,
-        onDismiss = { showEndTimePicker.value = !showEndTimePicker.value },
-        updateHourStart = viewModel::updateHourEnd,
-      )
+        onDismissRequest = { showEndTimePicker.value = false },
+        confirmButton = {
+          TextButton(onClick = { showEndTimePicker.value = false }) { Text("Confirmar") }
+        },
+        title = { Text("Alterar Horas") },
+      ) {
+        TimePicker(state = state.endTime)
+      }
+    }
+
+    showDatePicker.value -> {
+      DatePickerDialog(
+        onDismissRequest = { showDatePicker.value = false },
+        confirmButton = { TextButton(onClick = { showDatePicker.value = false }) { Text("OK") } },
+        dismissButton = {
+          TextButton(onClick = { showDatePicker.value = false }) { Text("cancelar") }
+        },
+      ) {
+        DatePicker(state = state.date)
+      }
     }
   }
 }
@@ -186,10 +213,10 @@ fun EventFormScreen(
 @Composable
 private fun EventForm(
   descricao: TextFieldState,
-  localEvento: TextFieldState,
-  regiaoEvento: TextFieldState,
-  projetoEvento: TextFieldState,
-  grupoEvento: TextFieldState,
+  local: TextFieldState,
+  regiao: TextFieldState,
+  projeto: TextFieldState,
+  grupo: TextFieldState,
 ) {
   // Descrição
   EventField(
@@ -200,7 +227,7 @@ private fun EventForm(
   )
 
   // Local do evento
-  LocalSelector(selectedLocal = localEvento)
+  LocalSelector(selectedLocal = local)
 
   // Região
   FieldDropdownMenuStyled(
@@ -208,7 +235,7 @@ private fun EventForm(
     icon = Icons.Default.RealEstateAgent,
     menuOptions = regioesPredefinidas,
     placeholder = "Selecione uma Região",
-    fieldState = regiaoEvento,
+    fieldState = regiao,
   )
 
   // Projeto
@@ -217,7 +244,7 @@ private fun EventForm(
     icon = Icons.Default.Map,
     menuOptions = projetosPredefinidos,
     placeholder = "Selecione uma Projeto",
-    fieldState = projetoEvento,
+    fieldState = projeto,
   )
 
   // Grupo
@@ -226,7 +253,7 @@ private fun EventForm(
     icon = Icons.Default.Groups,
     menuOptions = grupos,
     placeholder = "Selecione um Grupo",
-    fieldState = grupoEvento,
+    fieldState = grupo,
   )
 }
 
@@ -265,61 +292,53 @@ private fun BotoesDeSalvar(onCancel: () -> Unit, onSave: () -> Unit) {
 @Composable
 private fun Horario(
   onStartTimeClick: () -> Unit,
-  horaInicio: String,
   onEndTimeClick: () -> Unit,
+  onDateClick: () -> Unit,
+  horaInicio: String,
   horaFim: String,
+  date: String,
 ) {
   Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-    // Horário de início
-    Card(
-      modifier = Modifier.weight(1f),
-      shape = RoundedCornerShape(12.dp),
-      colors =
-        CardDefaults.cardColors(
-          containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-        ),
-    ) {
-      Column(modifier = Modifier.fillMaxWidth().clickable { onStartTimeClick() }.padding(16.dp)) {
-        Text(
-          text = "Horário Início",
-          fontSize = 14.sp,
-          fontWeight = FontWeight.Medium,
-          color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-          text = horaInicio,
-          fontSize = 18.sp,
-          fontWeight = FontWeight.SemiBold,
-          color = MaterialTheme.colorScheme.primary,
-        )
-      }
-    }
+    CardHours(
+      title = "Horário Início",
+      description = horaInicio,
+      onClick = onStartTimeClick,
+      Modifier.weight(1f),
+    )
+    CardHours(
+      title = "Horário Fim",
+      description = horaFim,
+      onClick = onEndTimeClick,
+      Modifier.weight(1f),
+    )
+    CardHours(title = "Data", description = date, onClick = onDateClick, Modifier.weight(1f))
+  }
+}
 
-    // Horário de fim
-    Card(
-      modifier = Modifier.weight(1f),
-      shape = RoundedCornerShape(12.dp),
-      colors =
-        CardDefaults.cardColors(
-          containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-        ),
-    ) {
-      Column(modifier = Modifier.fillMaxWidth().clickable { onEndTimeClick() }.padding(16.dp)) {
-        Text(
-          text = "Horário Fim",
-          fontSize = 14.sp,
-          fontWeight = FontWeight.Medium,
-          color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-          text = horaFim,
-          fontSize = 18.sp,
-          fontWeight = FontWeight.SemiBold,
-          color = MaterialTheme.colorScheme.primary,
-        )
-      }
+@Composable
+private fun CardHours(title: String, description: String, onClick: () -> Unit, modifier: Modifier) {
+  Card(
+    modifier = modifier,
+    shape = RoundedCornerShape(12.dp),
+    colors =
+      CardDefaults.cardColors(
+        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+      ),
+  ) {
+    Column(modifier = Modifier.fillMaxWidth().clickable { onClick() }.padding(16.dp)) {
+      Text(
+        text = title,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Medium,
+        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
+      )
+      Spacer(modifier = Modifier.height(8.dp))
+      Text(
+        text = description,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.SemiBold,
+        color = MaterialTheme.colorScheme.primary,
+      )
     }
   }
 }
