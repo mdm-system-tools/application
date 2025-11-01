@@ -1,6 +1,5 @@
 package org.MdmSystemTools.Application.view.screens.Meeting
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.dto.AssociateDto
 import org.MdmSystemTools.Application.view.components.Common.AlertDialog
@@ -50,7 +50,11 @@ data class button(
 )
 
 @Composable
-fun RollCall(modifier: Modifier = Modifier, onClickBack: () -> Unit) {
+fun RollCallScreen(
+  modifier: Modifier = Modifier,
+  onClickBack: () -> Unit,
+  viewmodel: RollCallViewModel = viewModel(),
+) {
   val showDialog = remember { mutableStateOf(false) }
   val associatesToRollCall =
     listOf(
@@ -98,7 +102,6 @@ private fun AssociateRollCall(associate: AssociateDto) {
       button("Presente", Icons.Default.Check, false, {}),
       button("Ausente", Icons.Default.Close, false, {}),
       button("Representante", Icons.Default.Person, false, {}),
-      button("Limpar", null, false, {}),
     )
 
   Card(
@@ -150,5 +153,5 @@ private fun SelectableButton(button: button) {
 @Preview
 @Composable
 private fun RollCallPrev() {
-  RollCall(onClickBack = {})
+  RollCallScreen(onClickBack = {})
 }
