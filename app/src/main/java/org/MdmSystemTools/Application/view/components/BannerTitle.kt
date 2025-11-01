@@ -17,7 +17,12 @@ import org.MdmSystemTools.Application.view.theme.AppConstants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BannerTitle(title: Int, subtitle: Int, showBackIcon: Boolean = false, onClick: () -> Unit = {}) {
+fun BannerTitle(
+  title: Int,
+  subtitle: Int,
+  showBackIcon: Boolean = false,
+  onClick: () -> Unit = {},
+) {
   TopAppBar(
     colors =
       TopAppBarDefaults.topAppBarColors(

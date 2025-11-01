@@ -1,5 +1,7 @@
 package org.MdmSystemTools.Application.view.screens.Registration
 
+import android.content.res.Resources
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,36 +13,36 @@ import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.dto.AssociateDto
 import org.MdmSystemTools.Application.model.repository.AssociateRepository
 
-
 @HiltViewModel
-class AssociateListViewModel @Inject constructor(
-	private val repository: AssociateRepository
-) : ViewModel() {
-	private val _listAssociates = MutableStateFlow<List<AssociateDto>>(emptyList())
-	val listAssociates: StateFlow<List<AssociateDto>> = _listAssociates.asStateFlow()
+class AssociateListViewModel @Inject constructor(private val repository: AssociateRepository) :
+  ViewModel() {
+  private val _listAssociates = MutableStateFlow<List<AssociateDto>>(emptyList())
+  val listAssociates: StateFlow<List<AssociateDto>> = _listAssociates.asStateFlow()
 
-	init {
-		getListAssociates()
-	}
+  init {
+    getListAssociates()
+  }
 
-	private fun getListAssociates() {
-		viewModelScope.launch {
-			try {
-				_listAssociates.value = repository.getAssociates()
-			} catch (e: Exception) {
-				e.printStackTrace()
-			}
-		}
-	}
+  private fun getListAssociates() {
+    viewModelScope.launch {
+      try {
+        _listAssociates.value = repository.getAssociates()
+      } catch (e: Exception) {
+        e.printStackTrace()
+      }
+    }
+  }
 
-	fun getAssociate(id: Int?): AssociateDto {
-		return if (id != null)
-			_listAssociates.value[id]
-		else
-			AssociateDto("", 0, 0)
-	}
+  fun getAssociate(id: Int): AssociateDto {
+    return try {
+      _listAssociates.value[id]
+    } catch (e: Resources.NotFoundException) {
+      Log.e("ViewModelAssociateList", e.toString())
+      AssociateDto("", 0, 0)
+    }
+  }
 
-	fun deleteAssociate(id: Int) {
-		repository.deleteAssociate(id)
-	}
+  fun deleteAssociate(id: Int) {
+    repository.deleteAssociate(id)
+  }
 }

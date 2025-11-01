@@ -51,9 +51,9 @@ import org.MdmSystemTools.Application.view.components.AlertDialog
 fun AssociateProfileDetails(
   id: Int,
   onClickBackScreen: () -> Unit,
-  viewModel: AssociateListViewModel = hiltViewModel(),
   onClickEdit: () -> Unit,
   onCLickExport: () -> Unit,
+  viewModel: AssociateListViewModel = hiltViewModel(),
 ) {
   Scaffold(
     topBar = {
