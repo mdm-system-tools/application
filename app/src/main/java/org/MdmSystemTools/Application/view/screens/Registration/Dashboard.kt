@@ -24,46 +24,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import org.MdmSystemTools.Application.R
-import org.MdmSystemTools.Application.model.dto.EventDate
 import org.MdmSystemTools.Application.model.dto.EventDto
 import org.MdmSystemTools.Application.view.components.Common.BannerTitle
 import org.MdmSystemTools.Application.view.components.Common.CicleIcon
-
-private data class Button(val icon: ImageVector, val title: String, val onClick: () -> Unit)
-
-val meetings =
-  listOf(
-    EventDto(
-      title = "TEST TEST TEST",
-      hourStart = "09:00",
-      description = "test test test",
-      date = EventDate(10, 12, 2025),
-    ),
-    EventDto(
-      title = "TEST TEST TEST",
-      hourStart = "10:00",
-      description = "test test test",
-      date = EventDate(12, 12, 2025),
-    ),
-    EventDto(
-      title = "TEST TEST TEST",
-      hourStart = "12:00",
-      description = "test test test",
-      date = EventDate(15, 12, 2025),
-    ),
-  )
+import org.MdmSystemTools.Application.view.screens.Calendar.EventListViewModel
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun DashBoard(onClickViewMeeting: () -> Unit) {
+fun DashBoard(onClickViewMeeting: () -> Unit, viewModel: EventListViewModel = hiltViewModel()) {
   Scaffold(
     topBar = {
       BannerTitle(
@@ -76,13 +54,14 @@ fun DashBoard(onClickViewMeeting: () -> Unit) {
       Modifier.padding(paddingValues).fillMaxSize(),
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-      MenuMeetings(onClickViewMeeting)
+      val events by viewModel.listEvents.collectAsState()
+      MenuMeetings(onClickViewMeeting, events)
     }
   }
 }
 
 @Composable
-private fun MenuMeetings(onClickViewMeeting: () -> Unit) {
+private fun MenuMeetings(onClickViewMeeting: () -> Unit, meetings: List<EventDto>) {
   Card(
     modifier = Modifier.padding(top = 10.dp),
     colors = CardDefaults.cardColors(containerColor = Color.Transparent),
