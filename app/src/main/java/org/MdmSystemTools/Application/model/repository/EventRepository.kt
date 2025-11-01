@@ -8,6 +8,4 @@ interface EventRepository {
   fun removeEvent(id: Int)
 
   fun getAllEvents(): List<EventDto>
-
-  fun getEventsByDate(day: Int, month: Int, year: Int): List<EventDto>
 }
