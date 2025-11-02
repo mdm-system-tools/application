@@ -10,12 +10,13 @@ import org.MdmSystemTools.Application.view.screens.Calendar.EventFormScreen
 import org.MdmSystemTools.Application.view.screens.Calendar.EventListScreen
 
 @Serializable internal data class EventProfileDetails(val id: Int)
+@Serializable internal data object EventForm
 
 fun NavGraphBuilder.calendar(
   onClickEventProfile: (eventId: Int) -> Unit,
   onClickFloatingButton: () -> Unit,
 ) {
-  composable<Route.Calendar> {
+  composable<BottomNav.Agenda> {
     EventListScreen(
       onClickEventProfile = { id -> onClickEventProfile(id) },
       onClickFloatingButton = onClickFloatingButton,
@@ -24,7 +25,7 @@ fun NavGraphBuilder.calendar(
 }
 
 fun NavGraphBuilder.eventForm(onClickBackScreen: () -> Unit, onClickConfirmButton: () -> Unit) {
-  composable<Route.EventForm> {
+  composable<EventForm> {
     EventFormScreen(onEventSaved = onClickConfirmButton, onNavigateBack = onClickBackScreen)
   }
 }
@@ -41,5 +42,5 @@ fun NavController.navigateToEventProfileDetails(id: Int) {
 }
 
 fun NavController.navigateToEventForm() {
-  navigate(route = Route.EventForm)
+  navigate(route = EventForm)
 }

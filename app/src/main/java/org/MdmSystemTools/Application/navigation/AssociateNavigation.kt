@@ -12,13 +12,14 @@ import org.MdmSystemTools.Application.view.screens.Registration.AssociateProfile
 import org.MdmSystemTools.Application.view.screens.Registration.DashBoard
 
 @Serializable internal data class AssociateProfileDetails(val id: Int)
-
+@Serializable internal data object AssociateForm
+@Serializable internal data object AssociateList
 fun NavGraphBuilder.associateList(
   onClickAssociateProfile: (associateId: Int) -> Unit,
   onClickFloatingButtom: () -> Unit,
 	onClickBack: () -> Unit
 ) {
-  composable<Route.AssociateList> {
+  composable<AssociateList> {
     AssociateListScreen(
       onClickAssociateProfile = { id -> onClickAssociateProfile(id) },
       onClickFloatingButton = onClickFloatingButtom,
@@ -28,11 +29,11 @@ fun NavGraphBuilder.associateList(
 }
 
 fun NavController.navigateToAssociateList() {
-  navigate(Route.AssociateList)
+  navigate(AssociateList)
 }
 
 fun NavGraphBuilder.associateForm(onClickBackScreen: () -> Unit, onClickConfirmButton: () -> Unit) {
-  composable<Route.AssociateForm> {
+  composable<AssociateForm> {
     AssociateFormScreen(
       onClickIcon = onClickBackScreen,
       onClickConfirmButton = onClickConfirmButton,
@@ -53,17 +54,17 @@ fun NavController.navigateToAssociateProfileDetails(id: Int) {
 }
 
 fun NavController.navigateToAssociateForm() {
-  navigate(route = Route.AssociateForm)
+  navigate(route = AssociateForm)
 }
 
 fun NavGraphBuilder.associateDashboard(
   onClickViewMeeting: () -> Unit,
 ) {
-  composable<Route.AssociateDashboard> {
+  composable<BottomNav.Menu> {
     DashBoard(onClickViewMeeting)
   }
 }
 
 fun NavController.navigateToDashBoard() {
-  navigate(route = Route.AssociateDashboard)
+  navigate(route = BottomNav.Menu)
 }

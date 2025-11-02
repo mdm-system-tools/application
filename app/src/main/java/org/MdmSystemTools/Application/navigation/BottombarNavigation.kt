@@ -6,34 +6,21 @@ import kotlinx.serialization.Serializable
 import org.MdmSystemTools.Application.R
 
 @Serializable
-sealed interface Route {
-  @Serializable data object AssociateList : Route
+sealed class BottomNav(val icon: Int, val label: Int) {
+  @Serializable
+  data object Menu : BottomNav(icon = R.drawable.ic_associate, label = R.string.label_menu)
 
-  @Serializable data object AssociateDashboard : Route
+  @Serializable
+  data object Contact : BottomNav(icon = R.drawable.ic_associate, label = R.string.label_contact)
 
-  @Serializable data object Collaboration : Route
-
-  @Serializable data object Calendar : Route
-
-  @Serializable data object AssociateForm : Route
-
-  @Serializable data object EventForm : Route
+  @Serializable
+  data object Agenda : BottomNav(icon = R.drawable.ic_associate, label = R.string.label_agenda)
 }
 
-@Serializable data class TopLevelDestination(val icon: Int, val label: Int)
-
-val TOP_LEVEL_DESTINATIONS =
-  listOf(
-    TopLevelDestination(icon = R.drawable.ic_associate, label = R.string.label_associate) to
-      Route.AssociateDashboard,
-    TopLevelDestination(icon = R.drawable.ic_associate, label = R.string.label_collaboration) to
-      Route.Collaboration,
-    TopLevelDestination(icon = R.drawable.ic_associate, label = R.string.label_calendar) to
-      Route.Calendar,
-  )
+val TOP_LEVEL_DESTINATIONS = listOf(BottomNav.Menu, BottomNav.Contact, BottomNav.Agenda)
 
 class NavigationActions(private val navController: NavHostController) {
-  fun navigateTo(destination: Route) {
+  fun navigateTo(destination: BottomNav) {
     navController.navigate(destination) {
       popUpTo(navController.graph.findStartDestination().id) { saveState = true }
       launchSingleTop = true

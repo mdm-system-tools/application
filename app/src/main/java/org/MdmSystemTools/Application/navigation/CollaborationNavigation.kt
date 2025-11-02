@@ -5,5 +5,5 @@ import androidx.navigation.compose.composable
 import org.MdmSystemTools.Application.view.screens.Collaborators.CollaboratorsScreen
 
 fun NavGraphBuilder.collaboration() {
-  composable<Route.Collaboration> { CollaboratorsScreen() }
+  composable<BottomNav.Contact> { CollaboratorsScreen() }
 }

@@ -13,7 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import org.MdmSystemTools.Application.navigation.AppNavigation
 import org.MdmSystemTools.Application.navigation.NavigationActions
-import org.MdmSystemTools.Application.navigation.Route
+import org.MdmSystemTools.Application.navigation.BottomNav
 import org.MdmSystemTools.Application.navigation.addEvent
 import org.MdmSystemTools.Application.navigation.associateDashboard
 import org.MdmSystemTools.Application.navigation.associateForm
@@ -61,7 +61,7 @@ private fun AppNavHost(navController: NavHostController) {
     }
   }
 
-  NavHost(navController = navController, startDestination = Route.AssociateDashboard) {
+  NavHost(navController = navController, startDestination = BottomNav.Menu) {
     associateList(
       onClickAssociateProfile = { id -> navController.navigateToAssociateProfileDetails(id) },
       onClickFloatingButtom = { navController.navigateToAssociateForm() },
