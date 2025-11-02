@@ -16,9 +16,9 @@ import org.MdmSystemTools.Application.navigation.BottomNav
 import org.MdmSystemTools.Application.navigation.NavigationActions
 import org.MdmSystemTools.Application.navigation.addEvent
 import org.MdmSystemTools.Application.navigation.associateForm
-import org.MdmSystemTools.Application.navigation.associateList
 import org.MdmSystemTools.Application.navigation.associateProfileDetails
 import org.MdmSystemTools.Application.navigation.calendar
+import org.MdmSystemTools.Application.navigation.contact
 import org.MdmSystemTools.Application.navigation.eventForm
 import org.MdmSystemTools.Application.navigation.eventProfileDetails
 import org.MdmSystemTools.Application.navigation.login
@@ -61,11 +61,11 @@ private fun AppNavHost(navController: NavHostController) {
   }
 
   NavHost(navController = navController, startDestination = BottomNav.Menu) {
-    associateList(
+    contact(
       onClickAssociateProfile = { id -> navController.navigateToAssociateProfileDetails(id) },
-      onClickFloatingButtom = { navController.navigateToAssociateForm() },
-      onClickBack = { navController.popBackStack() },
+      onClickAdd = { navController.navigateToAssociateForm() },
     )
+
     associateProfileDetails(onClickBackScreen = { navController.popBackStack() })
 
     associateForm(

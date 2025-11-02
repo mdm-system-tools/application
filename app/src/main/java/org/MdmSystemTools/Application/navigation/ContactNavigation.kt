@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
+import org.MdmSystemTools.Application.view.screens.Contact.ContactScreen
 import org.MdmSystemTools.Application.view.screens.Registration.AssociateFormScreen
 import org.MdmSystemTools.Application.view.screens.Registration.AssociateListScreen
 import org.MdmSystemTools.Application.view.screens.Registration.AssociateProfileDetails
@@ -24,6 +25,14 @@ import org.MdmSystemTools.Application.view.screens.Registration.AssociateProfile
 
 @Serializable internal data object ProjectForm
 
+fun NavGraphBuilder.contact(onClickAssociateProfile: (Int) -> Unit, onClickAdd: () -> Unit) {
+  composable<BottomNav.Contact> { ContactScreen(onClickAssociateProfile, onClickAdd) }
+}
+
+fun NavController.navigateToContact() {
+  navigate(BottomNav.Contact)
+}
+
 fun NavGraphBuilder.associateList(
   onClickAssociateProfile: (associateId: Int) -> Unit,
   onClickFloatingButtom: () -> Unit,
@@ -32,8 +41,7 @@ fun NavGraphBuilder.associateList(
   composable<AssociateList> {
     AssociateListScreen(
       onClickAssociateProfile = { id -> onClickAssociateProfile(id) },
-      onClickFloatingButton = onClickFloatingButtom,
-      onClickBack = onClickBack,
+      onClickAdd = onClickFloatingButtom,
     )
   }
 }
