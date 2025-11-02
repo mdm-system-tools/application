@@ -8,29 +8,42 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import org.MdmSystemTools.Application.view.screens.Registration.AssociateListScreen
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import org.MdmSystemTools.Application.model.dto.AssociateDto
+import org.MdmSystemTools.Application.model.dto.GroupDto
+import org.MdmSystemTools.Application.view.components.ContactComponentes
+import org.MdmSystemTools.Application.view.components.FilterAndAddButton
+import org.MdmSystemTools.Application.view.components.GenericList
+
+enum class Tabs(val title: String) {
+  ASSOCIATE("Associados"),
+  GROUP("Grupos"),
+  PROJECT("Projetos"),
+}
 
 @Composable
 fun ContactScreen(
-  onClickAssociateProfile: (associateId: Int) -> Unit,
-  onClickAdd: () -> Unit,
+  onClickAdd: (Tabs) -> Unit,
+  onClickItem: (Int, Tabs) -> Unit,
   modifier: Modifier = Modifier,
+  viewModel: ContactViewModel = hiltViewModel(),
 ) {
-  val tabs = listOf("Associados", "Eventos", "Grupos")
-  var selectedTab by remember { mutableIntStateOf(0) }
+  val componentes = ContactComponentes()
+  var selectedTab by remember { mutableStateOf(Tabs.ASSOCIATE) }
   Scaffold(
     topBar = {
-      PrimaryTabRow(selectedTabIndex = selectedTab) {
-        tabs.forEachIndexed { index, title ->
+      PrimaryTabRow(selectedTabIndex = selectedTab.ordinal) {
+        Tabs.entries.forEach { tab ->
           Tab(
-            selected = selectedTab == index,
-            onClick = { selectedTab = index },
-            text = { Text(title) },
+            selected = selectedTab == tab,
+            onClick = { selectedTab = tab },
+            text = { Text(tab.title) },
           )
         }
       }
@@ -38,9 +51,29 @@ fun ContactScreen(
   ) { paddingValues ->
     Column(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
       when (selectedTab) {
-        0 -> AssociateListScreen(onClickAssociateProfile, onClickAdd)
-      // 1 -> EventListScreen() // futuro
-      // 2 -> GroupListScreen() // futuro
+        Tabs.ASSOCIATE -> {
+          val items: List<AssociateDto> by viewModel.listAssociates.collectAsState()
+					FilterAndAddButton(selectedTab) { onClickAdd(it) }
+          GenericList(items, onClickItem = { id -> onClickItem(id, selectedTab) }) {
+            item,
+            index,
+            onClick ->
+            componentes.profile(item, onClick = { onClick(index) })
+          }
+        }
+        Tabs.GROUP -> {
+          val items: List<GroupDto> by viewModel.listGroup.collectAsState()
+					FilterAndAddButton(selectedTab) { onClickAdd(it) }
+          GenericList(items, onClickItem = { id -> onClickItem(id, selectedTab) }) {
+            item,
+            index,
+            onClick ->
+            componentes.profile(item, onClick = { onClick(index) })
+          }
+        }
+        Tabs.PROJECT -> {
+          Text("Projeto")
+        }
       }
     }
   }
