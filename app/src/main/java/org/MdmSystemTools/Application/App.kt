@@ -14,7 +14,6 @@ import androidx.navigation.compose.rememberNavController
 import org.MdmSystemTools.Application.navigation.AppNavigation
 import org.MdmSystemTools.Application.navigation.BottomNav
 import org.MdmSystemTools.Application.navigation.NavigationActions
-import org.MdmSystemTools.Application.navigation.addEvent
 import org.MdmSystemTools.Application.navigation.associateForm
 import org.MdmSystemTools.Application.navigation.associateProfileDetails
 import org.MdmSystemTools.Application.navigation.calendar
@@ -97,7 +96,6 @@ private fun AppNavHost(navController: NavHostController) {
       onClickConfirmButton = { navController.popBackStack() },
     )
 
-    addEvent()
     register()
   }
 }
