@@ -6,9 +6,10 @@ class AssociateRepositoryImpl() : AssociateRepository {
   val listAssociates = mutableListOf<AssociateDto>()
 
   init {
-    val assoc = AssociateDto(name = "João da Silva Pereira", groupId = 1, numberCard = 1)
+    val assoc = AssociateDto(name = "João da Silva Pereira", groupId = 1, numberCard = 100)
+    val assoc2 = AssociateDto(name = "Maria Oliveira", groupId = 1, numberCard = 102)
     addAssociate(assoc)
-    addAssociate(assoc)
+    addAssociate(assoc2)
   }
 
   override fun getAssociates(): List<AssociateDto> {

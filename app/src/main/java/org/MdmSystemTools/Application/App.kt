@@ -20,13 +20,13 @@ import org.MdmSystemTools.Application.navigation.calendar
 import org.MdmSystemTools.Application.navigation.contact
 import org.MdmSystemTools.Application.navigation.eventForm
 import org.MdmSystemTools.Application.navigation.eventProfileDetails
+import org.MdmSystemTools.Application.navigation.groupForm
 import org.MdmSystemTools.Application.navigation.login
 import org.MdmSystemTools.Application.navigation.meetingDetails
 import org.MdmSystemTools.Application.navigation.meetingRollCall
 import org.MdmSystemTools.Application.navigation.menu
-import org.MdmSystemTools.Application.navigation.navigateToAssociateForm
-import org.MdmSystemTools.Application.navigation.navigateToAssociateProfileDetails
 import org.MdmSystemTools.Application.navigation.navigateToDashboard
+import org.MdmSystemTools.Application.navigation.navigateToDetailsByTab
 import org.MdmSystemTools.Application.navigation.navigateToEventForm
 import org.MdmSystemTools.Application.navigation.navigateToEventProfileDetails
 import org.MdmSystemTools.Application.navigation.navigateToMeetingDetails
@@ -61,13 +61,18 @@ private fun AppNavHost(navController: NavHostController) {
 
   NavHost(navController = navController, startDestination = BottomNav.Menu) {
     contact(
-      onClickAssociateProfile = { id -> navController.navigateToAssociateProfileDetails(id) },
-      onClickAdd = { navController.navigateToAssociateForm() },
+      onClickItem = { id, tab -> navController.navigateToDetailsByTab(id, tab) },
+      onClickAdd = { tab -> navController.navigateToDetailsByTab(tab) },
     )
 
     associateProfileDetails(onClickBackScreen = { navController.popBackStack() })
 
     associateForm(
+      onClickBackScreen = { navController.popBackStack() },
+      onClickConfirmButton = { navController.popBackStack() },
+    )
+
+    groupForm(
       onClickBackScreen = { navController.popBackStack() },
       onClickConfirmButton = { navController.popBackStack() },
     )

@@ -7,9 +7,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 import org.MdmSystemTools.Application.view.screens.Contact.ContactScreen
-import org.MdmSystemTools.Application.view.screens.Registration.AssociateFormScreen
-import org.MdmSystemTools.Application.view.screens.Registration.AssociateListScreen
-import org.MdmSystemTools.Application.view.screens.Registration.AssociateProfileDetails
+import org.MdmSystemTools.Application.view.screens.Contact.Tabs
+import org.MdmSystemTools.Application.view.screens.Contact.associate.AssociateFormScreen
+import org.MdmSystemTools.Application.view.screens.Contact.associate.AssociateProfileDetails
+import org.MdmSystemTools.Application.view.screens.Contact.group.GroupFormScreen
 
 @Serializable internal data object AssociateList
 
@@ -21,29 +22,20 @@ import org.MdmSystemTools.Application.view.screens.Registration.AssociateProfile
 
 @Serializable internal data object GroupForm
 
+@Serializable internal data class GroupProfileDetails(val id: Int)
+
 @Serializable internal data object ProjectList
 
 @Serializable internal data object ProjectForm
 
-fun NavGraphBuilder.contact(onClickAssociateProfile: (Int) -> Unit, onClickAdd: () -> Unit) {
-  composable<BottomNav.Contact> { ContactScreen(onClickAssociateProfile, onClickAdd) }
+@Serializable internal data class ProjectProfileDetails(val id: Int)
+
+fun NavGraphBuilder.contact(onClickAdd: (Tabs) -> Unit, onClickItem: (Int, Tabs) -> Unit) {
+  composable<BottomNav.Contact> { ContactScreen(onClickAdd, onClickItem) }
 }
 
 fun NavController.navigateToContact() {
   navigate(BottomNav.Contact)
-}
-
-fun NavGraphBuilder.associateList(
-  onClickAssociateProfile: (associateId: Int) -> Unit,
-  onClickFloatingButtom: () -> Unit,
-  onClickBack: () -> Unit,
-) {
-  composable<AssociateList> {
-    AssociateListScreen(
-      onClickAssociateProfile = { id -> onClickAssociateProfile(id) },
-      onClickAdd = onClickFloatingButtom,
-    )
-  }
 }
 
 fun NavGraphBuilder.associateForm(onClickBackScreen: () -> Unit, onClickConfirmButton: () -> Unit) {
@@ -55,6 +47,14 @@ fun NavGraphBuilder.associateForm(onClickBackScreen: () -> Unit, onClickConfirmB
   }
 }
 
+fun NavGraphBuilder.groupForm(onClickBackScreen: () -> Unit, onClickConfirmButton: () -> Unit) {
+  composable<GroupForm> { GroupFormScreen(onClickBackScreen, onClickConfirmButton) }
+}
+
+fun NavController.navigateToGroupForm() {
+  navigate(GroupForm)
+}
+
 fun NavGraphBuilder.associateProfileDetails(onClickBackScreen: () -> Unit) {
   composable<AssociateProfileDetails> { navBackStackEntry ->
     val id: Int = navBackStackEntry.toRoute<AssociateProfileDetails>().id
@@ -63,14 +63,22 @@ fun NavGraphBuilder.associateProfileDetails(onClickBackScreen: () -> Unit) {
   }
 }
 
-fun NavController.navigateToAssociateForm() {
-  navigate(route = AssociateForm)
+fun NavController.navigateToDetailsByTab(tab: Tabs) {
+  when (tab) {
+    Tabs.ASSOCIATE -> navigate(AssociateForm)
+    Tabs.GROUP -> navigate(GroupForm)
+    Tabs.PROJECT -> TODO("Implementar tela de Formulario para Projeto")
+  }
 }
 
 fun NavController.navigateToAssociateList() {
   navigate(AssociateList)
 }
 
-fun NavController.navigateToAssociateProfileDetails(id: Int) {
-  navigate(route = AssociateProfileDetails(id = id))
+fun NavController.navigateToDetailsByTab(id: Int, tab: Tabs) {
+  when (tab) {
+    Tabs.ASSOCIATE -> navigate(AssociateProfileDetails(id))
+    Tabs.GROUP -> navigate(GroupProfileDetails(id))
+    Tabs.PROJECT -> TODO("Implementar tela de detalhes para projeto")
+  }
 }
