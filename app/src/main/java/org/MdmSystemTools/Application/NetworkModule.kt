@@ -1,14 +1,16 @@
 package org.MdmSystemTools.Application
 
-import org.MdmSystemTools.Application.model.repository.AssociateRepository
-import org.MdmSystemTools.Application.model.repository.AssociateRepositoryImpl
-import org.MdmSystemTools.Application.model.repository.EventRepository
-import org.MdmSystemTools.Application.model.repository.EventRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import org.MdmSystemTools.Application.model.repository.AssociateRepository
+import org.MdmSystemTools.Application.model.repository.AssociateRepositoryImpl
+import org.MdmSystemTools.Application.model.repository.EventRepository
+import org.MdmSystemTools.Application.model.repository.EventRepositoryImpl
+import org.MdmSystemTools.Application.model.repository.GroupRepository
+import org.MdmSystemTools.Application.model.repository.GroupRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -23,5 +25,11 @@ object NetworkModule {
   @Singleton
   fun provideEventRepository(): EventRepository {
     return EventRepositoryImpl()
+  }
+
+  @Provides
+  @Singleton
+  fun provideGroupRepository(): GroupRepository {
+    return GroupRepositoryImpl()
   }
 }
