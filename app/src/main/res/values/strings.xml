@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="label_associate">Associados</string>
-    <string name="label_collaboration">Colaboradores</string>
-    <string name="label_calendar">Calendario</string>
+    <string name="label_menu">Menu</string>
+    <string name="label_contact">Contato</string>
+    <string name="label_agenda">Agenda</string>
     <string name="dashboardAssociate_topbar_title">Associado</string>
     <string name="meetingdetails_topbar_title">Detalhes da Reunião</string>
     <string name="meetingdetails_topbar_subtitle">Registro de presença em reuniões</string>
