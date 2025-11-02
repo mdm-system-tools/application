@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.screens.Registration
+package org.MdmSystemTools.Application.view.screens.Contact.associate
 
 import android.content.res.Resources
 import android.util.Log

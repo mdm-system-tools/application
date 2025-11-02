@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.screens.Registration
+package org.MdmSystemTools.Application.view.screens.Contact.associate
 
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
