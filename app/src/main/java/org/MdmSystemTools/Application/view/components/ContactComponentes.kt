@@ -19,33 +19,62 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.dto.AssociateDto
+import org.MdmSystemTools.Application.model.dto.GroupDto
 import org.MdmSystemTools.Application.view.theme.AppConstants
 
-@Composable
-fun AssociateProfile(associated: AssociateDto, onClick: () -> Unit) {
-	Card(
-		modifier = Modifier.fillMaxWidth(),
-		onClick = onClick
-	) {
-		Row(
-			modifier = Modifier
-        .fillMaxWidth()
-        .padding(8.dp),
-			verticalAlignment = Alignment.CenterVertically,
-			horizontalArrangement = Arrangement.SpaceBetween
+
+class ContactComponentes {
+
+	@Composable
+	fun profile(associate: AssociateDto, onClick: () -> Unit) {
+		Card(
+			modifier = Modifier.fillMaxWidth(),
+			onClick = onClick
 		) {
 			Row(
-				modifier = Modifier,
+				modifier = Modifier
+					.fillMaxWidth()
+					.padding(8.dp),
 				verticalAlignment = Alignment.CenterVertically,
+				horizontalArrangement = Arrangement.SpaceBetween
 			) {
-				ImageProfile()
-				InformationToAssociate(associated)
+				Row(
+					modifier = Modifier,
+					verticalAlignment = Alignment.CenterVertically,
+				) {
+					ImageProfile()
+					InformationToAssociate(associate)
+				}
+				Icon(Icons.AutoMirrored.Filled.ArrowForward, null)
 			}
-			Icon(Icons.AutoMirrored.Filled.ArrowForward, null)
+		}
+	}
+
+	@Composable
+	fun profile(group: GroupDto, onClick: () -> Unit) {
+		Card(
+			modifier = Modifier.fillMaxWidth(),
+			onClick = onClick
+		) {
+			Row(
+				modifier = Modifier
+					.fillMaxWidth()
+					.padding(8.dp),
+				verticalAlignment = Alignment.CenterVertically,
+				horizontalArrangement = Arrangement.SpaceBetween
+			) {
+				Row(
+					modifier = Modifier,
+					verticalAlignment = Alignment.CenterVertically,
+				) {
+					ImageProfile()
+					Text(group.schedule)
+				}
+				Icon(Icons.AutoMirrored.Filled.ArrowForward, null)
+			}
 		}
 	}
 }
@@ -79,11 +108,4 @@ private fun InformationToAssociate(associated: AssociateDto) {
 			)
 		}
 	}
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun AssociateProfilePreview() {
-	val assoc = AssociateDto("João da Silva Pereira", 1, 1)
-	AssociateProfile(assoc, {})
 }
