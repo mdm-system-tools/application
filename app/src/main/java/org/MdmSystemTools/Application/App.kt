@@ -12,20 +12,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import org.MdmSystemTools.Application.navigation.AppNavigation
-import org.MdmSystemTools.Application.navigation.NavigationActions
 import org.MdmSystemTools.Application.navigation.BottomNav
+import org.MdmSystemTools.Application.navigation.NavigationActions
 import org.MdmSystemTools.Application.navigation.addEvent
-import org.MdmSystemTools.Application.navigation.associateDashboard
 import org.MdmSystemTools.Application.navigation.associateForm
 import org.MdmSystemTools.Application.navigation.associateList
 import org.MdmSystemTools.Application.navigation.associateProfileDetails
 import org.MdmSystemTools.Application.navigation.calendar
-import org.MdmSystemTools.Application.navigation.collaboration
 import org.MdmSystemTools.Application.navigation.eventForm
 import org.MdmSystemTools.Application.navigation.eventProfileDetails
 import org.MdmSystemTools.Application.navigation.login
 import org.MdmSystemTools.Application.navigation.meetingDetails
 import org.MdmSystemTools.Application.navigation.meetingRollCall
+import org.MdmSystemTools.Application.navigation.menu
 import org.MdmSystemTools.Application.navigation.navigateToAssociateForm
 import org.MdmSystemTools.Application.navigation.navigateToAssociateProfileDetails
 import org.MdmSystemTools.Application.navigation.navigateToDashboard
@@ -74,7 +73,7 @@ private fun AppNavHost(navController: NavHostController) {
       onClickConfirmButton = { navController.popBackStack() },
     )
 
-    associateDashboard(onClickViewMeeting = { navController.navigateToMeetingDetails() })
+    menu(onClickViewMeeting = { navController.navigateToMeetingDetails() })
     meetingDetails(
       onClickBack = { navController.popBackStack() },
       onClick = { navController.navigateToMeetingRollCall() },
@@ -98,7 +97,6 @@ private fun AppNavHost(navController: NavHostController) {
       onClickConfirmButton = { navController.popBackStack() },
     )
 
-    collaboration()
     addEvent()
     register()
   }
