@@ -149,7 +149,7 @@ fun EventFormScreen(
       verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
       EventForm(
-        descricao = state.title,
+        title = state.title,
         local = state.local,
         regiao = state.region,
         projeto = state.project,
@@ -212,40 +212,40 @@ fun EventFormScreen(
 
 @Composable
 private fun EventForm(
-  descricao: TextFieldState,
-  local: TextFieldState,
-  regiao: TextFieldState,
-  projeto: TextFieldState,
-  grupo: TextFieldState,
+	title: TextFieldState,
+	local: TextFieldState,
+	regiao: TextFieldState,
+	projeto: TextFieldState,
+	grupo: TextFieldState,
 ) {
   // Descrição
   EventField(
-    label = "Descrição",
-    state = descricao,
+    label = "Titulo",
+    state = title,
     icon = Icons.Default.Title,
-    placeholder = "Adicione uma descrição (opcional)",
+    placeholder = "Adicione uma Titulo",
   )
 
   // Local do evento
-  LocalSelector(selectedLocal = local)
+  //LocalSelector(selectedLocal = local)
 
   // Região
-  FieldDropdownMenuStyled(
-    title = "Região",
-    icon = Icons.Default.RealEstateAgent,
-    menuOptions = regioesPredefinidas,
-    placeholder = "Selecione uma Região",
-    fieldState = regiao,
-  )
+  //FieldDropdownMenuStyled(
+  //  title = "Região",
+  //  icon = Icons.Default.RealEstateAgent,
+  //  menuOptions = regioesPredefinidas,
+  //  placeholder = "Selecione uma Região",
+  //  fieldState = regiao,
+  //)
 
   // Projeto
-  FieldDropdownMenuStyled(
-    title = "Projeto",
-    icon = Icons.Default.Map,
-    menuOptions = projetosPredefinidos,
-    placeholder = "Selecione uma Projeto",
-    fieldState = projeto,
-  )
+  //FieldDropdownMenuStyled(
+  //  title = "Projeto",
+  //  icon = Icons.Default.Map,
+  //  menuOptions = projetosPredefinidos,
+  //  placeholder = "Selecione uma Projeto",
+  //  fieldState = projeto,
+  //)
 
   // Grupo
   FieldDropdownMenuStyled(
