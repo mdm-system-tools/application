@@ -110,7 +110,7 @@ private fun EventListScreenPreview() {
         local = "Sala de Reuniões",
         region = "Norte",
         project = "Website",
-        groups = GroupDto("1", "Desenvolvimento", Color(0xFF1C6AEA)),
+        groups = GroupDto("1"),
         color = Color(0xFF1C6AEA),
       ),
       EventDto(
@@ -121,7 +121,7 @@ private fun EventListScreenPreview() {
         local = "Online",
         region = "Sul",
         project = "App Mobile",
-        groups = GroupDto("2", "Design", Color(0xFFE91E63)),
+        groups = GroupDto("2"),
         color = Color(0xFFE91E63),
       ),
     )

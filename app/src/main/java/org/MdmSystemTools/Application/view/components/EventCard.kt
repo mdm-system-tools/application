@@ -70,7 +70,7 @@ private fun InformationToEvent(event: EventDto) {
     }
     if (event.groups != null) {
       Text(
-        "Grupo: ${event.groups.name}",
+        "Grupo: ${event.groups.schedule}",
         fontSize = AppConstants.FontSize.small,
         fontWeight = FontWeight(400),
       )
@@ -90,7 +90,7 @@ private fun EventCardPreview() {
       local = "Sala de Reuniões",
       region = "Norte",
       project = "Website",
-      groups = GroupDto("1", "Desenvolvimento", Color(0xFF1C6AEA)),
+      groups = GroupDto("09:00"),
       color = Color(0xFF1C6AEA),
     )
   EventCard(sampleEvent, {})

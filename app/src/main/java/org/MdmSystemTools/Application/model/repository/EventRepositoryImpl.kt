@@ -25,7 +25,7 @@ class EventRepositoryImpl : EventRepository {
         local = "Sala de Reuniões A",
         region = "Norte",
         project = "Website Corporativo",
-        groups = GroupDto("1", "Desenvolvimento", Color(0xFF1C6AEA)),
+        groups = GroupDto("1"),
         color = Color(0xFF1C6AEA),
       )
     addEvent(event1)
