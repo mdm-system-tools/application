@@ -23,58 +23,63 @@ import androidx.compose.ui.unit.dp
 import org.MdmSystemTools.Application.R
 import org.MdmSystemTools.Application.model.dto.AssociateDto
 import org.MdmSystemTools.Application.model.dto.GroupDto
+import org.MdmSystemTools.Application.view.screens.Contact.ContactUiModel
 import org.MdmSystemTools.Application.view.theme.AppConstants
 
+@Composable
+fun Profile(model: ContactUiModel, onClick: () -> Unit) {
+	when (model) {
+		is ContactUiModel.Associate -> Profile(model, onClick)
+		is ContactUiModel.Group -> Profile(model, onClick)
+	}
+}
 
-class ContactComponentes {
-
-	@Composable
-	fun profile(associate: AssociateDto, onClick: () -> Unit) {
-		Card(
-			modifier = Modifier.fillMaxWidth(),
-			onClick = onClick
+@Composable
+fun Profile(associate: AssociateDto, onClick: () -> Unit) {
+	Card(
+		modifier = Modifier.fillMaxWidth(),
+		onClick = onClick
+	) {
+		Row(
+			modifier = Modifier
+				.fillMaxWidth()
+				.padding(8.dp),
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.SpaceBetween
 		) {
 			Row(
-				modifier = Modifier
-					.fillMaxWidth()
-					.padding(8.dp),
+				modifier = Modifier,
 				verticalAlignment = Alignment.CenterVertically,
-				horizontalArrangement = Arrangement.SpaceBetween
 			) {
-				Row(
-					modifier = Modifier,
-					verticalAlignment = Alignment.CenterVertically,
-				) {
-					ImageProfile()
-					InformationToAssociate(associate)
-				}
-				Icon(Icons.AutoMirrored.Filled.ArrowForward, null)
+				ImageProfile()
+				InformationToAssociate(associate)
 			}
+			Icon(Icons.AutoMirrored.Filled.ArrowForward, null)
 		}
 	}
+}
 
-	@Composable
-	fun profile(group: GroupDto, onClick: () -> Unit) {
-		Card(
-			modifier = Modifier.fillMaxWidth(),
-			onClick = onClick
+@Composable
+fun Profile(group: GroupDto, onClick: () -> Unit) {
+	Card(
+		modifier = Modifier.fillMaxWidth(),
+		onClick = onClick
+	) {
+		Row(
+			modifier = Modifier
+				.fillMaxWidth()
+				.padding(8.dp),
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.SpaceBetween
 		) {
 			Row(
-				modifier = Modifier
-					.fillMaxWidth()
-					.padding(8.dp),
+				modifier = Modifier,
 				verticalAlignment = Alignment.CenterVertically,
-				horizontalArrangement = Arrangement.SpaceBetween
 			) {
-				Row(
-					modifier = Modifier,
-					verticalAlignment = Alignment.CenterVertically,
-				) {
-					ImageProfile()
-					Text(group.schedule)
-				}
-				Icon(Icons.AutoMirrored.Filled.ArrowForward, null)
+				ImageProfile()
+				Text(group.schedule)
 			}
+			Icon(Icons.AutoMirrored.Filled.ArrowForward, null)
 		}
 	}
 }

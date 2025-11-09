@@ -68,7 +68,8 @@ fun NavController.navigateToDetailsByTab(tab: Tabs) {
     Tabs.ASSOCIATE -> navigate(AssociateForm)
     Tabs.GROUP -> navigate(GroupForm)
     Tabs.PROJECT -> TODO("Implementar tela de Formulario para Projeto")
-  }
+		Tabs.TAREFAS -> TODO()
+	}
 }
 
 fun NavController.navigateToAssociateList() {
@@ -80,5 +81,6 @@ fun NavController.navigateToDetailsByTab(id: Int, tab: Tabs) {
     Tabs.ASSOCIATE -> navigate(AssociateProfileDetails(id))
     Tabs.GROUP -> navigate(GroupProfileDetails(id))
     Tabs.PROJECT -> TODO("Implementar tela de detalhes para projeto")
-  }
+		Tabs.TAREFAS -> TODO()
+	}
 }
