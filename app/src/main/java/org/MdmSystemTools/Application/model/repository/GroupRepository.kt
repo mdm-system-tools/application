@@ -3,5 +3,9 @@ package org.MdmSystemTools.Application.model.repository
 import org.MdmSystemTools.Application.model.dto.GroupDto
 
 interface GroupRepository {
-	fun getListGroups(): List<GroupDto>
+  fun getListGroups(): List<GroupDto>
+
+  fun addGroup(group: GroupDto)
+
+  fun deleteGroupById(id: Int)
 }

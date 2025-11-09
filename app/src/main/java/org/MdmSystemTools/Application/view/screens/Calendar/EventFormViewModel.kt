@@ -1,99 +1,117 @@
 package org.MdmSystemTools.Application.view.screens.Calendar
 
-import android.util.Log
+import android.annotation.SuppressLint
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TimePickerState
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
-import org.MdmSystemTools.Application.model.dto.EventDate
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.dto.EventDto
-import org.MdmSystemTools.Application.model.dto.GroupDto
 import org.MdmSystemTools.Application.model.repository.EventRepository
-import androidx.compose.ui.graphics.Color
-import java.util.UUID
+import org.MdmSystemTools.Application.view.screens.Meeting.UiEvent
+
+data class EventFormUiState
+@OptIn(ExperimentalMaterial3Api::class)
+constructor(
+  val title: TextFieldState = TextFieldState(),
+  val date: DatePickerState =
+    DatePickerState(
+      initialSelectedDateMillis = System.currentTimeMillis(),
+      yearRange = 1900..2100,
+      locale = Locale.getDefault(),
+    ),
+  val startTime: TimePickerState =
+    TimePickerState(
+      initialHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+      initialMinute = Calendar.getInstance().get(Calendar.MINUTE),
+      is24Hour = true,
+    ),
+  val endTime: TimePickerState =
+    TimePickerState(
+      initialHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+      initialMinute = Calendar.getInstance().get(Calendar.MINUTE),
+      is24Hour = true,
+    ),
+  val local: TextFieldState = TextFieldState(),
+  val region: TextFieldState = TextFieldState(),
+  val project: TextFieldState = TextFieldState(),
+  val groupId: TextFieldState = TextFieldState(),
+)
 
 @HiltViewModel
-class EventFormViewModel @Inject constructor(
-	private val repository: EventRepository
-) : ViewModel() {
+class EventFormViewModel @Inject constructor(private val repository: EventRepository) :
+  ViewModel() {
 
-	val title: TextFieldState = TextFieldState()
-	val description: TextFieldState = TextFieldState()
-	val day: TextFieldState = TextFieldState()
-	val month: TextFieldState = TextFieldState()
-	val year: TextFieldState = TextFieldState()
-	val hourStart: TextFieldState = TextFieldState()
-	val hourEnd: TextFieldState = TextFieldState()
-	val local: TextFieldState = TextFieldState()
-	val region: TextFieldState = TextFieldState()
-	val project: TextFieldState = TextFieldState()
-	val groupId: TextFieldState = TextFieldState()
+  @OptIn(ExperimentalMaterial3Api::class)
+  private val _uiState = MutableStateFlow(EventFormUiState())
+  val uiState = _uiState.asStateFlow()
 
-	fun validate(): Boolean {
-		try {
-			val validateTitle = title.text.isNotEmpty()
-			val validateDescription = description.text.isNotEmpty()
-			val validateDay = day.text.isNotEmpty()
-			val validateMonth = month.text.isNotEmpty()
-			val validateYear = year.text.isNotEmpty()
-			val validateHourStart = hourStart.text.isNotEmpty()
-			val validateHourEnd = hourEnd.text.isNotEmpty()
-			val validateLocal = local.text.isNotEmpty()
-			val validateRegion = region.text.isNotEmpty()
-			val validateProject = project.text.isNotEmpty()
-			val validateGroup = groupId.text.isNotEmpty()
+  private val _uiEvent = MutableSharedFlow<UiEvent>()
+  val uiEvent = _uiEvent.asSharedFlow()
 
-			return validateTitle && validateDescription && validateDay &&
-					validateMonth && validateYear && validateHourStart &&
-					validateHourEnd && validateLocal && validateRegion &&
-					validateProject && validateGroup
-		} catch (e: Exception) {
-			Log.e("EventFormViewModel", e.message.toString())
-			return false
-		}
-	}
+  private fun validate(): Boolean {
+    val s = _uiState.value
+    return s.title.text.isNotBlank()
+  }
 
-	fun createEvent(): EventDto {
-		if (validate()) {
-			try {
-				val eventDate = EventDate(
-					day = day.text.toString().toInt(),
-					month = month.text.toString().toInt(),
-					year = year.text.toString().toInt()
-				)
+  @Composable
+  fun formatDate(millis: Long?): String {
+    if (millis == null) return "Selecione uma data"
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return formatter.format(Date(millis))
+  }
 
-				val group = GroupDto(
-					id = groupId.text.toString(),
-					name = "Grupo ${groupId.text}", // TODO: Buscar do repository
-					color = Color(0xFF1C6AEA) // TODO: Buscar do repository
-				)
+  @SuppressLint("DefaultLocale")
+  @OptIn(ExperimentalMaterial3Api::class)
+  fun onSubmit() {
+    if (!validate()) {
+      viewModelScope.launch {
+        _uiEvent.emit(UiEvent.Error("Preencha todos os campos obrigatórios"))
+      }
+      return
+    }
 
-				return EventDto(
-					id = UUID.randomUUID().toString(),
-					title = title.text.toString(),
-					description = description.text.toString(),
-					date = eventDate,
-					hourStart = hourStart.text.toString(),
-					hourEnd = hourEnd.text.toString(),
-					local = local.text.toString(),
-					region = region.text.toString(),
-					project = project.text.toString(),
-					groups = group,
-					color = Color(0xFF1C6AEA) // TODO: Permitir seleção de cor
-				)
-			} catch (e: Exception) {
-				throw Exception("Erro na criação do objeto event: ${e.toString()}")
-			}
-		} else {
-			throw Exception("Tentativa de criar o objeto event com campos vazios")
-		}
-	}
+    val event =
+      try {
+        val state = _uiState.value
+        EventDto(
+          title = state.title.text.toString(),
+          date =
+            state.date.selectedDateMillis
+              ?: System
+                .currentTimeMillis(), // TODO seria melhor tratar isso antes de tentar enviar para o
+          // DTO
+          hourStart = String.format("%02d:%02d", state.startTime.hour, state.startTime.minute),
+          hourEnd = String.format("%02d:%02d", state.endTime.hour, state.endTime.minute),
+        )
+      } catch (e: IOException) {
+        viewModelScope.launch {
+          _uiEvent.emit(UiEvent.Error("Erro ao criar associado: ${e.message}"))
+        }
+        return
+      }
 
-	fun onSubmit(event: EventDto) {
-		try {
-			repository.addEvent(event)
-		} catch (e: Exception) {
-			throw Exception("Erro ao tentar enviar objeto event para o repository: ${e.toString()}")
-		}
-	}
+    viewModelScope.launch {
+      try {
+        repository.addEvent(event)
+        _uiEvent.emit(UiEvent.Success("Evento criado com sucesso!"))
+      } catch (e: Exception) {
+        _uiEvent.emit(UiEvent.Error("Erro: ${e.message}"))
+      }
+    }
+  }
 }

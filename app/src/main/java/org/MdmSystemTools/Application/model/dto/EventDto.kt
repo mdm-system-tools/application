@@ -1,19 +1,25 @@
 package org.MdmSystemTools.Application.model.dto
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import java.util.UUID
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 data class EventDto(
-	val id: String = UUID.randomUUID().toString(),
-	val title: String,
-	val description: String,
-	val date: EventDate,
-	val hourStart: String,
-	val hourEnd: String,
-	val local: String,
-	val region: String,
-	val project: String,
-	val groups: GroupDto?,
-	val color: Color,
-	val createdIn: Long? = System.currentTimeMillis()
-)
+  val title: String = "",
+  val date: Long = 0L,
+  val hourStart: String = "",
+  val hourEnd: String = "",
+  val local: String = "",
+  val region: String = "",
+  val project: String = "",
+  val groups: GroupDto? = null,
+  val color: Color = Color.Gray,
+) {
+  @Composable
+  fun formatDate(): String {
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return formatter.format(Date(date))
+  }
+}
