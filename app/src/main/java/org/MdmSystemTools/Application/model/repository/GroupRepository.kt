@@ -1,11 +1,13 @@
 package org.MdmSystemTools.Application.model.repository
 
-import org.MdmSystemTools.Application.model.dto.GroupDto
+import kotlinx.coroutines.flow.Flow
+import org.MdmSystemTools.Application.model.entity.Grupo
 
 interface GroupRepository {
-  fun getListGroups(): List<GroupDto>
+  suspend fun getListGroups(): Flow<List<Grupo>>
 
-  fun addGroup(group: GroupDto)
+  suspend fun addGroup(group: Grupo): Long
 
-  fun deleteGroupById(id: Int)
+	suspend fun deleteGroupById(id: Int)
+	suspend fun deleteGroup(group: Grupo)
 }

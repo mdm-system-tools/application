@@ -1,25 +1,25 @@
 package org.MdmSystemTools.Application.model.repository
 
-import org.MdmSystemTools.Application.model.dto.GroupDto
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import org.MdmSystemTools.Application.model.entity.Grupo
+import org.MdmSystemTools.Application.model.entity.GrupoDao
 
-class GroupRepositoryImpl : GroupRepository {
+class GroupRepositoryImpl(private val dao: GrupoDao) : GroupRepository {
 
-  val listGroup = mutableListOf<GroupDto>()
-
-  init {
-    addGroup(GroupDto(schedule = "Desenvolvimento"))
-    addGroup(GroupDto(schedule = "Design"))
+  override suspend fun getListGroups(): Flow<List<Grupo>> {
+    return dao.getAll().map { list -> list.map { Grupo(it.id, it.projectId, it.schedule) } }
   }
 
-  override fun getListGroups(): List<GroupDto> {
-    return listGroup
+  override suspend fun addGroup(group: Grupo): Long {
+    return dao.insert(group)
   }
 
-  override fun addGroup(group: GroupDto) {
-    listGroup.add(group)
+  override suspend fun deleteGroupById(id: Int) {
+    dao.deleteById(id)
   }
 
-  override fun deleteGroupById(id: Int) {
-    listGroup.removeAt(id)
+  override suspend fun deleteGroup(group: Grupo) {
+    dao.delete(group)
   }
 }
