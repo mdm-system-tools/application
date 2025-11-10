@@ -8,15 +8,13 @@ plugins {
 }
 
 android {
-  buildFeatures {
-    compose = true
-  }
+  buildFeatures { compose = true }
 
   namespace = "org.MdmSystemTools.Application"
   compileSdk = 36
 
   defaultConfig {
-    applicationId = "org.MdmSystemTools.Application"
+    applicationId = "org.mdm_system_tools.application"
     minSdk = 24
     targetSdk = 36
     versionCode = 1
@@ -28,54 +26,64 @@ android {
   buildTypes {
     release {
       isMinifyEnabled = false
-      proguardFiles(
-        getDefaultProguardFile("proguard-android-optimize.txt"),
-        "proguard-rules.pro"
-      )
+      proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
   }
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
   }
-  kotlin {
-      jvmToolchain(21)
-  }
-  buildFeatures {
-    compose = true
-  }
+  kotlin { jvmToolchain(21) }
+  buildFeatures { compose = true }
 }
 
 dependencies {
-  androidTestImplementation(libs.androidx.espresso.core)
-  androidTestImplementation(libs.androidx.junit)
-  androidTestImplementation(libs.androidx.ui.test.junit4)
-  androidTestImplementation(platform(libs.androidx.compose.bom))
-  debugImplementation(libs.androidx.ui.test.manifest)
-  debugImplementation(libs.androidx.ui.tooling)
-  implementation(libs.androidx.activity.compose)
-  implementation(libs.androidx.animation)
+  val composeBom = platform("androidx.compose:compose-bom:2025.11.00")
+  implementation(composeBom)
+  testImplementation(composeBom)
+  androidTestImplementation(composeBom)
+
+  // Room
+  implementation(libs.room.runtime)
+  ksp(libs.room.compiler)
+  implementation(libs.room.ktx)
+
+  // Room Tests
+  testImplementation(libs.room.testing)
+  androidTestImplementation(libs.room.testing)
+
+  // Android Tests
+  androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+  debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+  // Java/Kotlin Tests
+  testImplementation(libs.junit)
+
+  // Jetpack Compose
+  debugImplementation(libs.androidx.compose.ui.tooling)
+  implementation(libs.androidx.compose.animation)
+  implementation(libs.androidx.compose.foundation)
+  implementation(libs.androidx.compose.material3)
+  implementation(libs.androidx.compose.ui)
+  implementation(libs.androidx.compose.ui.graphics)
+  implementation(libs.androidx.compose.ui.tooling.preview)
+  implementation(libs.androidx.compose.material3)
   implementation(libs.androidx.compose.material)
   implementation(libs.androidx.compose.material.icons.extended)
+  implementation(libs.androidx.activity.compose)
   implementation(libs.androidx.core.ktx)
-  implementation(libs.androidx.foundation.layout)
+
+  // navigation
   implementation(libs.androidx.hilt.navigation.compose)
   implementation(libs.androidx.lifecycle.runtime.ktx)
   implementation(libs.androidx.lifecycle.viewmodel.compose)
-  implementation(libs.androidx.material3)
   implementation(libs.androidx.material3.adaptive.navigation.suite)
   implementation(libs.androidx.navigation.compose)
-  implementation(libs.androidx.navigation.compose)
-  implementation(libs.androidx.ui)
-  implementation(libs.androidx.ui.graphics)
-  implementation(libs.androidx.ui.tooling.preview)
   implementation(libs.hilt.android)
-  implementation(libs.hilt.android.testing)
+
+  // Serialization
   implementation(libs.kotlinx.serialization.json)
-  implementation(libs.material3)
   implementation(libs.transport.runtime)
-  implementation(platform(libs.androidx.compose.bom))
   ksp(libs.hilt.android.compiler)
   testImplementation(kotlin("test"))
-  testImplementation(libs.junit)
 }
