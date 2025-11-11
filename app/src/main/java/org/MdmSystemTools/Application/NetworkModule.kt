@@ -28,7 +28,8 @@ object NetworkModule {
   @Singleton
   fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
     // por enquanto o banco será em memoria
-    return Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
+		// por enquanto está permitido acessa o banco de dados na main thread
+    return Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).allowMainThreadQueries().build()
 
     // return Room.databaseBuilder(context, AppDatabase::class.java, "app_database").build()
   }
