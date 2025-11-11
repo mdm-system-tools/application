@@ -5,49 +5,34 @@ import android.util.Log
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import org.MdmSystemTools.Application.navigation.AppNavigation
 import org.MdmSystemTools.Application.navigation.BottomNav
-import org.MdmSystemTools.Application.navigation.NavigationActions
 import org.MdmSystemTools.Application.navigation.associateForm
 import org.MdmSystemTools.Application.navigation.associateProfileDetails
 import org.MdmSystemTools.Application.navigation.calendar
 import org.MdmSystemTools.Application.navigation.contact
+import org.MdmSystemTools.Application.navigation.dashboard
 import org.MdmSystemTools.Application.navigation.eventForm
 import org.MdmSystemTools.Application.navigation.eventProfileDetails
 import org.MdmSystemTools.Application.navigation.groupForm
 import org.MdmSystemTools.Application.navigation.login
-import org.MdmSystemTools.Application.navigation.meetingDetails
+import org.MdmSystemTools.Application.navigation.meetingHistory
 import org.MdmSystemTools.Application.navigation.meetingRollCall
-import org.MdmSystemTools.Application.navigation.menu
+import org.MdmSystemTools.Application.navigation.navigateToContact
 import org.MdmSystemTools.Application.navigation.navigateToDashboard
 import org.MdmSystemTools.Application.navigation.navigateToDetailsByTab
 import org.MdmSystemTools.Application.navigation.navigateToEventForm
 import org.MdmSystemTools.Application.navigation.navigateToEventProfileDetails
-import org.MdmSystemTools.Application.navigation.navigateToMeetingDetails
 import org.MdmSystemTools.Application.navigation.navigateToMeetingRollCall
 import org.MdmSystemTools.Application.navigation.register
 
 @Composable
 fun App() {
   val navController = rememberNavController()
-  val navigationActions = remember(navController) { NavigationActions(navController) }
-  val navBackStackEntry by navController.currentBackStackEntryAsState()
-  val currentDestination = navBackStackEntry?.destination
 
-  Surface {
-    AppNavigation(
-      currentDestination = currentDestination,
-      navigateToTopLevelDestination = navigationActions::navigateTo,
-    ) {
-      AppNavHost(navController)
-    }
-  }
+  Surface { AppNavHost(navController) }
 }
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -61,6 +46,7 @@ private fun AppNavHost(navController: NavHostController) {
 
   NavHost(navController = navController, startDestination = BottomNav.Menu) {
     contact(
+      onBack = { navController.popBackStack() },
       onClickItem = { id, tab -> navController.navigateToDetailsByTab(id, tab) },
       onClickAdd = { tab -> navController.navigateToDetailsByTab(tab) },
     )
@@ -77,11 +63,14 @@ private fun AppNavHost(navController: NavHostController) {
       onClickConfirmButton = { navController.popBackStack() },
     )
 
-    menu(onClickViewMeeting = { navController.navigateToMeetingDetails() })
-    meetingDetails(
-      onClickBack = { navController.popBackStack() },
-      onClick = { navController.navigateToMeetingRollCall() },
+    dashboard(
+      onClickMeetingBotton = { tabs -> navController.navigateToMeetingRollCall(tabs) },
+      onClickListRegisters = { navController.navigateToContact() },
+      onClickListEmployee = { navController.navigateToContact() },
     )
+
+    meetingHistory(onClickBack = { navController.popBackStack() }, onClick = {})
+
     meetingRollCall(onClickBack = { navController.popBackStack() })
 
     login(

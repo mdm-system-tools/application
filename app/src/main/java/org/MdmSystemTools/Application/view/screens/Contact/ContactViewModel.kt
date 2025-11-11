@@ -63,11 +63,11 @@ constructor(
     viewModelScope.launch {
       when (tab) {
         Tabs.ASSOCIATE -> {
-          val associates = associateRepository.getAssociates().map { Associate(it) }
+          val associates = associateRepository.getAll().map { Associate(it) }
           _uiState.update { it.copy(list = associates) }
         }
         Tabs.GROUP -> {
-          groupRepository.getListGroups().collectLatest { groups ->
+          groupRepository.getAll().collectLatest { groups ->
             _uiState.update { it.copy(list = groups.map { Group(it) }) }
           }
         }

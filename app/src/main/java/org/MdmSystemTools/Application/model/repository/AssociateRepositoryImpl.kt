@@ -8,25 +8,29 @@ class AssociateRepositoryImpl() : AssociateRepository {
   init {
     val assoc = AssociateDto(name = "João da Silva Pereira", groupId = 1, numberCard = 100)
     val assoc2 = AssociateDto(name = "Maria Oliveira", groupId = 1, numberCard = 102)
-    addAssociate(assoc)
-    addAssociate(assoc2)
+    insert(assoc)
+    insert(assoc2)
   }
 
-  override fun getAssociates(): List<AssociateDto> {
+  override fun getAll(): List<AssociateDto> {
     return listAssociates
   }
 
-  override fun getAssociate(id: Int): AssociateDto? {
+  override fun getById(id: Int): AssociateDto? {
     val associate = listAssociates.find { associate -> associate.numberCard == id } ?: return null
 
     return associate
   }
 
-  override fun addAssociate(associate: AssociateDto) {
+  override fun insert(associate: AssociateDto) {
     listAssociates.add(associate)
   }
 
-  override fun deleteAssociate(id: Int) {
+  override fun delete(id: Int) {
     listAssociates.removeAt(id)
   }
+
+	override fun delete(associate: AssociateDto) {
+		TODO("Not yet implemented")
+	}
 }

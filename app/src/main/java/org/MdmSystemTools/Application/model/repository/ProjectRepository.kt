@@ -1,8 +1,16 @@
 package org.MdmSystemTools.Application.model.repository
 
-import org.MdmSystemTools.Application.model.entity.Grupo
+import kotlinx.coroutines.flow.Flow
 import org.MdmSystemTools.Application.model.entity.Project
 
 interface ProjectRepository {
-	fun addProject(project: Project): Long
+  fun insert(project: Project): Long
+
+  fun delete(id: Int)
+
+  fun delete(project: Project)
+
+  fun getAll(): Flow<List<Project>>
+
+  fun getById(id: Int): Project
 }

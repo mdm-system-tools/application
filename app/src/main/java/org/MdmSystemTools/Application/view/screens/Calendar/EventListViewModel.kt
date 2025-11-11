@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.dto.EventDto
-import org.MdmSystemTools.Application.model.repository.EventRepository
+import org.MdmSystemTools.Application.model.repository.MeetingRepository
 
 @HiltViewModel
-class EventListViewModel @Inject constructor(private val repository: EventRepository) :
+class EventListViewModel @Inject constructor(private val repository: MeetingRepository) :
   ViewModel() {
   private val _listEvents = MutableStateFlow<List<EventDto>>(emptyList())
   val listEvents: StateFlow<List<EventDto>> = _listEvents.asStateFlow()
@@ -26,7 +26,7 @@ class EventListViewModel @Inject constructor(private val repository: EventReposi
   private fun getListEvents() {
     viewModelScope.launch {
       try {
-        _listEvents.value = repository.getAllEvents()
+        //_listEvents.value = repository.getAll()
       } catch (e: Exception) {
         e.printStackTrace()
       }
@@ -43,6 +43,6 @@ class EventListViewModel @Inject constructor(private val repository: EventReposi
   }
 
   fun deleteEvent(id: Int) {
-    repository.removeEvent(id)
+   // repository.delete(id)
   }
 }

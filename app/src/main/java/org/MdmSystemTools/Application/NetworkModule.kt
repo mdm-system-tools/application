@@ -10,14 +10,15 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import org.MdmSystemTools.Application.model.entity.AppDatabase
 import org.MdmSystemTools.Application.model.entity.GrupoDao
+import org.MdmSystemTools.Application.model.entity.MeetingDao
 import org.MdmSystemTools.Application.model.entity.ProjectDao
 import org.MdmSystemTools.Application.model.entity.ProjectWithGroupsDao
 import org.MdmSystemTools.Application.model.repository.AssociateRepository
 import org.MdmSystemTools.Application.model.repository.AssociateRepositoryImpl
-import org.MdmSystemTools.Application.model.repository.EventRepository
-import org.MdmSystemTools.Application.model.repository.EventRepositoryImpl
 import org.MdmSystemTools.Application.model.repository.GroupRepository
 import org.MdmSystemTools.Application.model.repository.GroupRepositoryImpl
+import org.MdmSystemTools.Application.model.repository.MeetingRepository
+import org.MdmSystemTools.Application.model.repository.MeetingRepositoryImpl
 import org.MdmSystemTools.Application.model.repository.ProjectRepository
 import org.MdmSystemTools.Application.model.repository.ProjectRepositoryImpl
 
@@ -28,8 +29,10 @@ object NetworkModule {
   @Singleton
   fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
     // por enquanto o banco será em memoria
-		// por enquanto está permitido acessa o banco de dados na main thread
-    return Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).allowMainThreadQueries().build()
+    // por enquanto está permitido acessa o banco de dados na main thread
+    return Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
+      .allowMainThreadQueries()
+      .build()
 
     // return Room.databaseBuilder(context, AppDatabase::class.java, "app_database").build()
   }
@@ -37,6 +40,8 @@ object NetworkModule {
   @Provides fun provideGroupDao(db: AppDatabase): GrupoDao = db.groupDao()
 
   @Provides fun provideProjectDao(db: AppDatabase): ProjectDao = db.projectDao()
+
+  @Provides fun provideMeetingDao(db: AppDatabase): MeetingDao = db.meetingDao()
 
   @Provides
   fun provideProjectWithGroupsDao(db: AppDatabase): ProjectWithGroupsDao = db.projectWithGroups()
@@ -48,5 +53,6 @@ object NetworkModule {
 
   @Provides fun provideListAssociateRepository(): AssociateRepository = AssociateRepositoryImpl()
 
-  @Provides fun provideEventRepository(): EventRepository = EventRepositoryImpl()
+  @Provides
+  fun provideMeetingRepository(dao: MeetingDao): MeetingRepository = MeetingRepositoryImpl(dao)
 }

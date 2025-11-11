@@ -54,7 +54,7 @@ class AssociateFormViewModel @Inject constructor(private val repository: Associa
 
     viewModelScope.launch {
       try {
-        repository.addAssociate(associate)
+        repository.insert(associate)
         _uiEvent.emit(UiEvent.Success("Associado salvo com sucesso"))
       } catch (e: Exception) {
         _uiEvent.emit(UiEvent.Error("Erro ao salvar: ${e.message}"))

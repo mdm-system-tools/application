@@ -1,6 +1,5 @@
 package org.MdmSystemTools.Application.navigation
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
@@ -21,9 +20,9 @@ fun NavGraphBuilder.login(
 	}
 }
 
-fun NavController.navigateToDashboard() {
-	navigate(route = AssociateList)
-}
+//fun NavController.navigateToDashboard() {
+//	navigate(route = AssociateList)
+//}
 
 fun NavGraphBuilder.register() {
 	composable<Register> {

@@ -30,8 +30,12 @@ import org.MdmSystemTools.Application.view.screens.Contact.group.GroupFormScreen
 
 @Serializable internal data class ProjectProfileDetails(val id: Int)
 
-fun NavGraphBuilder.contact(onClickAdd: (Tabs) -> Unit, onClickItem: (Int, Tabs) -> Unit) {
-  composable<BottomNav.Contact> { ContactScreen(onClickAdd, onClickItem) }
+fun NavGraphBuilder.contact(
+  onBack: () -> Unit,
+  onClickAdd: (Tabs) -> Unit,
+  onClickItem: (Int, Tabs) -> Unit,
+) {
+  composable<BottomNav.Contact> { ContactScreen(onBack, onClickAdd, onClickItem) }
 }
 
 fun NavController.navigateToContact() {
@@ -68,7 +72,7 @@ fun NavController.navigateToDetailsByTab(tab: Tabs) {
     Tabs.ASSOCIATE -> navigate(AssociateForm)
     Tabs.GROUP -> navigate(GroupForm)
     Tabs.PROJECT -> TODO("Implementar tela de Formulario para Projeto")
-	}
+  }
 }
 
 fun NavController.navigateToAssociateList() {
@@ -80,5 +84,5 @@ fun NavController.navigateToDetailsByTab(id: Int, tab: Tabs) {
     Tabs.ASSOCIATE -> navigate(AssociateProfileDetails(id))
     Tabs.GROUP -> navigate(GroupProfileDetails(id))
     Tabs.PROJECT -> TODO("Implementar tela de detalhes para projeto")
-	}
+  }
 }

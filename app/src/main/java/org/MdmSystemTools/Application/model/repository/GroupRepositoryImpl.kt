@@ -7,19 +7,23 @@ import org.MdmSystemTools.Application.model.entity.GrupoDao
 
 class GroupRepositoryImpl(private val dao: GrupoDao) : GroupRepository {
 
-  override suspend fun getListGroups(): Flow<List<Grupo>> {
+  override suspend fun getAll(): Flow<List<Grupo>> {
     return dao.getAll().map { list -> list.map { Grupo(it.id, it.projectId, it.schedule) } }
   }
 
-  override suspend fun addGroup(group: Grupo): Long {
+	override suspend fun getById(): Grupo {
+		TODO("Not yet implemented")
+	}
+
+	override suspend fun insert(group: Grupo): Long {
     return dao.insert(group)
   }
 
-  override suspend fun deleteGroupById(id: Int) {
+  override suspend fun delete(id: Int) {
     dao.deleteById(id)
   }
 
-  override suspend fun deleteGroup(group: Grupo) {
+  override suspend fun delete(group: Grupo) {
     dao.delete(group)
   }
 }

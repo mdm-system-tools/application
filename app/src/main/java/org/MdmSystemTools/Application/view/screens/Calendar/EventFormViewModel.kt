@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -20,8 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.MdmSystemTools.Application.model.dto.EventDto
-import org.MdmSystemTools.Application.model.repository.EventRepository
+import org.MdmSystemTools.Application.model.repository.MeetingRepository
 import org.MdmSystemTools.Application.view.screens.Meeting.UiEvent
 
 data class EventFormUiState
@@ -53,7 +51,7 @@ constructor(
 )
 
 @HiltViewModel
-class EventFormViewModel @Inject constructor(private val repository: EventRepository) :
+class EventFormViewModel @Inject constructor(private val repository: MeetingRepository) :
   ViewModel() {
 
   @OptIn(ExperimentalMaterial3Api::class)
@@ -83,35 +81,37 @@ class EventFormViewModel @Inject constructor(private val repository: EventReposi
         _uiEvent.emit(UiEvent.Error("Preencha todos os campos obrigatórios"))
       }
       return
-    }
+    } else return
 
-    val event =
-      try {
-        val state = _uiState.value
-        EventDto(
-          title = state.title.text.toString(),
-          date =
-            state.date.selectedDateMillis
-              ?: System
-                .currentTimeMillis(), // TODO seria melhor tratar isso antes de tentar enviar para o
-          // DTO
-          hourStart = String.format("%02d:%02d", state.startTime.hour, state.startTime.minute),
-          hourEnd = String.format("%02d:%02d", state.endTime.hour, state.endTime.minute),
-        )
-      } catch (e: IOException) {
-        viewModelScope.launch {
-          _uiEvent.emit(UiEvent.Error("Erro ao criar associado: ${e.message}"))
-        }
-        return
-      }
-
-    viewModelScope.launch {
-      try {
-        repository.addEvent(event)
-        _uiEvent.emit(UiEvent.Success("Evento criado com sucesso!"))
-      } catch (e: Exception) {
-        _uiEvent.emit(UiEvent.Error("Erro: ${e.message}"))
-      }
-    }
+    //    val event =
+    //      try {
+    //        val state = _uiState.value
+    //        EventDto(
+    //          title = state.title.text.toString(),
+    //          date =
+    //            state.date.selectedDateMillis
+    //              ?: System
+    //                .currentTimeMillis(), // TODO seria melhor tratar isso antes de tentar enviar
+    // para o
+    //          // DTO
+    //          hourStart = String.format("%02d:%02d", state.startTime.hour,
+    // state.startTime.minute),
+    //          hourEnd = String.format("%02d:%02d", state.endTime.hour, state.endTime.minute),
+    //        )
+    //      } catch (e: IOException) {
+    //        viewModelScope.launch {
+    //          _uiEvent.emit(UiEvent.Error("Erro ao criar associado: ${e.message}"))
+    //        }
+    //        return
+    //      }
+    //
+    //    viewModelScope.launch {
+    //      try {
+    //        repository.insert(event)
+    //        _uiEvent.emit(UiEvent.Success("Evento criado com sucesso!"))
+    //      } catch (e: Exception) {
+    //        _uiEvent.emit(UiEvent.Error("Erro: ${e.message}"))
+    //      }
+    //    }
   }
 }

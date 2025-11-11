@@ -4,10 +4,13 @@ import kotlinx.coroutines.flow.Flow
 import org.MdmSystemTools.Application.model.entity.Grupo
 
 interface GroupRepository {
-  suspend fun getListGroups(): Flow<List<Grupo>>
+  suspend fun insert(group: Grupo): Long
 
-  suspend fun addGroup(group: Grupo): Long
+  suspend fun getAll(): Flow<List<Grupo>>
 
-	suspend fun deleteGroupById(id: Int)
-	suspend fun deleteGroup(group: Grupo)
+  suspend fun getById(): Grupo
+
+  suspend fun delete(id: Int)
+
+  suspend fun delete(group: Grupo)
 }

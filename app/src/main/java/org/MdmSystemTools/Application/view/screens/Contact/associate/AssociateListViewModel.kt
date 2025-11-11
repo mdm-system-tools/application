@@ -26,7 +26,7 @@ class AssociateListViewModel @Inject constructor(private val repository: Associa
   private fun getListAssociates() {
     viewModelScope.launch {
       try {
-        _listAssociates.value = repository.getAssociates()
+        _listAssociates.value = repository.getAll()
       } catch (e: Exception) {
         e.printStackTrace()
       }
@@ -43,6 +43,6 @@ class AssociateListViewModel @Inject constructor(private val repository: Associa
   }
 
   fun deleteAssociate(id: Int) {
-    repository.deleteAssociate(id)
+    repository.delete(id)
   }
 }

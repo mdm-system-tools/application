@@ -37,7 +37,7 @@ constructor(
       try {
         val id =
           repositoryProject
-            .addProject(Project(name = "Projeto A", region = "Sul", value = 5000))
+            .insert(Project(name = "Projeto A", region = "Sul", value = 5000))
             .toInt()
         _projectId.value = id
       } catch (e: Exception) {
@@ -47,11 +47,11 @@ constructor(
   }
 
   private fun addGroup(group: Grupo) {
-    viewModelScope.launch { repository.addGroup(group) }
+    viewModelScope.launch { repository.insert(group) }
   }
 
   fun deleteGroup(group: Grupo) {
-    viewModelScope.launch { repository.deleteGroup(group) }
+    viewModelScope.launch { repository.delete(group) }
   }
 
   fun validate(): Boolean {
@@ -75,7 +75,7 @@ constructor(
       }
     viewModelScope.launch {
       try {
-        repository.addGroup(group)
+        repository.insert(group)
         _uiEvent.emit(UiEvent.Success("grupo salvo com sucesso"))
       } catch (e: Exception) {
         _uiEvent.emit(UiEvent.Error("Erro ao salvar: ${e.message}"))
