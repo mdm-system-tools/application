@@ -21,9 +21,9 @@ data class Project(
 interface ProjectDao {
 	@Query("SELECT * FROM project") fun getAll(): Flow<List<Project>>
 
-	@Delete suspend fun delete(group: Project)
+	@Delete suspend fun delete(project: Project)
 
-	@Insert suspend fun insert(group: Project) : Long
+	@Insert fun insert(project: Project) : Long
 
 	@Query("SELECT * FROM project WHERE id = :id") suspend fun getByid(id: Int): Project
 
