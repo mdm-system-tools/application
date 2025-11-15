@@ -12,6 +12,7 @@ transportRuntime = "4.0.0"
 navigationCompose = "2.9.6"
 material3AdaptiveNavigationSuite = "1.4.0"
 kotlinx-serialization-json = "1.9.0"
+uiText = "1.9.4"
 
 [libraries]
 androidx-compose-material = { module = "androidx.compose.material:material" }
@@ -40,6 +41,7 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersi
 room-testing = { module = "androidx.room:room-testing", version.ref = "roomVersion" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
 transport-runtime = { group = "com.google.android.datatransport", name = "transport-runtime", version.ref = "transportRuntime" }
+androidx-compose-ui-text = { group = "androidx.compose.ui", name = "ui-text", version.ref = "uiText" }
 
 [plugins]
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
