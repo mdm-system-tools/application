@@ -1,5 +1,6 @@
 package org.MdmSystemTools.Application.navigation
 
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
@@ -24,13 +25,20 @@ fun NavGraphBuilder.login(
 //	navigate(route = AssociateList)
 //}
 
-fun NavGraphBuilder.register() {
+fun NavGraphBuilder.register(
+	onNavigateToLogin: () -> Unit, onRegisterSuccess: () -> Unit
+) {
 	composable<Register> {
-		// TODO esse registro esta quebrado
-		SignUpScreen(onNavigateToLogin = {
-			//		appState::navigateToLogin
-		}, onRegisterSuccess = {
-			//	appState::navigateToLogin
-		})
+		SignUpScreen(onNavigateToLogin = onNavigateToLogin, onRegisterSuccess = onRegisterSuccess)
 	}
+}
+
+fun NavController.navigateToLogin() {
+	navigate(Login) {
+		popUpTo(Login) { inclusive = true }
+	}
+}
+
+fun NavController.navigateToRegister() {
+	navigate(Register)
 }
