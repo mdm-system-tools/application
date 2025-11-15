@@ -30,6 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.view.components.FilterAndAddButton
 import org.MdmSystemTools.Application.view.components.Profile
+import org.MdmSystemTools.Application.view.screens.Contact.projetc.ProjetoScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,15 +81,25 @@ fun ContactScreen(
         // Cada página é uma aba diferente
         val currentTab = tabs[page]
 
-        Column(modifier = Modifier.fillMaxSize()) {
-          FilterAndAddButton(currentTab) { onClickAdd(it) }
+        when (currentTab) {
+          Tabs.PROJECT -> {
+            ProjetoScreen(
+              onBackClick = onBack,
+              onProjetoClick = {}
+            )
+          }
+          else -> {
+            Column(modifier = Modifier.fillMaxSize()) {
+              FilterAndAddButton(currentTab) { onClickAdd(it) }
 
-          LazyColumn(modifier = Modifier.fillMaxSize()) {
-            itemsIndexed(uiState.list) { index, item ->
-              when (item) {
-                is ContactUiModel.Associate -> Profile(item.data) { onClickItem(index, currentTab) }
+              LazyColumn(modifier = Modifier.fillMaxSize()) {
+                itemsIndexed(uiState.list) { index, item ->
+                  when (item) {
+                    is ContactUiModel.Associate -> Profile(item.data) { onClickItem(index, currentTab) }
 
-                is ContactUiModel.Group -> Profile(item.data) { onClickItem(index, currentTab) }
+                    is ContactUiModel.Group -> Profile(item.data) { onClickItem(index, currentTab) }
+                  }
+                }
               }
             }
           }
