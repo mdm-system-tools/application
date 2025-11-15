@@ -9,6 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import org.MdmSystemTools.Application.navigation.BottomNav
+import org.MdmSystemTools.Application.navigation.navigateToLogin
+import org.MdmSystemTools.Application.navigation.navigateToRegister
 import org.MdmSystemTools.Application.navigation.associateForm
 import org.MdmSystemTools.Application.navigation.associateProfileDetails
 import org.MdmSystemTools.Application.navigation.calendar
@@ -75,7 +77,7 @@ private fun AppNavHost(navController: NavHostController) {
 
     login(
       onNavigateToDashboard = { navController.navigateToDashboard() },
-      onNavigateToRegister = {},
+      onNavigateToRegister = { navController.navigateToRegister() },
     )
 
     calendar(
@@ -90,6 +92,9 @@ private fun AppNavHost(navController: NavHostController) {
       onClickConfirmButton = { navController.popBackStack() },
     )
 
-    register()
+    register(
+      onNavigateToLogin = { navController.navigateToLogin() },
+      onRegisterSuccess = { navController.navigateToDashboard() }
+    )
   }
 }
