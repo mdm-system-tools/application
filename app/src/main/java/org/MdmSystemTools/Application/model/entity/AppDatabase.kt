@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(
-  entities = [Associate::class, Grupo::class, Project::class, Meeting::class],
+  entities = [Associate::class, Grupo::class, Project::class, Meeting::class, Login::class, Register::class],
   version = 1,
   exportSchema = false,
 )
@@ -16,4 +16,7 @@ abstract class AppDatabase : RoomDatabase() {
 	abstract fun meetingDao(): MeetingDao
 
 	abstract fun projectWithGroups(): ProjectWithGroupsDao
+
+	abstract fun loginDao(): LoginDao
+	abstract fun registerDao(): RegisterDao
 }

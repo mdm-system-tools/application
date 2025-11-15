@@ -15,6 +15,8 @@ import org.MdmSystemTools.Application.model.entity.ProjectDao
 import org.MdmSystemTools.Application.model.entity.ProjectWithGroupsDao
 import org.MdmSystemTools.Application.model.repository.AssociateRepository
 import org.MdmSystemTools.Application.model.repository.AssociateRepositoryImpl
+import org.MdmSystemTools.Application.model.repository.AuthRepository
+import org.MdmSystemTools.Application.model.repository.AuthRepositoryImpl
 import org.MdmSystemTools.Application.model.repository.GroupRepository
 import org.MdmSystemTools.Application.model.repository.GroupRepositoryImpl
 import org.MdmSystemTools.Application.model.repository.MeetingRepository
@@ -55,4 +57,8 @@ object NetworkModule {
 
   @Provides
   fun provideMeetingRepository(dao: MeetingDao): MeetingRepository = MeetingRepositoryImpl(dao)
+
+  @Provides
+  @Singleton
+  fun provideAuthRepository(): AuthRepository = AuthRepositoryImpl()
 }
