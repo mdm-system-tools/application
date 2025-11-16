@@ -84,7 +84,7 @@ fun ContactScreen(
           Tabs.PROJECT -> {
             ProjetoScreen(
               onBackClick = onBack,
-              onProjetoClick = {},
+              onProjetoClick = { projeto -> onClickItem(projeto.id, currentTab) },
               onAddProjetoClick = { onClickAdd(currentTab) }
             )
           }

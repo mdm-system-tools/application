@@ -12,6 +12,7 @@ import org.MdmSystemTools.Application.view.screens.Contact.associate.AssociateFo
 import org.MdmSystemTools.Application.view.screens.Contact.associate.AssociateProfileDetails
 import org.MdmSystemTools.Application.view.screens.Contact.group.GroupFormScreen
 import org.MdmSystemTools.Application.view.screens.Contact.projetc.CriarNovoProjetoScreen
+import org.MdmSystemTools.Application.view.screens.Contact.projetc.ProjetoDetalhesScreen
 
 @Serializable internal data object AssociateList
 
@@ -68,12 +69,27 @@ fun NavGraphBuilder.criarNovoProjeto(onClickBackScreen: () -> Unit, onClickConfi
   }
 }
 
+fun NavGraphBuilder.projetoDetalhes(onClickBackScreen: () -> Unit, onGrupoClick: () -> Unit) {
+  composable<ProjectProfileDetails> { navBackStackEntry ->
+    val id: Int = navBackStackEntry.toRoute<ProjectProfileDetails>().id
+    ProjetoDetalhesScreen(
+      projetoId = id,
+      onBackClick = onClickBackScreen,
+      onGrupoClick = { onGrupoClick() }
+    )
+  }
+}
+
 fun NavController.navigateToGroupForm() {
   navigate(GroupForm)
 }
 
 fun NavController.navigateToCriarNovoProjeto() {
   navigate(CriarNovoProjeto)
+}
+
+fun NavController.navigateToProjetoDetalhes(id: Int) {
+  navigate(ProjectProfileDetails(id))
 }
 
 fun NavGraphBuilder.associateProfileDetails(onClickBackScreen: () -> Unit) {
@@ -100,6 +116,6 @@ fun NavController.navigateToDetailsByTab(id: Int, tab: Tabs) {
   when (tab) {
     Tabs.ASSOCIATE -> navigate(AssociateProfileDetails(id))
     Tabs.GROUP -> navigate(GroupProfileDetails(id))
-    Tabs.PROJECT -> TODO("Implementar tela de detalhes para projeto")
+    Tabs.PROJECT -> navigate(ProjectProfileDetails(id))
   }
 }
