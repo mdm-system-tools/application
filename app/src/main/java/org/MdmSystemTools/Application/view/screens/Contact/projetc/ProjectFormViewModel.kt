@@ -12,6 +12,11 @@ import org.MdmSystemTools.Application.model.entity.Project
 import org.MdmSystemTools.Application.model.repository.ProjectRepository
 import org.MdmSystemTools.Application.view.screens.Contact.associate.UiEvent
 
+sealed class ProjectFormUiEvent {
+  data class Success(val message: String) : ProjectFormUiEvent()
+  data class Error(val message: String) : ProjectFormUiEvent()
+}
+
 @HiltViewModel
 class ProjectFormViewModel
 @Inject
@@ -23,7 +28,7 @@ constructor(
   val region: TextFieldState = TextFieldState()
   val value: TextFieldState = TextFieldState()
 
-  private val _uiEvent = MutableSharedFlow<UiEvent>()
+  private val _uiEvent = MutableSharedFlow<ProjectFormUiEvent>()
   val uiEvent = _uiEvent.asSharedFlow()
 
   fun validate(): Boolean {
@@ -33,7 +38,7 @@ constructor(
   fun onSubmit() {
     if (!validate()) {
       viewModelScope.launch {
-        _uiEvent.emit(UiEvent.Error("Preencha todos os campos"))
+        _uiEvent.emit(ProjectFormUiEvent.Error("Preencha todos os campos"))
       }
       return
     }
@@ -46,7 +51,7 @@ constructor(
       )
     } catch (e: NumberFormatException) {
       viewModelScope.launch {
-        _uiEvent.emit(UiEvent.Error("Valor deve ser um número válido"))
+        _uiEvent.emit(ProjectFormUiEvent.Error("Valor deve ser um número válido"))
       }
       return
     }
@@ -54,20 +59,27 @@ constructor(
     viewModelScope.launch {
       try {
         repository.insert(project)
-        _uiEvent.emit(UiEvent.Success("Projeto salvo com sucesso"))
+        clearFields()
+        _uiEvent.emit(ProjectFormUiEvent.Success("Projeto salvo com sucesso"))
       } catch (e: Exception) {
-        _uiEvent.emit(UiEvent.Error("Erro ao salvar: ${e.message}"))
+        _uiEvent.emit(ProjectFormUiEvent.Error("Erro ao salvar: ${e.message}"))
       }
     }
+  }
+
+  private fun clearFields() {
+    name.edit { replace(0, length, "") }
+    region.edit { replace(0, length, "") }
+    value.edit { replace(0, length, "") }
   }
 
   fun deleteProject(project: Project) {
     viewModelScope.launch {
       try {
         repository.delete(project)
-        _uiEvent.emit(UiEvent.Success("Projeto deletado com sucesso"))
+        _uiEvent.emit(ProjectFormUiEvent.Success("Projeto deletado com sucesso"))
       } catch (e: Exception) {
-        _uiEvent.emit(UiEvent.Error("Erro ao deletar: ${e.message}"))
+        _uiEvent.emit(ProjectFormUiEvent.Error("Erro ao deletar: ${e.message}"))
       }
     }
   }

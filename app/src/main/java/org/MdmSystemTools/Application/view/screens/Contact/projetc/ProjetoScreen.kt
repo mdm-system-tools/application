@@ -35,39 +35,15 @@ import org.MdmSystemTools.Application.view.components.generic.ListScreenBuilder
 fun ProjetoScreen(
     onBackClick: () -> Unit = {},
     onProjetoClick: (org.MdmSystemTools.Application.model.entity.Project) -> Unit = {},
+    onAddProjetoClick: () -> Unit = {},
     viewModel: ProjectViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val projetosParaExibir = if (uiState.projects.isEmpty()) {
-        listOf(
-            org.MdmSystemTools.Application.model.entity.Project(
-                id = 1,
-                name = "Projeto Alpha",
-                region = "São Paulo",
-                value = 5000
-            ),
-            org.MdmSystemTools.Application.model.entity.Project(
-                id = 2,
-                name = "Projeto Beta",
-                region = "Rio de Janeiro",
-                value = 3000
-            ),
-            org.MdmSystemTools.Application.model.entity.Project(
-                id = 3,
-                name = "Projeto Gamma",
-                region = "Belo Horizonte",
-                value = 4000
-            )
-        )
-    } else {
-        uiState.projects
-    }
-
     ListScreenBuilder(
-        items = projetosParaExibir,
+        items = uiState.projects,
         searchPlaceholder = "Search Project",
-        onAddClick = { /* TODO: Add new project */ },
+        onAddClick = onAddProjetoClick,
         itemContent = { projeto, onItemClick ->
             ProjetoCard(projeto = projeto, onClick = onItemClick)
         },
@@ -95,7 +71,6 @@ fun ProjetoCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // BOLINHA COM CÓDIGO
             Surface(
                 shape = CircleShape,
                 color = Color(0xFFE6D9FF),

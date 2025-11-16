@@ -11,6 +11,7 @@ import org.MdmSystemTools.Application.view.screens.Contact.Tabs
 import org.MdmSystemTools.Application.view.screens.Contact.associate.AssociateFormScreen
 import org.MdmSystemTools.Application.view.screens.Contact.associate.AssociateProfileDetails
 import org.MdmSystemTools.Application.view.screens.Contact.group.GroupFormScreen
+import org.MdmSystemTools.Application.view.screens.Contact.projetc.CriarNovoProjetoScreen
 
 @Serializable internal data object AssociateList
 
@@ -27,6 +28,8 @@ import org.MdmSystemTools.Application.view.screens.Contact.group.GroupFormScreen
 @Serializable internal data object ProjectList
 
 @Serializable internal data object ProjectForm
+
+@Serializable internal data object CriarNovoProjeto
 
 @Serializable internal data class ProjectProfileDetails(val id: Int)
 
@@ -55,8 +58,22 @@ fun NavGraphBuilder.groupForm(onClickBackScreen: () -> Unit, onClickConfirmButto
   composable<GroupForm> { GroupFormScreen(onClickBackScreen, onClickConfirmButton) }
 }
 
+fun NavGraphBuilder.criarNovoProjeto(onClickBackScreen: () -> Unit, onClickConfirmButton: () -> Unit) {
+  composable<CriarNovoProjeto> {
+    CriarNovoProjetoScreen(
+      onBackClick = onClickBackScreen,
+      onCancelarClick = onClickBackScreen,
+      onCriarProjetoClick = onClickConfirmButton
+    )
+  }
+}
+
 fun NavController.navigateToGroupForm() {
   navigate(GroupForm)
+}
+
+fun NavController.navigateToCriarNovoProjeto() {
+  navigate(CriarNovoProjeto)
 }
 
 fun NavGraphBuilder.associateProfileDetails(onClickBackScreen: () -> Unit) {
@@ -71,7 +88,7 @@ fun NavController.navigateToDetailsByTab(tab: Tabs) {
   when (tab) {
     Tabs.ASSOCIATE -> navigate(AssociateForm)
     Tabs.GROUP -> navigate(GroupForm)
-    Tabs.PROJECT -> TODO("Implementar tela de Formulario para Projeto")
+    Tabs.PROJECT -> navigate(CriarNovoProjeto)
   }
 }
 
