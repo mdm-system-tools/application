@@ -15,6 +15,7 @@ import org.MdmSystemTools.Application.navigation.associateForm
 import org.MdmSystemTools.Application.navigation.associateProfileDetails
 import org.MdmSystemTools.Application.navigation.calendar
 import org.MdmSystemTools.Application.navigation.contact
+import org.MdmSystemTools.Application.navigation.criarNovoProjeto
 import org.MdmSystemTools.Application.navigation.dashboard
 import org.MdmSystemTools.Application.navigation.eventForm
 import org.MdmSystemTools.Application.navigation.eventProfileDetails
@@ -61,6 +62,11 @@ private fun AppNavHost(navController: NavHostController) {
     )
 
     groupForm(
+      onClickBackScreen = { navController.popBackStack() },
+      onClickConfirmButton = { navController.popBackStack() },
+    )
+
+    criarNovoProjeto(
       onClickBackScreen = { navController.popBackStack() },
       onClickConfirmButton = { navController.popBackStack() },
     )

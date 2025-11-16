@@ -78,14 +78,14 @@ fun ContactScreen(
       }
       HorizontalPager(state = pagerState, modifier = Modifier.weight(1f)) { page ->
 
-        // Cada página é uma aba diferente
         val currentTab = tabs[page]
 
         when (currentTab) {
           Tabs.PROJECT -> {
             ProjetoScreen(
               onBackClick = onBack,
-              onProjetoClick = {}
+              onProjetoClick = {},
+              onAddProjetoClick = { onClickAdd(currentTab) }
             )
           }
           else -> {
