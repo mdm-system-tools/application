@@ -19,6 +19,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.platform.LocalContext
@@ -26,62 +28,68 @@ import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.MdmSystemTools.Application.view.screens.Contact.associate.FieldDropdownMenu
-import org.MdmSystemTools.Application.view.screens.Contact.associate.UiEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GroupFormScreen(
-  onClickBackScreen: () -> Unit,
-  onClickConfirmButton: () -> Unit,
-  modifier: Modifier = Modifier,
-  viewModel: GroupFormViewModel = hiltViewModel(),
+	onClickBackScreen: () -> Unit,
+	onClickConfirmButton: () -> Unit,
+	modifier: Modifier = Modifier,
+	viewModel: GroupFormViewModel = hiltViewModel(),
 ) {
-  val listOptions = (1..5).map { it.toString() }
-  val context = LocalContext.current
+	val uiState by viewModel.uiState.collectAsState()
+	val uiEvent = viewModel.uiEvent.collectAsStateWithLifecycle(null)
 
-  LaunchedEffect(Unit) {
-    viewModel.uiEvent.collect { event ->
-      when (event) {
-        is UiEvent.Success -> {
-          Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-          onClickConfirmButton()
-        }
-        is UiEvent.Error -> {
-          Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-        }
-      }
-    }
-  }
+	val listOptions = (1..5).map { it.toString() }
+	val context = LocalContext.current
 
-  Scaffold(
-    topBar = {
-      TopAppBar(
-        title = { Text("Cadastrar novo Associado") },
-        navigationIcon = {
-          IconButton(onClick = onClickBackScreen) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
-          }
-        },
-      )
-    }
-  ) { paddingValues ->
-    Column(modifier = Modifier.padding(paddingValues)) {
-      OutlinedTextField(
-        state = viewModel.schedule,
-        label = { Text("Nome Completo") },
-        modifier = Modifier.fillMaxWidth().semantics { contentType = ContentType.PersonFullName },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        inputTransformation = InputTransformation.maxLength(30),
-      )
-      FieldDropdownMenu("Grupo", listOptions, viewModel.groupId)
-      Button(
-        enabled = viewModel.validate(),
-        modifier = Modifier.fillMaxWidth(),
-        onClick = { viewModel.onSubmit() },
-      ) {
-        Text("Confirmar")
-      }
-    }
-  }
+	LaunchedEffect(uiEvent.value) {
+		uiEvent.value?.let { event ->
+			when (event) {
+				is UiEvent.Success -> {
+					Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+					onClickConfirmButton()
+				}
+
+				is UiEvent.Error -> {
+					Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+				}
+			}
+		}
+	}
+
+	Scaffold(
+		topBar = {
+			TopAppBar(
+				title = { Text("Cadastrar novo Grupo") },
+				navigationIcon = {
+					IconButton(onClick = onClickBackScreen) {
+						Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
+					}
+				},
+			)
+		}
+	) { paddingValues ->
+		Column(modifier = Modifier.padding(paddingValues)) {
+			OutlinedTextField(
+				state = uiState.schedule,
+				label = { Text("Nome Completo") },
+				modifier = Modifier
+					.fillMaxWidth()
+					.semantics { contentType = ContentType.PersonFullName },
+				keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+				inputTransformation = InputTransformation.maxLength(30),
+			)
+			FieldDropdownMenu("Grupo", listOptions, uiState.projectId)
+			Button(
+				enabled = viewModel.isFormValid(uiState),
+				modifier = Modifier.fillMaxWidth(),
+				onClick = { viewModel.save(uiState) },
+			) {
+				Text("Confirmar")
+			}
+		}
+	}
 }
