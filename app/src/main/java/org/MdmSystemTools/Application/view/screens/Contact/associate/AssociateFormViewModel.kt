@@ -1,64 +1,51 @@
 package org.MdmSystemTools.Application.view.screens.Contact.associate
 
+import android.util.Log
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
-import java.io.IOException
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.MdmSystemTools.Application.model.dto.AssociateDto
+import org.MdmSystemTools.Application.model.entity.Associate
 import org.MdmSystemTools.Application.model.repository.AssociateRepository
+import java.io.IOException
 
-sealed class UiEvent {
-  data class Success(val message: String) : UiEvent()
 
-  data class Error(val message: String) : UiEvent()
-}
+data class AssociateFormUiState(
+	val name: TextFieldState = TextFieldState(),
+	val numberCard: TextFieldState = TextFieldState(),
+	val groupId: TextFieldState = TextFieldState()
+)
 
 @HiltViewModel
 class AssociateFormViewModel @Inject constructor(private val repository: AssociateRepository) :
-  ViewModel() {
+	ViewModel() {
+	private val _uiState = MutableStateFlow(AssociateFormUiState())
+	val uiState: StateFlow<AssociateFormUiState> = _uiState.asStateFlow()
 
-  val name: TextFieldState = TextFieldState()
-  val numberCard: TextFieldState = TextFieldState()
-  val groupId: TextFieldState = TextFieldState()
+	fun isFormValid(state: AssociateFormUiState): Boolean {
+		return state.name.text.isNotBlank() &&
+			state.numberCard.text.isNotBlank() &&
+			state.groupId.text.isNotBlank()
+	}
 
-  private val _uiEvent = MutableSharedFlow<UiEvent>()
-  val uiEvent = _uiEvent.asSharedFlow()
-
-  fun validate(): Boolean {
-    return name.text.isNotEmpty() && numberCard.text.isNotEmpty() && groupId.text.isNotEmpty()
-  }
-
-  fun onSubmit() {
-    if (!validate()) {
-      viewModelScope.launch { _uiEvent.emit(UiEvent.Error("Preencha todos os campos")) }
-      return
-    }
-    val associate =
-      try {
-        AssociateDto(
-          name.text.toString(),
-          numberCard.text.toString().toInt(),
-          groupId.text.toString().toInt(),
-        )
-      } catch (e: IOException) {
-        viewModelScope.launch {
-          _uiEvent.emit(UiEvent.Error("Erro ao criar associado: ${e.message}"))
-        }
-        return
-      }
-
-    viewModelScope.launch {
-      try {
-        repository.insert(associate)
-        _uiEvent.emit(UiEvent.Success("Associado salvo com sucesso"))
-      } catch (e: Exception) {
-        _uiEvent.emit(UiEvent.Error("Erro ao salvar: ${e.message}"))
-      }
-    }
-  }
+	fun save(state: AssociateFormUiState) {
+		val associate: Associate = try {
+			Associate(
+				state.numberCard.text.toString(),
+				state.name.text.toString(),
+				state.groupId.text.toString().toInt()
+			)
+		} catch (e: IOException) {
+			Log.e("ViewModelAssociateForm", e.toString())
+			return
+		}
+		viewModelScope.launch {
+			repository.insert(associate)
+		}
+	}
 }

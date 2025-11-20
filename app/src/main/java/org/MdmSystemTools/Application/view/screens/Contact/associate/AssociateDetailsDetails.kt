@@ -42,7 +42,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import org.MdmSystemTools.Application.R
-import org.MdmSystemTools.Application.model.dto.AssociateDto
 import org.MdmSystemTools.Application.view.components.AlertDialog
 
 // TODO REFATORAR O CODIGO
@@ -55,6 +54,7 @@ fun AssociateProfileDetails(
 	onCLickExport: () -> Unit,
 	viewModel: AssociateDetailsViewModel = hiltViewModel(),
 ) {
+//	val uiState by viewModel.uiState.collectAsStateWithLifecycle()
   Scaffold(
     topBar = {
       TopAppBar(
@@ -67,12 +67,12 @@ fun AssociateProfileDetails(
       )
     }
   ) { paddingValues ->
-    val assoc: AssociateDto = viewModel.getAssociate(id)
-    val name = assoc.name
-    val numberCard = assoc.numberCard
-    val groupId = assoc.groupId
+
     val openAlertDialog = remember { mutableStateOf(false) }
     val progresso = 0.5f
+		val numberCard = 0
+		val groupId = 0
+		val name = ""
 
     Column(
       modifier = Modifier.padding(paddingValues).fillMaxWidth(),
@@ -83,7 +83,7 @@ fun AssociateProfileDetails(
       ButtonsAction(onClickEdit, openAlertDialog, onCLickExport)
       ProgressionBar(title = "presença", icon = Icons.Default.CalendarToday, progresso)
       ProgressionBar(title = "pagamento", icon = Icons.Default.Payments, progresso)
-      ObserverAlertDialog(openAlertDialog, id, viewModel::deleteAssociate, onClickBackScreen)
+      ObserverAlertDialog(openAlertDialog, id, {}, onClickBackScreen)
     }
   }
 }

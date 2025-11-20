@@ -10,26 +10,20 @@ import androidx.navigation.compose.rememberNavController
 import org.MdmSystemTools.Application.navigation.BottomNav
 import org.MdmSystemTools.Application.navigation.associateForm
 import org.MdmSystemTools.Application.navigation.associateProfileDetails
-import org.MdmSystemTools.Application.navigation.calendar
 import org.MdmSystemTools.Application.navigation.contact
 import org.MdmSystemTools.Application.navigation.criarNovoProjeto
 import org.MdmSystemTools.Application.navigation.dashboard
-import org.MdmSystemTools.Application.navigation.eventForm
-import org.MdmSystemTools.Application.navigation.eventProfileDetails
 import org.MdmSystemTools.Application.navigation.groupForm
 import org.MdmSystemTools.Application.navigation.login
-import org.MdmSystemTools.Application.view.screens.Meeting.meetingHistory
-import org.MdmSystemTools.Application.view.screens.Meeting.meetingRollCall
 import org.MdmSystemTools.Application.navigation.navigateToContact
 import org.MdmSystemTools.Application.navigation.navigateToDashboard
 import org.MdmSystemTools.Application.navigation.navigateToDetailsByTab
-import org.MdmSystemTools.Application.navigation.navigateToEventForm
-import org.MdmSystemTools.Application.navigation.navigateToEventProfileDetails
 import org.MdmSystemTools.Application.navigation.navigateToLogin
-import org.MdmSystemTools.Application.view.screens.Meeting.navigateToMeetingRollCall
 import org.MdmSystemTools.Application.navigation.navigateToRegister
 import org.MdmSystemTools.Application.navigation.projetoDetalhes
 import org.MdmSystemTools.Application.navigation.register
+import org.MdmSystemTools.Application.view.screens.Meeting.meetingRollCall
+import org.MdmSystemTools.Application.view.screens.Meeting.navigateToMeetingRollCall
 
 @Composable
 fun App() {
@@ -81,25 +75,11 @@ private fun AppNavHost(navController: NavHostController) {
 			onClickListEmployee = { navController.navigateToContact() },
 		)
 
-		meetingHistory(onClickBack = { navController.popBackStack() }, onClick = {})
-
 		meetingRollCall(onClickBack = { navController.popBackStack() })
 
 		login(
 			onNavigateToDashboard = { navController.navigateToDashboard() },
 			onNavigateToRegister = { navController.navigateToRegister() },
-		)
-
-		calendar(
-			onClickEventProfile = { id -> navController.navigateToEventProfileDetails(id) },
-			onClickFloatingButton = { navController.navigateToEventForm() },
-		)
-
-		eventProfileDetails(onClickBackScreen = { navController.popBackStack() })
-
-		eventForm(
-			onClickBackScreen = { navController.popBackStack() },
-			onClickConfirmButton = { navController.popBackStack() },
 		)
 
 		register(

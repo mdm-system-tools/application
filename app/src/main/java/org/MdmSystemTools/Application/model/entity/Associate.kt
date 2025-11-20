@@ -20,7 +20,7 @@ data class Associate(
 @Dao
 interface AssociateDao {
 	@Query("SELECT * FROM associate")
-	suspend fun getAll(): Flow<List<Associate>>
+	fun getAll(): Flow<List<Associate>>
 
 	@Delete
 	suspend fun delete(associate: Associate)

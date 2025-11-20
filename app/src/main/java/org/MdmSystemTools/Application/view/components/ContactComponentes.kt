@@ -29,7 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.MdmSystemTools.Application.R
-import org.MdmSystemTools.Application.model.dto.AssociateDto
+import org.MdmSystemTools.Application.model.entity.Associate
 import org.MdmSystemTools.Application.model.entity.Grupo
 import org.MdmSystemTools.Application.model.entity.Project
 import org.MdmSystemTools.Application.view.theme.AppConstants
@@ -99,7 +99,7 @@ fun Profile(
 }
 
 @Composable
-fun Profile(associate: AssociateDto, onClick: () -> Unit) {
+fun Profile(associate: Associate, onClick: () -> Unit) {
 	Card(modifier = Modifier.fillMaxWidth(), onClick = onClick) {
 		Row(
 			modifier = Modifier
@@ -149,17 +149,17 @@ private fun ImageProfile() {
 }
 
 @Composable
-private fun InformationToAssociate(associated: AssociateDto) {
+private fun InformationToAssociate(associate: Associate) {
 	Column(Modifier.padding(start = 8.dp)) {
 		Text(
-			associated.name,
+			associate.name.toString(),
 			fontSize = AppConstants.FontSize.medium,
 			fontWeight = FontWeight(500),
 			maxLines = 1,
 		)
 		Row {
 			Text(
-				"Grupo: ${associated.groupId} Carterinha: ${associated.numberCard}",
+				"Grupo: ${associate.groupId} Carterinha: ${associate.numberCard}",
 				fontSize = AppConstants.FontSize.small,
 				fontWeight = FontWeight(400),
 			)
