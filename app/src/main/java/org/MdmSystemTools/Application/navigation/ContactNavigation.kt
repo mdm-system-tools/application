@@ -15,7 +15,7 @@ import org.MdmSystemTools.Application.view.screens.Contact.project.ProjectDetail
 import org.MdmSystemTools.Application.view.screens.Contact.project.ProjectFormScreen
 
 @Serializable
-internal data object AssociateList
+internal data object Contact
 
 @Serializable
 internal data object AssociateForm
@@ -24,36 +24,27 @@ internal data object AssociateForm
 internal data class AssociateDetails(val id: Int)
 
 @Serializable
-internal data object GroupList
-
-@Serializable
 internal data object GroupForm
 
 @Serializable
-internal data class GroupProfileDetails(val id: Int)
-
-@Serializable
-internal data object ProjectList
+internal data class GroupDetails(val id: Int)
 
 @Serializable
 internal data object ProjectForm
 
 @Serializable
-internal data object CriarNovoProjeto
-
-@Serializable
-internal data class ProjectProfileDetails(val id: Int)
+internal data class ProjectDetails(val id: Int)
 
 fun NavGraphBuilder.contact(
 	onBack: () -> Unit,
 	onClickAdd: (TabsForContact) -> Unit,
 	onClickItem: (Int, TabsForContact) -> Unit,
 ) {
-	composable<BottomNav.Contact> { ContactScreen(onBack, onClickAdd, onClickItem) }
+	composable<Contact> { ContactScreen(onBack, onClickAdd, onClickItem) }
 }
 
 fun NavController.navigateToContact() {
-	navigate(BottomNav.Contact)
+	navigate(Contact)
 }
 
 fun NavGraphBuilder.associateForm(onClickBackScreen: () -> Unit, onClickConfirmButton: () -> Unit) {
@@ -69,11 +60,11 @@ fun NavGraphBuilder.groupForm(onClickBackScreen: () -> Unit, onClickConfirmButto
 	composable<GroupForm> { GroupFormScreen(onClickBackScreen, onClickConfirmButton) }
 }
 
-fun NavGraphBuilder.criarNovoProjeto(
+fun NavGraphBuilder.projectForm(
 	onClickBackScreen: () -> Unit,
 	onClickConfirmButton: () -> Unit
 ) {
-	composable<CriarNovoProjeto> {
+	composable<ProjectForm> {
 		ProjectFormScreen(
 			onBackClick = onClickBackScreen,
 			onCancelarClick = onClickBackScreen,
@@ -82,27 +73,22 @@ fun NavGraphBuilder.criarNovoProjeto(
 	}
 }
 
-fun NavGraphBuilder.projetoDetalhes(onClickBackScreen: () -> Unit, onGrupoClick: () -> Unit) {
-	composable<ProjectProfileDetails> { navBackStackEntry ->
-		val id: Int = navBackStackEntry.toRoute<ProjectProfileDetails>().id
+fun NavGraphBuilder.navigateToProjectDetails(
+	onClickBackScreen: () -> Unit,
+	onGroupClick: () -> Unit
+) {
+	composable<ProjectDetails> { navBackStackEntry ->
+		val id: Int = navBackStackEntry.toRoute<ProjectDetails>().id
 		ProjectDetailsScreen(
 			projetoId = id,
 			onBackClick = onClickBackScreen,
-			onGrupoClick = { onGrupoClick() }
+			onGrupoClick = { onGroupClick() }
 		)
 	}
 }
 
-fun NavController.navigateToGroupForm() {
-	navigate(GroupForm)
-}
-
-fun NavController.navigateToCriarNovoProjeto() {
-	navigate(CriarNovoProjeto)
-}
-
-fun NavController.navigateToProjetoDetalhes(id: Int) {
-	navigate(ProjectProfileDetails(id))
+fun NavController.navigateToProjectDetails(id: Int) {
+	navigate(ProjectDetails(id))
 }
 
 fun NavGraphBuilder.associateDetails(onClickBackScreen: () -> Unit) {
@@ -118,18 +104,14 @@ fun NavController.navigateToDetailsByTab(tab: TabsForContact) {
 	when (tab) {
 		TabsForContact.ASSOCIATE -> navigate(AssociateForm)
 		TabsForContact.GROUP -> navigate(GroupForm)
-		TabsForContact.PROJECT -> navigate(CriarNovoProjeto)
+		TabsForContact.PROJECT -> navigate(ProjectForm)
 	}
-}
-
-fun NavController.navigateToAssociateList() {
-	navigate(AssociateList)
 }
 
 fun NavController.navigateToDetailsByTab(id: Int, tab: TabsForContact) {
 	when (tab) {
 		TabsForContact.ASSOCIATE -> navigate(AssociateDetails(id))
-		TabsForContact.GROUP -> navigate(GroupProfileDetails(id))
-		TabsForContact.PROJECT -> navigate(ProjectProfileDetails(id))
+		TabsForContact.GROUP -> navigate(GroupDetails(id))
+		TabsForContact.PROJECT -> navigate(ProjectDetails(id))
 	}
 }

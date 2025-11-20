@@ -9,9 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import org.MdmSystemTools.Application.navigation.BottomNav
 import org.MdmSystemTools.Application.navigation.associateForm
-import org.MdmSystemTools.Application.navigation.associateProfileDetails
+import org.MdmSystemTools.Application.navigation.associateDetails
 import org.MdmSystemTools.Application.navigation.contact
-import org.MdmSystemTools.Application.navigation.criarNovoProjeto
+import org.MdmSystemTools.Application.navigation.projectForm
 import org.MdmSystemTools.Application.navigation.dashboard
 import org.MdmSystemTools.Application.navigation.groupForm
 import org.MdmSystemTools.Application.navigation.login
@@ -20,7 +20,7 @@ import org.MdmSystemTools.Application.navigation.navigateToDashboard
 import org.MdmSystemTools.Application.navigation.navigateToDetailsByTab
 import org.MdmSystemTools.Application.navigation.navigateToLogin
 import org.MdmSystemTools.Application.navigation.navigateToRegister
-import org.MdmSystemTools.Application.navigation.projetoDetalhes
+import org.MdmSystemTools.Application.navigation.navigateToProjectDetails
 import org.MdmSystemTools.Application.navigation.register
 import org.MdmSystemTools.Application.view.screens.Meeting.meetingRollCall
 import org.MdmSystemTools.Application.view.screens.Meeting.navigateToMeetingRollCall
@@ -47,7 +47,7 @@ private fun AppNavHost(navController: NavHostController) {
 			onClickAdd = { tab -> navController.navigateToDetailsByTab(tab) },
 		)
 
-		associateProfileDetails(onClickBackScreen = { navController.popBackStack() })
+		associateDetails(onClickBackScreen = { navController.popBackStack() })
 
 		associateForm(
 			onClickBackScreen = { navController.popBackStack() },
@@ -59,14 +59,14 @@ private fun AppNavHost(navController: NavHostController) {
 			onClickConfirmButton = { navController.popBackStack() },
 		)
 
-		criarNovoProjeto(
+		projectForm(
 			onClickBackScreen = { navController.popBackStack() },
 			onClickConfirmButton = { navController.popBackStack() },
 		)
 
-		projetoDetalhes(
+		navigateToProjectDetails(
 			onClickBackScreen = { navController.popBackStack() },
-			onGrupoClick = { }
+			onGroupClick = { }
 		)
 
 		dashboard(
