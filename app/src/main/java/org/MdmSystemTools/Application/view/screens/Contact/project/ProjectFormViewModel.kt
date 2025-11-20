@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.screens.Contact.projetc
+package org.MdmSystemTools.Application.view.screens.Contact.project
 
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.entity.Project
 import org.MdmSystemTools.Application.model.repository.ProjectRepository
-import org.MdmSystemTools.Application.view.screens.Contact.associate.UiEvent
 
 sealed class ProjectFormUiEvent {
   data class Success(val message: String) : ProjectFormUiEvent()

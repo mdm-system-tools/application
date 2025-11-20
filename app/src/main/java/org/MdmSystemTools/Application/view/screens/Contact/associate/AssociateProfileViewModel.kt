@@ -14,7 +14,7 @@ import org.MdmSystemTools.Application.model.dto.AssociateDto
 import org.MdmSystemTools.Application.model.repository.AssociateRepository
 
 @HiltViewModel
-class AssociateListViewModel @Inject constructor(private val repository: AssociateRepository) :
+class AssociateProfileViewModel @Inject constructor(private val repository: AssociateRepository) :
   ViewModel() {
   private val _listAssociates = MutableStateFlow<List<AssociateDto>>(emptyList())
   val listAssociates: StateFlow<List<AssociateDto>> = _listAssociates.asStateFlow()

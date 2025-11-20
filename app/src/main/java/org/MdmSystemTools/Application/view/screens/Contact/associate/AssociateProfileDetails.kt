@@ -49,11 +49,11 @@ import org.MdmSystemTools.Application.view.components.AlertDialog
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AssociateProfileDetails(
-  id: Int,
-  onClickBackScreen: () -> Unit,
-  onClickEdit: () -> Unit,
-  onCLickExport: () -> Unit,
-  viewModel: AssociateListViewModel = hiltViewModel(),
+	id: Int,
+	onClickBackScreen: () -> Unit,
+	onClickEdit: () -> Unit,
+	onCLickExport: () -> Unit,
+	viewModel: AssociateProfileViewModel = hiltViewModel(),
 ) {
   Scaffold(
     topBar = {

@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.screens.Contact.projetc
+package org.MdmSystemTools.Application.view.screens.Contact.project
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -24,7 +24,7 @@ data class ProjetoDetalhesUiState(
 )
 
 @HiltViewModel
-class ProjetoDetalhesViewModel
+class ProjectDetailsViewModel
 @Inject
 constructor(
     private val repository: ProjectRepository,
