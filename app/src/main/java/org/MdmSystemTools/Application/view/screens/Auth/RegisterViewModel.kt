@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.viewmodel
+package org.MdmSystemTools.Application.view.screens.Auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,40 +7,40 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.MdmSystemTools.Application.model.entity.Login
+import org.MdmSystemTools.Application.model.entity.Register
 import org.MdmSystemTools.Application.model.repository.AuthRepository
 import javax.inject.Inject
 
-data class LoginUiState(
+data class RegisterUiState(
   val isLoading: Boolean = false,
   val errorMessage: String = "",
   val isSuccess: Boolean = false,
-  val user: Login? = null
+  val register: Register? = null
 )
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class RegisterViewModel @Inject constructor(
   private val authRepository: AuthRepository
 ) : ViewModel() {
-  private val _uiState = MutableStateFlow(LoginUiState())
-  val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
+  private val _uiState = MutableStateFlow(RegisterUiState())
+  val uiState: StateFlow<RegisterUiState> = _uiState.asStateFlow()
 
-  fun login(cpf: String, password: String) {
+  fun register(register: Register) {
     viewModelScope.launch {
       _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = "")
 
-      val result = authRepository.login(cpf, password)
-      result.onSuccess { user ->
+      val result = authRepository.register(register)
+      result.onSuccess { newRegister ->
         _uiState.value = _uiState.value.copy(
           isLoading = false,
           isSuccess = true,
-          user = user
+          register = newRegister
         )
       }
       result.onFailure { exception ->
         _uiState.value = _uiState.value.copy(
           isLoading = false,
-          errorMessage = exception.message ?: "Erro ao fazer login"
+          errorMessage = exception.message ?: "Erro ao registrar"
         )
       }
     }
@@ -51,6 +51,6 @@ class LoginViewModel @Inject constructor(
   }
 
   fun resetState() {
-    _uiState.value = LoginUiState()
+    _uiState.value = RegisterUiState()
   }
 }
