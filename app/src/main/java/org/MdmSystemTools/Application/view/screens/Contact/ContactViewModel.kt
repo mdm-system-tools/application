@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.MdmSystemTools.Application.model.dto.AssociateDto
+import org.MdmSystemTools.Application.model.entity.Associate
 import org.MdmSystemTools.Application.model.entity.Grupo
 import org.MdmSystemTools.Application.model.entity.Project
 import org.MdmSystemTools.Application.model.repository.AssociateRepository
@@ -27,7 +27,7 @@ enum class TabsForContact(val title: String) {
 
 data class ContactUiState(
 	val tabSelected: TabsForContact = TabsForContact.ASSOCIATE,
-	val associates: List<AssociateDto> = emptyList(),
+	val associates: List<Associate> = emptyList(),
 	val groups: List<Grupo> = emptyList(),
 	val projects: List<Project> = emptyList(),
 )
@@ -46,13 +46,16 @@ constructor(
 	init {
 		viewModelScope.launch {
 			combine(
+				associateRepository.getAll(),
 				groupRepository.getAll(),
 				projectRepository.getAll()
-			) { groups, projects ->
+			) { associates, groups, projects ->
+				Log.i("ViewModelContact", "Lista de associados $associates")
 				Log.i("ViewModelContact", "lista de grupos $groups")
 				Log.i("ViewModelContact", "lista de projetos $projects")
 				_uiState.update {
 					it.copy(
+						associates = associates,
 						groups = groups,
 						projects = projects
 					)
