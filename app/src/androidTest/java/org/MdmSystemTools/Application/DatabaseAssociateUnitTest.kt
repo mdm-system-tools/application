@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import java.io.IOException
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.MdmSystemTools.Application.model.entity.AppDatabase
@@ -19,6 +18,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.io.IOException
 
 class DatabaseAssociateUnitTest {
   @get:Rule val composeTestRule = createComposeRule()
@@ -67,7 +67,7 @@ class DatabaseAssociateUnitTest {
 
     associateDao.delete(associate)
 
-    assertEquals(associateDao.getAll().size, 0)
+    assertEquals(associateDao.getAll(), 0)
   }
 
   @Test
