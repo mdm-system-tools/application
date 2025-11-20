@@ -53,7 +53,7 @@ fun AssociateProfileDetails(
 	onClickBackScreen: () -> Unit,
 	onClickEdit: () -> Unit,
 	onCLickExport: () -> Unit,
-	viewModel: AssociateProfileViewModel = hiltViewModel(),
+	viewModel: AssociateDetailsViewModel = hiltViewModel(),
 ) {
   Scaffold(
     topBar = {
