@@ -1,4 +1,4 @@
-package org.MdmSystemTools.Application.view.screens.Registration
+package org.MdmSystemTools.Application.view.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -51,16 +51,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.MdmSystemTools.Application.R
-import org.MdmSystemTools.Application.view.screens.Meeting.Tabs
+import org.MdmSystemTools.Application.view.screens.Meeting.TabsForRollCall
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Dashboard(
-	onClickMeetingBotton: (Tabs) -> Unit,
+	onClickMeetingBotton: (TabsForRollCall) -> Unit,
 	onClickListRegisters: () -> Unit,
 	onClickListEmployee: () -> Unit,
 ) {
@@ -73,15 +72,16 @@ fun Dashboard(
             Icon(Icons.Default.Menu, contentDescription = "Menu")
           }
         },
-        actions = {
-          IconButton(onClick = { /* perfil */ }) {
-            Icon(
-              painterResource(id = R.drawable.ic_launcher_background),
-              contentDescription = "Perfil",
-              tint = MaterialTheme.colorScheme.primary,
-            )
-          }
-        },
+				//TODO Implementar tela de perfil do usuario
+//        actions = {
+//          IconButton(onClick = { /* perfil */ }) {
+//            Icon(
+//              painterResource(id = R.drawable.ic_launcher_background),
+//              contentDescription = "Perfil",
+//              tint = MaterialTheme.colorScheme.primary,
+//            )
+//          }
+//        },
       )
     }
   ) { paddingValues ->
@@ -155,9 +155,9 @@ fun StatCard(title: String, count: Int, color: Color) {
 
 @Composable
 fun QuickActionsSection(
-  onNavigateToAttendance: (Tabs) -> Unit,
-  onNavigateToRegisters: () -> Unit,
-  onNavigateToEmployees: () -> Unit,
+	onNavigateToAttendance: (TabsForRollCall) -> Unit,
+	onNavigateToRegisters: () -> Unit,
+	onNavigateToEmployees: () -> Unit,
 ) {
   Card(
     Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
@@ -173,10 +173,10 @@ fun QuickActionsSection(
       )
 
       QuickActionButton("Chamada", Icons.Default.CalendarMonth, Color(0xFF8B5CF6)) {
-        onNavigateToAttendance(Tabs.ROLLCALL)
+        onNavigateToAttendance(TabsForRollCall.ROLLCALL)
       }
       QuickActionButton("Histórico de Chamada", Icons.Default.History, Color(0xFF8B5CF6)) {
-				onNavigateToAttendance(Tabs.HISTORY)
+				onNavigateToAttendance(TabsForRollCall.HISTORY)
       }
       QuickActionButton("Lista de Cadastros", Icons.AutoMirrored.Filled.List, Color(0xFF8B5CF6)) {
         onNavigateToRegisters()
@@ -351,19 +351,4 @@ fun CreateMeetingDialog(
       }
     }
   }
-}
-
-@Preview
-@Composable
-private fun DashboardPreview() {
-  Dashboard({}, {}, {})
-}
-
-@Preview
-@Composable
-private fun CreateMeetingDialogPreview() {
-  CreateMeetingDialog(
-    {},
-    {} as (projectName: String, date: String, location: String, address: String) -> Unit,
-  )
 }

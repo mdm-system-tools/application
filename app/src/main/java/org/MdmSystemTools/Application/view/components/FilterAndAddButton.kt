@@ -18,10 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import org.MdmSystemTools.Application.R
-import org.MdmSystemTools.Application.view.screens.Contact.Tabs
+import org.MdmSystemTools.Application.view.screens.Contact.TabsForContact
 
 @Composable
-fun FilterAndAddButton(selectedTab: Tabs, onClickAdd: (Tabs) -> Unit) {
+fun FilterAndAddButton(selectedTab: TabsForContact, onClickAdd: (TabsForContact) -> Unit) {
   Row(
     modifier = Modifier.fillMaxWidth().padding(8.dp),
     verticalAlignment = Alignment.CenterVertically,

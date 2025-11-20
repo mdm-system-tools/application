@@ -17,7 +17,7 @@ import org.MdmSystemTools.Application.model.repository.GroupRepository
 import org.MdmSystemTools.Application.view.screens.Contact.ContactUiModel.Associate
 import org.MdmSystemTools.Application.view.screens.Contact.ContactUiModel.Group
 
-enum class Tabs(val title: String) {
+enum class TabsForContact(val title: String) {
   ASSOCIATE("Associados"),
   GROUP("Grupos"),
   PROJECT("Projetos"),
@@ -30,8 +30,8 @@ sealed class ContactUiModel {
 }
 
 data class ContactUiState(
-  val tabSelected: Tabs = Tabs.ASSOCIATE,
-  val list: List<ContactUiModel> = emptyList(),
+	val tabSelected: TabsForContact = TabsForContact.ASSOCIATE,
+	val list: List<ContactUiModel> = emptyList(),
 )
 
 @HiltViewModel
@@ -52,21 +52,21 @@ constructor(
     loadDataForTab(_uiState.value.tabSelected)
   }
 
-  fun onTabSelected(tab: Tabs) {
+  fun onTabSelected(tab: TabsForContact) {
     viewModelScope.launch {
       _uiState.update { it.copy(tabSelected = tab) }
       loadDataForTab(tab)
     }
   }
 
-  private fun loadDataForTab(tab: Tabs) {
+  private fun loadDataForTab(tab: TabsForContact) {
     viewModelScope.launch {
       when (tab) {
-        Tabs.ASSOCIATE -> {
+        TabsForContact.ASSOCIATE -> {
           val associates = associateRepository.getAll().map { Associate(it) }
           _uiState.update { it.copy(list = associates) }
         }
-        Tabs.GROUP -> {
+        TabsForContact.GROUP -> {
           groupRepository.getAll().collectLatest { groups ->
             _uiState.update { it.copy(list = groups.map { Group(it) }) }
           }
