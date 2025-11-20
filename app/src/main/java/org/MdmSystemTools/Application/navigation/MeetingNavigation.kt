@@ -14,7 +14,7 @@ internal object MeetingHistory
 internal data class MeetingRollcall(val tab: TabsForRollCall)
 
 fun NavGraphBuilder.meetingHistory(onClickBack: () -> Unit, onClick: () -> Unit) {
-	composable<MeetingHistory> { MeetingDetailsScreen(onClickBack, onClick) }
+	composable<MeetingHistory> {}
 }
 
 fun NavController.navigateToMeetingHistory() {
