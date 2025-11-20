@@ -28,7 +28,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.view.components.FilterAndAddButton
 import org.MdmSystemTools.Application.view.components.Profile
-import org.MdmSystemTools.Application.view.screens.Contact.project.ProjectScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,20 +37,20 @@ fun ContactScreen(
 	onClickItem: (Int, TabsForContact) -> Unit,
 	viewModel: ContactViewModel = hiltViewModel(),
 ) {
-  val tabs = TabsForContact.entries
-  val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-  val pagerState: PagerState = rememberPagerState(initialPage = 1, pageCount = { 3 })
-  val coroutineScope: CoroutineScope = rememberCoroutineScope()
+	val tabs = TabsForContact.entries
+	val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+	val pagerState: PagerState = rememberPagerState(initialPage = 1, pageCount = { 3 })
+	val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
-  Scaffold(
-    topBar = {
-      TopAppBar(
-        title = { Text("Chamada") },
-        navigationIcon = {
-          IconButton(onClick = onBack) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
-          }
-        },
+	Scaffold(
+		topBar = {
+			TopAppBar(
+				title = { Text("Chamada") },
+				navigationIcon = {
+					IconButton(onClick = onBack) {
+						Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
+					}
+				},
 				//TODO implementar tela de perfil do usuario
 //        actions = {
 //          IconButton(onClick = { /* Perfil */ }) {
@@ -62,48 +61,61 @@ fun ContactScreen(
 //            )
 //          }
 //        },
-      )
-    }
-  ) { paddingValues ->
-    Column(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
-      PrimaryTabRow(selectedTabIndex = pagerState.currentPage) {
-        TabsForContact.entries.forEachIndexed { index, tab ->
-          Tab(
-            text = { Text(tab.title) },
-            selected = pagerState.currentPage == index,
-            onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
-          )
-        }
-      }
-      HorizontalPager(state = pagerState, modifier = Modifier.weight(1f)) { page ->
+			)
+		}
+	) { paddingValues ->
+		Column(
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(paddingValues)
+		) {
+			PrimaryTabRow(selectedTabIndex = pagerState.currentPage) {
+				TabsForContact.entries.forEachIndexed { index, tab ->
+					Tab(
+						text = { Text(tab.title) },
+						selected = pagerState.currentPage == index,
+						onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
+					)
+				}
+			}
+			HorizontalPager(state = pagerState, modifier = Modifier.weight(1f)) { page ->
 
-        val currentTab = tabs[page]
+				val currentTab = tabs[page]
 
-        when (currentTab) {
-          TabsForContact.PROJECT -> {
-            ProjectScreen(
-              onBackClick = onBack,
-              onProjetoClick = { projeto -> onClickItem(projeto.id, currentTab) },
-              onAddProjetoClick = { onClickAdd(currentTab) }
-            )
-          }
-          else -> {
-            Column(modifier = Modifier.fillMaxSize()) {
-              FilterAndAddButton(currentTab) { onClickAdd(it) }
+				Column(modifier = Modifier.fillMaxSize()) {
+					//TODO alterar
+					FilterAndAddButton(currentTab) { onClickAdd(it) }
 
-              LazyColumn(modifier = Modifier.fillMaxSize()) {
-                itemsIndexed(uiState.list) { index, item ->
-                  when (item) {
-                    is ContactUiModel.Associate -> Profile(item.data) { onClickItem(index, currentTab) }
+					LazyColumn(modifier = Modifier.fillMaxSize()) {
+						//TODO é possivel fazer melhor
+						when (pagerState.currentPage) {
+							0 -> {
+								itemsIndexed(uiState.associates) { index, item ->
+									Profile(item) {
+										onClickItem(index, currentTab)
+									}
+								}
+							}
 
-                    is ContactUiModel.Group -> Profile(item.data) { onClickItem(index, currentTab) }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+							1 -> {
+								itemsIndexed(uiState.groups) { index, item ->
+									Profile(item) {
+										onClickItem(index, currentTab)
+									}
+								}
+							}
+
+							2 -> {
+								itemsIndexed(uiState.projects) { index, item ->
+									Profile(item) {
+										onClickItem(index, currentTab)
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
