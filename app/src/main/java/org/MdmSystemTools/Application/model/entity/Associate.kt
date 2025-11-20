@@ -8,24 +8,32 @@ import androidx.room.Insert
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Entity
 data class Associate(
-  @PrimaryKey @ColumnInfo(name = "number_card") var numberCard: String,
-  @ColumnInfo(name = "name") var name: String?,
-  @ColumnInfo(name = "group_id") var groupId: Int?,
+	@PrimaryKey @ColumnInfo(name = "number_card") var numberCard: String,
+	@ColumnInfo(name = "name") var name: String?,
+	@ColumnInfo(name = "group_id") var groupId: Int?,
 )
 
 @Dao
 interface AssociateDao {
-  @Query("SELECT * FROM associate") suspend fun getAll(): List<Associate>
+	@Query("SELECT * FROM associate")
+	suspend fun getAll(): Flow<List<Associate>>
 
-  @Delete suspend fun delete(associate: Associate)
+	@Delete
+	suspend fun delete(associate: Associate)
 
-  @Insert suspend fun insert(associate: Associate)
+	@Query("DELETE FROM associate WHERE number_card = :numberCard")
+	suspend fun delete(numberCard: String)
 
-  @Query("SELECT * FROM associate " + "WHERE associate.number_card = :numberCard")
-  suspend fun getByid(numberCard: String): Associate
+	@Insert
+	suspend fun insert(associate: Associate): Long
 
-  @Update suspend fun updateAssociate(vararg associates: Associate)
+	@Query("SELECT * FROM associate " + "WHERE associate.number_card = :numberCard")
+	suspend fun getByid(numberCard: String): Associate
+
+	@Update
+	suspend fun updateAssociate(vararg associates: Associate)
 }

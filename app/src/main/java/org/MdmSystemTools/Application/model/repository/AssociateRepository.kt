@@ -1,16 +1,12 @@
 package org.MdmSystemTools.Application.model.repository
 
-import org.MdmSystemTools.Application.model.dto.AssociateDto
+import kotlinx.coroutines.flow.Flow
+import org.MdmSystemTools.Application.model.entity.Associate
 
-//TODO Troca para Entity Associate
 interface AssociateRepository {
-  fun getAll(): List<AssociateDto>
-
-  fun getById(id: Int): AssociateDto?
-
-  fun insert(associate: AssociateDto)
-
-  fun delete(id: Int)
-
-  fun delete(associate: AssociateDto)
+	suspend fun insert(associate: Associate): Long
+	suspend fun getAll(): Flow<List<Associate>>
+	suspend fun getById(numberCard: String): Associate
+	suspend fun delete(numberCard: String)
+	suspend fun delete(associate: Associate)
 }
