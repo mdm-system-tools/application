@@ -12,22 +12,27 @@ import kotlinx.coroutines.flow.Flow
 
 @Entity
 data class Project(
-  @PrimaryKey(autoGenerate = true) val id: Int = 0,
-  @ColumnInfo(name = "regiao") var region: String,
-  @ColumnInfo(name = "nome") var name: String,
-  @ColumnInfo(name = "valor") var value: Int,
+	@PrimaryKey(autoGenerate = true) val id: Int = 0,
+	@ColumnInfo(name = "regiao") var region: String,
+	@ColumnInfo(name = "nome") var name: String,
+	@ColumnInfo(name = "valor") var value: Int,
 )
+
 @Dao
 interface ProjectDao {
-	@Query("SELECT * FROM project") fun getAll(): Flow<List<Project>>
+	@Insert
+	fun insert(project: Project): Long
+	@Query("SELECT * FROM project")
+	fun getAll(): Flow<List<Project>>
 
-	@Delete suspend fun delete(project: Project)
+	@Query("SELECT * FROM project WHERE id = :id")
+	suspend fun getByid(id: Int): Project
 
-	@Insert fun insert(project: Project) : Long
+	@Update
+	suspend fun updateGroup(vararg projects: Project)
 
-	@Query("SELECT * FROM project WHERE id = :id") suspend fun getByid(id: Int): Project
-
-	@Update suspend fun updateGroup(vararg projects: Project)
-
-	@Query("DELETE FROM grupo WHERE id = :id") suspend fun deleteById(id: Int)
+	@Query("DELETE FROM grupo WHERE id = :id")
+	suspend fun delete(id: Int)
+	@Delete
+	suspend fun delete(project: Project)
 }

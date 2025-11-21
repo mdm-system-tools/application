@@ -7,12 +7,12 @@ import org.MdmSystemTools.Application.model.entity.ProjectDao
 class ProjectRepositoryImpl(private val dao: ProjectDao) : ProjectRepository {
   override fun insert(project: Project): Long = dao.insert(project)
 
-  override fun delete(id: Int) {
-
+  override suspend fun delete(id: Int) {
+		dao.delete(id)
   }
 
-  override fun delete(project: Project) {
-
+  override suspend fun delete(project: Project) {
+		dao.delete(project)
   }
 
   override fun getAll(): Flow<List<Project>> = dao.getAll()

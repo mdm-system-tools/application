@@ -6,9 +6,9 @@ import org.MdmSystemTools.Application.model.entity.Project
 interface ProjectRepository {
   fun insert(project: Project): Long
 
-  fun delete(id: Int)
+  suspend fun delete(id: Int)
 
-  fun delete(project: Project)
+  suspend fun delete(project: Project)
 
   fun getAll(): Flow<List<Project>>
 
