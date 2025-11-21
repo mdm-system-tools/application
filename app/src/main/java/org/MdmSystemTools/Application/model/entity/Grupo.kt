@@ -43,7 +43,7 @@ interface GrupoDao {
 	suspend fun getByid(id: Long): Grupo
 
 	@Update
-	suspend fun updateGroup(vararg groups: Grupo)
+	suspend fun update(vararg groups: Grupo)
 
 	@Query("DELETE FROM grupo WHERE id = :id")
 	suspend fun deleteById(id: Long)

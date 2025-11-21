@@ -65,7 +65,7 @@ class GroupFormViewModel @Inject constructor(
 			_uiEvent.emit(UiEvent.Error("ID do projeto inválido: ${e.message}"))
 		}
 
-		return Project(-1, "", "", -1)
+		return Project(-1, "", "", -1L, false)
 	}
 
 	fun save(state: GroupFormUiState) {

@@ -59,7 +59,7 @@ class DatabaseAssociateUnitTest {
 
     associate.name = "jose"
 
-    associateDao.updateAssociate(associate)
+    associateDao.update(associate)
 
     associate = associateDao.getByid("123")
 

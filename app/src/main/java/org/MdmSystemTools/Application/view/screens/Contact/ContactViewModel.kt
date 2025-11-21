@@ -46,20 +46,20 @@ constructor(
 	val uiState: StateFlow<ContactUiState> = _uiState.asStateFlow()
 
 	fun checkProjectListIsNotEmpty(): Boolean {
-		return if (_uiState.value.projects.isNotEmpty()) {
-			true
+		if (_uiState.value.projects.isNotEmpty()) {
+			return true
 		} else {
 			_uiState.update { it.copy(showNoProjectDialog = true) }
-			false
+			return false
 		}
 	}
 
 	fun checkGroupListIsNotEmpty(): Boolean {
-		return if (_uiState.value.groups.isNotEmpty()) {
-			true
+		if (_uiState.value.groups.isNotEmpty()) {
+			return true
 		} else {
 			_uiState.update { it.copy(showNoGroupDialog = true) }
-			false
+			return false
 		}
 	}
 
