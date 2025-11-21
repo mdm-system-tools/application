@@ -10,6 +10,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -17,6 +18,7 @@ import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -83,8 +85,21 @@ fun ContactScreen(
 				val currentTab = tabs[page]
 
 				Column(modifier = Modifier.fillMaxSize()) {
-					//TODO alterar
-					FilterAndAddButton(currentTab) { onClickAdd(it) }
+					FilterAndAddButton(currentTab) {
+						when (currentTab) {
+							TabsForContact.ASSOCIATE -> {
+								if (viewModel.checkGroupListIsNotEmpty())
+									onClickAdd(it)
+							}
+
+							TabsForContact.GROUP -> {
+								if (viewModel.checkProjectListIsNotEmpty())
+									onClickAdd(it)
+							}
+
+							TabsForContact.PROJECT -> onClickAdd(it)
+						}
+					}
 
 					LazyColumn(modifier = Modifier.fillMaxSize()) {
 						//TODO é possivel fazer melhor
@@ -114,6 +129,46 @@ fun ContactScreen(
 							}
 						}
 					}
+				}
+
+				if (uiState.showNoProjectDialog) {
+					AlertDialog(
+						onDismissRequest = { viewModel.closeNoProjectDialog() },
+						title = { Text("Nenhum Projeto ativo no momento") },
+						text = {
+							Text("Você precisa cadastrar ou ativar pelo menos um projeto antes de adicionar um novo grupo.")
+						},
+						confirmButton = {
+							TextButton(onClick = { viewModel.closeNoProjectDialog() }) {
+								Text("Entendi")
+							}
+						},
+//						dismissButton = {
+//							TextButton(onClick = { viewModel.closeNoProjectDialog() }) {
+//								Text("Criar projeto agora")
+//							}
+//						}
+					)
+				}
+
+				if (uiState.showNoGroupDialog) {
+					AlertDialog(
+						onDismissRequest = { viewModel.closeNoGroupDialog() },
+						title = { Text("Nenhum grupo ativo no momento") },
+						text = {
+							Text("Você precisa cadastrar ou ativar pelo menos um grupo antes de cadastrar novo associado.")
+						},
+						confirmButton = {
+							TextButton(onClick = { viewModel.closeNoGroupDialog() }) {
+								Text("entendi")
+							}
+						},
+//						dismissButton = {
+//							TextButton(onClick = { viewModel.closeNoGroupDialog() }) {
+//								Text("Criar grupo")
+//							}
+//						}
+					)
 				}
 			}
 		}

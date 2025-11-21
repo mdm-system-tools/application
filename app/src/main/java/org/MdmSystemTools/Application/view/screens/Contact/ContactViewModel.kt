@@ -30,6 +30,8 @@ data class ContactUiState(
 	val associates: List<Associate> = emptyList(),
 	val groups: List<Grupo> = emptyList(),
 	val projects: List<Project> = emptyList(),
+	var showNoProjectDialog: Boolean = false,
+	val showNoGroupDialog: Boolean = false,
 )
 
 @HiltViewModel
@@ -42,6 +44,32 @@ constructor(
 ) : ViewModel() {
 	private val _uiState = MutableStateFlow(ContactUiState())
 	val uiState: StateFlow<ContactUiState> = _uiState.asStateFlow()
+
+	fun checkProjectListIsNotEmpty(): Boolean {
+		return if (_uiState.value.projects.isNotEmpty()) {
+			true
+		} else {
+			_uiState.update { it.copy(showNoProjectDialog = true) }
+			false
+		}
+	}
+
+	fun checkGroupListIsNotEmpty(): Boolean {
+		return if (_uiState.value.groups.isNotEmpty()) {
+			true
+		} else {
+			_uiState.update { it.copy(showNoGroupDialog = true) }
+			false
+		}
+	}
+
+	fun closeNoProjectDialog() {
+		_uiState.update { it.copy(showNoProjectDialog = false) }
+	}
+
+	fun closeNoGroupDialog() {
+		_uiState.update { it.copy(showNoGroupDialog = false) }
+	}
 
 	init {
 		viewModelScope.launch {

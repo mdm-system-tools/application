@@ -11,12 +11,9 @@ import androidx.room.RoomDatabase
 abstract class AppDatabase : RoomDatabase() {
   abstract fun associateDao(): AssociateDao
 	abstract fun groupDao(): GrupoDao
-
   abstract fun projectDao(): ProjectDao
 	abstract fun meetingDao(): MeetingDao
-
 	abstract fun projectWithGroups(): ProjectWithGroupsDao
-
 	abstract fun loginDao(): LoginDao
 	abstract fun registerDao(): RegisterDao
 }

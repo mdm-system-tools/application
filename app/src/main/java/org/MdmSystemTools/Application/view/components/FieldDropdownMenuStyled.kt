@@ -39,14 +39,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-data class DropdownOptions(val id: Int, val name: String)
 
+//TODO quando possivel, substituir para esse fieldDropDown
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FieldDropdownMenuStyled(
 	title: String,
 	icon: ImageVector,
-	menuOptions: List<DropdownOptions>,
+	menuOptions: List<DropdownOption>,
 	placeholder: String = "",
 	fieldState: TextFieldState,
 ) {
