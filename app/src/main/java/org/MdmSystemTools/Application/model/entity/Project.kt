@@ -16,6 +16,7 @@ data class Project(
 	@ColumnInfo(name = "regiao") var region: String,
 	@ColumnInfo(name = "nome") var name: String,
 	@ColumnInfo(name = "valor") var value: Long,
+	@ColumnInfo(name = "completed") val completed: Boolean,
 )
 
 @Dao
@@ -29,10 +30,16 @@ interface ProjectDao {
 	suspend fun getByid(id: Long): Project
 
 	@Update
-	suspend fun updateGroup(vararg projects: Project)
+	suspend fun update(vararg projects: Project)
 
 	@Query("DELETE FROM grupo WHERE id = :id")
 	suspend fun delete(id: Long)
 	@Delete
 	suspend fun delete(project: Project)
+
+	@Query("SELECT COUNT(*) FROM project")
+	fun count() : Flow<Int>
+
+	@Query("SELECT COUNT(*) FROM project WHERE completed = 1")
+	fun countCompleted():Flow<Int>
 }

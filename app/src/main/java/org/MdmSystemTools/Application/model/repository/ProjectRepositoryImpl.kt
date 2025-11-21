@@ -20,4 +20,12 @@ class ProjectRepositoryImpl(private val dao: ProjectDao) : ProjectRepository {
   override suspend fun getById(id: Long): Project {
 		return dao.getByid(id)
   }
+
+	override suspend fun count(): Flow<Int> {
+		return dao.count()
+	}
+
+	override suspend fun countCompleted(): Flow<Int> {
+		return dao.countCompleted()
+	}
 }

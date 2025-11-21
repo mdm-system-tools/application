@@ -9,4 +9,6 @@ interface AssociateRepository {
 	suspend fun getById(numberCard: String): Associate
 	suspend fun delete(numberCard: String)
 	suspend fun delete(associate: Associate)
+
+	suspend fun count(): Flow<Int>
 }

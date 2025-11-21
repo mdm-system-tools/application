@@ -30,4 +30,8 @@ class AssociateRepositoryImpl(private val dao: AssociateDao) : AssociateReposito
 	override suspend fun delete(associate: Associate) {
 		dao.delete(associate)
 	}
+
+	override suspend fun count(): Flow<Int> {
+		return dao.count()
+	}
 }

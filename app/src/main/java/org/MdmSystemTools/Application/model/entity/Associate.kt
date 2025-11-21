@@ -35,5 +35,8 @@ interface AssociateDao {
 	suspend fun getByid(numberCard: String): Associate
 
 	@Update
-	suspend fun updateAssociate(vararg associates: Associate)
+	suspend fun update(vararg associates: Associate)
+
+	@Query("SELECT COUNT(*) FROM associate")
+	fun count() : Flow<Int>
 }
