@@ -9,7 +9,6 @@ import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.maxLength
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,7 +31,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.MdmSystemTools.Application.view.components.FieldDropdownMenuStyled
+import org.MdmSystemTools.Application.view.components.FieldDropdownMenu
 import org.MdmSystemTools.Application.view.components.UiEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,11 +84,9 @@ fun GroupFormScreen(
 				keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
 				inputTransformation = InputTransformation.maxLength(30),
 			)
-			FieldDropdownMenuStyled(
+			FieldDropdownMenu(
 				"Projeto",
-				Icons.Default.Flag,
 				projectOptions,
-				"Selecione um Projeto",
 				uiState.projectId
 			)
 			Button(

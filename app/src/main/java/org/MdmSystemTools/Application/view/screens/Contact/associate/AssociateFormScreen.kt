@@ -10,7 +10,6 @@ import androidx.compose.foundation.text.input.maxLength
 import androidx.compose.foundation.text.input.then
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,7 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.MdmSystemTools.Application.view.components.FieldDropdownMenuStyled
+import org.MdmSystemTools.Application.view.components.FieldDropdownMenu
 import org.MdmSystemTools.Application.view.components.UiEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,11 +98,9 @@ fun AssociateFormScreen(
 						}
 					},
 			)
-			FieldDropdownMenuStyled(
+			FieldDropdownMenu(
 				"Grupo",
-				Icons.Default.Groups,
 				groupOptions,
-				"selecione um grupo",
 				uiState.groupId
 			)
 			Button(
