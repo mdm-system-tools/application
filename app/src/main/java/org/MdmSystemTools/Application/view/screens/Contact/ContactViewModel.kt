@@ -50,9 +50,9 @@ constructor(
 				groupRepository.getAll(),
 				projectRepository.getAll()
 			) { associates, groups, projects ->
-				Log.i("ViewModelContact", "Lista de associados $associates")
-				Log.i("ViewModelContact", "lista de grupos $groups")
-				Log.i("ViewModelContact", "lista de projetos $projects")
+				Log.d("ViewModelContact", "Lista de associados $associates")
+				Log.d("ViewModelContact", "lista de grupos $groups")
+				Log.d("ViewModelContact", "lista de projetos $projects")
 				_uiState.update {
 					it.copy(
 						associates = associates,

@@ -9,5 +9,6 @@ fun GroupDetailsScreen(
   onClickConfirmButton: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
+//	val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
 }

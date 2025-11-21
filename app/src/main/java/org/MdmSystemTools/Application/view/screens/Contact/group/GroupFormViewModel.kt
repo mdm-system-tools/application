@@ -1,5 +1,6 @@
 package org.MdmSystemTools.Application.view.screens.Contact.group
 
+import android.util.Log
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,20 +8,20 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.entity.Grupo
 import org.MdmSystemTools.Application.model.entity.Project
 import org.MdmSystemTools.Application.model.repository.GroupRepository
 import org.MdmSystemTools.Application.model.repository.ProjectRepository
+import org.MdmSystemTools.Application.view.components.DropdownOptions
+import org.MdmSystemTools.Application.view.components.UiEvent
 import java.io.IOException
-
-sealed class UiEvent {
-	data class Success(val message: String) : UiEvent()
-	data class Error(val message: String) : UiEvent()
-}
 
 data class GroupFormUiState(
 	val schedule: TextFieldState = TextFieldState(),
@@ -40,15 +41,13 @@ class GroupFormViewModel @Inject constructor(
 	private val _uiEvent = MutableSharedFlow<UiEvent>()
 	val uiEvent = _uiEvent.asSharedFlow()
 
-	suspend fun getProjectId(id: Int): Project {
-		try {
-			return repositoryProject.getById(id)
-		} catch (e: Exception) {
-			_uiEvent.emit(UiEvent.Error("ID do projeto inválido: ${e.message}"))
-		}
-
-		return Project(0, "", "", 0)
-	}
+	val projectOptions: StateFlow<List<DropdownOptions>> = repositoryProject.getAll().map { list ->
+		list.map { DropdownOptions(it.id, it.name) }
+	}.stateIn(
+		scope = viewModelScope,
+		started = SharingStarted.WhileSubscribed(5000),
+		initialValue = emptyList()
+	)
 
 	fun isFormValid(state: GroupFormUiState): Boolean {
 		return if (state.schedule.text.isNotBlank() && state.projectId.text.isNotBlank())
@@ -59,16 +58,29 @@ class GroupFormViewModel @Inject constructor(
 		}
 	}
 
+	suspend fun getProjectId(id: Int): Project {
+		try {
+			return repositoryProject.getById(id)
+		} catch (e: Exception) {
+			_uiEvent.emit(UiEvent.Error("ID do projeto inválido: ${e.message}"))
+		}
+
+		return Project(-1, "", "", -1)
+	}
+
 	fun save(state: GroupFormUiState) {
-		if (!isFormValid(state)) return
-
 		val projectId = state.projectId.text.toString().toInt()
-
 
 		viewModelScope.launch {
 			val project = getProjectId(projectId)
-
 			val group: Grupo
+
+			if (project.id == -1) {
+				Log.e("ViewModelGroupForm", "projeto não encontrando, valor passado pelo usuario ${state.projectId}, encontrando no banco $project")
+				_uiEvent.emit(UiEvent.Error("Projeto não encontrando"))
+				return@launch
+			}
+
 			try {
 				group = Grupo(
 					schedule = state.schedule.text.toString(),
@@ -76,7 +88,7 @@ class GroupFormViewModel @Inject constructor(
 				)
 			} catch (e: IOException) {
 				_uiEvent.emit(UiEvent.Error("Erro ao criar associado: ${e.message}"))
-				return@launch // interrompe a execução se falhar
+				return@launch
 			}
 
 			try {
@@ -86,6 +98,5 @@ class GroupFormViewModel @Inject constructor(
 				_uiEvent.emit(UiEvent.Error("Erro ao salvar: ${e.message}"))
 			}
 		}
-
 	}
 }

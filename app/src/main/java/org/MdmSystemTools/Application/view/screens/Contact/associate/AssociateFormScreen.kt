@@ -1,5 +1,6 @@
 package org.MdmSystemTools.Application.view.screens.Contact.associate
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,7 +20,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.platform.LocalContext
@@ -30,6 +35,7 @@ import androidx.core.text.isDigitsOnly
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.MdmSystemTools.Application.view.components.FieldDropdownMenuStyled
+import org.MdmSystemTools.Application.view.components.UiEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,23 +45,25 @@ fun AssociateFormScreen(
 	viewModel: AssociateFormViewModel = hiltViewModel(),
 ) {
 	val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-	val listOptions = (1..5).map { it.toString() }
+	val uiEvent = viewModel.uiEvent.collectAsStateWithLifecycle(null)
+	val groupOptions by viewModel.groupsOptions.collectAsState()
 	val context = LocalContext.current
+	val userClick = remember { mutableStateOf(false) }
 
-	//TODO ISSO NAO DEVERIA ESTA AQUI
-//  LaunchedEffect(Unit) {
-//    viewModel.uiEvent.collect { event ->
-//      when (event) {
-//        is AssociateFormUiState.Success -> {
-//          Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-//          onClickConfirmButton()
-//        }
-//        is AssociateFormUiState.Error -> {
-//          Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-//        }
-//      }
-//    }
-//  }
+	LaunchedEffect(userClick.value) {
+		uiEvent.value?.let { event ->
+			when (event) {
+				is UiEvent.Success -> {
+					Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+					onClickConfirmButton()
+				}
+
+				is UiEvent.Error -> {
+					Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+				}
+			}
+		}
+	}
 
 	Scaffold(
 		topBar = {
@@ -94,14 +102,17 @@ fun AssociateFormScreen(
 			FieldDropdownMenuStyled(
 				"Grupo",
 				Icons.Default.Groups,
-				listOptions,
+				groupOptions,
 				"selecione um grupo",
 				uiState.groupId
 			)
 			Button(
 				enabled = viewModel.isFormValid(uiState),
 				modifier = Modifier.fillMaxWidth(),
-				onClick = { viewModel.save(uiState) },
+				onClick = {
+					userClick.value = !userClick.value
+					viewModel.save(uiState)
+				},
 			) {
 				Text("Confirmar")
 			}

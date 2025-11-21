@@ -39,14 +39,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+data class DropdownOptions(val id: Int, val name: String)
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FieldDropdownMenuStyled(
-  title: String,
-  icon: ImageVector,
-  menuOptions: List<String>,
-  placeholder: String = "",
-  fieldState: TextFieldState,
+	title: String,
+	icon: ImageVector,
+	menuOptions: List<DropdownOptions>,
+	placeholder: String = "",
+	fieldState: TextFieldState,
 ) {
   var expanded by remember { mutableStateOf(false) }
 
@@ -112,11 +114,11 @@ fun FieldDropdownMenuStyled(
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
           menuOptions.forEach { option ->
             DropdownMenuItem(
-              text = { Text(option) },
+              text = { Text(option.name) },
               onClick = {
                 fieldState.edit {
                   delete(0, length)
-                  append(option)
+                  append(option.id.toString())
                   placeCursorAtEnd()
                 }
                 expanded = false

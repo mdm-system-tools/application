@@ -9,12 +9,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.MdmSystemTools.Application.model.repository.AssociateRepository
 
-sealed class UiEvent {
-	data class Success(val message: String) : UiEvent()
-
-	data class Error(val message: String) : UiEvent()
-}
-
 enum class TabsForRollCall(val title: String, val index: Int) {
 	ROLLCALL("Chamada", 0),
 	HISTORY("Histórico", 1)

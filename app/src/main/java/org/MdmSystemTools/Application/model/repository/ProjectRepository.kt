@@ -12,5 +12,5 @@ interface ProjectRepository {
 
   fun getAll(): Flow<List<Project>>
 
-  fun getById(id: Int): Project
+  suspend fun getById(id: Int): Project
 }

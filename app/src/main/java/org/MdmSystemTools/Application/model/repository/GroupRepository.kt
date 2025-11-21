@@ -6,9 +6,9 @@ import org.MdmSystemTools.Application.model.entity.Grupo
 interface GroupRepository {
   suspend fun insert(group: Grupo): Long
 
-  suspend fun getAll(): Flow<List<Grupo>>
+  fun getAll(): Flow<List<Grupo>>
 
-  suspend fun getById(): Grupo
+  suspend fun getById(id:Int): Grupo
 
   suspend fun delete(id: Int)
 
