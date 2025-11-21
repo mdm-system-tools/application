@@ -24,8 +24,6 @@ class RollCallViewModel @Inject constructor(private val repository: AssociateRep
 	private val _uiState = MutableStateFlow(RollCallUiState())
 	val uiState: StateFlow<RollCallUiState> = _uiState.asStateFlow()
 
-
-
 	fun changePage(index: Int) {
 		_uiState.update { it.copy(targetPage = index) }
 	}

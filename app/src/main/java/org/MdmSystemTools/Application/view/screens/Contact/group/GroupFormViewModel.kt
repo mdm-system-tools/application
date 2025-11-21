@@ -49,7 +49,7 @@ class GroupFormViewModel @Inject constructor(
 		initialValue = emptyList()
 	)
 
-	fun isFormValid(state: GroupFormUiState): Boolean {
+	fun isValid(state: GroupFormUiState): Boolean {
 		return if (state.schedule.text.isNotBlank() && state.projectId.text.isNotBlank())
 			true
 		else {

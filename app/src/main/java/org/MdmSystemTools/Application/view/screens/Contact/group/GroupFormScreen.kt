@@ -90,7 +90,7 @@ fun GroupFormScreen(
 				uiState.projectId
 			)
 			Button(
-				enabled = viewModel.isFormValid(uiState),
+				enabled = viewModel.isValid(uiState),
 				modifier = Modifier.fillMaxWidth(),
 				onClick = {
 					userClick.value = !userClick.value

@@ -32,7 +32,7 @@ constructor(
 	private val _uiState = MutableStateFlow(ProjectFormUiState())
 	val uiState = _uiState.asStateFlow()
 
-	fun validate(state: ProjectFormUiState): Boolean {
+	fun isValid(state: ProjectFormUiState): Boolean {
 		if (state.name.text.isNotEmpty() && state.region.text.isNotEmpty() && state.value.text.isNotEmpty())
 			return true
 		else {
@@ -43,7 +43,7 @@ constructor(
 		}
 	}
 
-	fun onSubmit(state: ProjectFormUiState) {
+	fun save(state: ProjectFormUiState) {
 		val project = try {
 			Project(
 				name = state.name.text.toString(),
@@ -68,7 +68,7 @@ constructor(
 		}
 	}
 
-	fun deleteProject(project: Project) {
+	fun delete(project: Project) {
 		viewModelScope.launch {
 			try {
 				repository.delete(project)

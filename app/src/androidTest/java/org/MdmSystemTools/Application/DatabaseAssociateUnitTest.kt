@@ -73,7 +73,7 @@ class DatabaseAssociateUnitTest {
   @Test
   fun crudGroupTest() = runBlocking {
     val projectId =
-      projectDao.insert(Project(name = "Projeto A", region = "Sul", value = 5000)).toInt()
+      projectDao.insert(Project(name = "Projeto A", region = "Sul", value = 5000, completed = false)).toLong()
     groupDao.insert(Grupo(schedule = "9:00", projectId = projectId))
     groupDao.insert(Grupo(schedule = "10:00", projectId = projectId))
 

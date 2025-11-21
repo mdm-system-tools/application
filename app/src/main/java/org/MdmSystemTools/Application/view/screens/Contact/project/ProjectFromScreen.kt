@@ -79,9 +79,9 @@ fun ProjectFormScreen(
 	) { innerPadding ->
 		Column(
 			modifier = Modifier
-				.fillMaxSize()
-				.padding(innerPadding)
-				.padding(horizontal = 16.dp, vertical = 8.dp)
+        .fillMaxSize()
+        .padding(innerPadding)
+        .padding(horizontal = 16.dp, vertical = 8.dp)
 		) {
 			Text(
 				text = "Nome do Projeto",
@@ -133,15 +133,15 @@ fun ProjectFormScreen(
 
 			Row(
 				modifier = Modifier
-					.fillMaxWidth()
-					.padding(bottom = 16.dp),
+          .fillMaxWidth()
+          .padding(bottom = 16.dp),
 				horizontalArrangement = Arrangement.SpaceBetween
 			) {
 				OutlinedButton(
 					onClick = onCancelarClick,
 					modifier = Modifier
-						.weight(1f)
-						.height(48.dp)
+            .weight(1f)
+            .height(48.dp)
 				) {
 					Text("Cancelar")
 				}
@@ -149,10 +149,11 @@ fun ProjectFormScreen(
 				Spacer(modifier = Modifier.width(16.dp))
 
 				Button(
-					onClick = { viewModel.onSubmit(uiState) },
+					enabled = viewModel.isValid(uiState),
+					onClick = { viewModel.save(uiState) },
 					modifier = Modifier
-						.weight(1f)
-						.height(48.dp)
+            .weight(1f)
+            .height(48.dp)
 				) {
 					Text("Criar Projeto")
 				}
