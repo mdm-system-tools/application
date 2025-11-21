@@ -6,80 +6,76 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.MdmSystemTools.Application.model.entity.Project
 import org.MdmSystemTools.Application.model.repository.ProjectRepository
+import org.MdmSystemTools.Application.view.components.UiEvent
 
-sealed class ProjectFormUiEvent {
-  data class Success(val message: String) : ProjectFormUiEvent()
-  data class Error(val message: String) : ProjectFormUiEvent()
-}
+data class ProjectFormUiState(
+	val name: TextFieldState = TextFieldState(),
+	val region: TextFieldState = TextFieldState(),
+	val value: TextFieldState = TextFieldState()
+)
 
 @HiltViewModel
 class ProjectFormViewModel
 @Inject
 constructor(
-  private val repository: ProjectRepository,
+	private val repository: ProjectRepository,
 ) : ViewModel() {
 
-  val name: TextFieldState = TextFieldState()
-  val region: TextFieldState = TextFieldState()
-  val value: TextFieldState = TextFieldState()
+	private val _uiEvent = MutableSharedFlow<UiEvent>()
+	val uiEvent = _uiEvent.asSharedFlow()
+	private val _uiState = MutableStateFlow(ProjectFormUiState())
+	val uiState = _uiState.asStateFlow()
 
-  private val _uiEvent = MutableSharedFlow<ProjectFormUiEvent>()
-  val uiEvent = _uiEvent.asSharedFlow()
+	fun validate(state: ProjectFormUiState): Boolean {
+		if (state.name.text.isNotEmpty() && state.region.text.isNotEmpty() && state.value.text.isNotEmpty())
+			return true
+		else {
+			viewModelScope.launch {
+				_uiEvent.emit(UiEvent.Error("Preencha todos os campos"))
+			}
+			return false
+		}
+	}
 
-  fun validate(): Boolean {
-    return name.text.isNotEmpty() && region.text.isNotEmpty() && value.text.isNotEmpty()
-  }
+	fun onSubmit(state: ProjectFormUiState) {
+		val project = try {
+			Project(
+				name = state.name.text.toString(),
+				region = state.region.text.toString(),
+				value = state.value.text.toString().toLong(),
+				completed = false
+			)
+		} catch (e: NumberFormatException) {
+			viewModelScope.launch {
+				_uiEvent.emit(UiEvent.Error("Valor deve ser um número válido"))
+			}
+			return
+		}
 
-  fun onSubmit() {
-    if (!validate()) {
-      viewModelScope.launch {
-        _uiEvent.emit(ProjectFormUiEvent.Error("Preencha todos os campos"))
-      }
-      return
-    }
+		viewModelScope.launch {
+			try {
+				repository.insert(project)
+				_uiEvent.emit(UiEvent.Success("Projeto salvo com sucesso"))
+			} catch (e: Exception) {
+				_uiEvent.emit(UiEvent.Error("Erro ao salvar: ${e.message}"))
+			}
+		}
+	}
 
-    val project = try {
-      Project(
-        name = name.text.toString(),
-        region = region.text.toString(),
-        value = value.text.toString().toLong(),
-      )
-    } catch (e: NumberFormatException) {
-      viewModelScope.launch {
-        _uiEvent.emit(ProjectFormUiEvent.Error("Valor deve ser um número válido"))
-      }
-      return
-    }
-
-    viewModelScope.launch {
-      try {
-        repository.insert(project)
-        clearFields()
-        _uiEvent.emit(ProjectFormUiEvent.Success("Projeto salvo com sucesso"))
-      } catch (e: Exception) {
-        _uiEvent.emit(ProjectFormUiEvent.Error("Erro ao salvar: ${e.message}"))
-      }
-    }
-  }
-
-  private fun clearFields() {
-    name.edit { replace(0, length, "") }
-    region.edit { replace(0, length, "") }
-    value.edit { replace(0, length, "") }
-  }
-
-  fun deleteProject(project: Project) {
-    viewModelScope.launch {
-      try {
-        repository.delete(project)
-        _uiEvent.emit(ProjectFormUiEvent.Success("Projeto deletado com sucesso"))
-      } catch (e: Exception) {
-        _uiEvent.emit(ProjectFormUiEvent.Error("Erro ao deletar: ${e.message}"))
-      }
-    }
-  }
+	fun deleteProject(project: Project) {
+		viewModelScope.launch {
+			try {
+				repository.delete(project)
+				_uiEvent.emit(UiEvent.Success("Projeto deletado com sucesso"))
+			} catch (e: Exception) {
+				_uiEvent.emit(UiEvent.Error("Erro ao deletar: ${e.message}"))
+			}
+		}
+	}
 }
