@@ -18,7 +18,7 @@ import org.MdmSystemTools.Application.model.entity.Associate
 import org.MdmSystemTools.Application.model.entity.Grupo
 import org.MdmSystemTools.Application.model.repository.AssociateRepository
 import org.MdmSystemTools.Application.model.repository.GroupRepository
-import org.MdmSystemTools.Application.view.components.DropdownOptions
+import org.MdmSystemTools.Application.view.components.DropdownOption
 import org.MdmSystemTools.Application.view.components.UiEvent
 import java.io.IOException
 
@@ -40,8 +40,8 @@ class AssociateFormViewModel @Inject constructor(
 	private val _uiEvent = MutableSharedFlow<UiEvent>()
 	val uiEvent = _uiEvent.asSharedFlow()
 
-	val groupsOptions: StateFlow<List<DropdownOptions>> = repositoryGroup.getAll().map { list ->
-		list.map { DropdownOptions(it.id, it.schedule) }
+	val groupsOptions: StateFlow<List<DropdownOption>> = repositoryGroup.getAll().map { list ->
+		list.map { DropdownOption(it.id, it.schedule) }
 	}.stateIn(
 		scope = viewModelScope,
 		started = SharingStarted.WhileSubscribed(5000),
@@ -75,7 +75,7 @@ class AssociateFormViewModel @Inject constructor(
 			val associate: Associate
 
 			try {
-				if (group.id == -1){
+				if (group.id == -1) {
 					_uiEvent.emit(UiEvent.Error("Grupo não encontrando"))
 					return@launch
 				}

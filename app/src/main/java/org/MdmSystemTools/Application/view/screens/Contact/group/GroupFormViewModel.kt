@@ -19,7 +19,7 @@ import org.MdmSystemTools.Application.model.entity.Grupo
 import org.MdmSystemTools.Application.model.entity.Project
 import org.MdmSystemTools.Application.model.repository.GroupRepository
 import org.MdmSystemTools.Application.model.repository.ProjectRepository
-import org.MdmSystemTools.Application.view.components.DropdownOptions
+import org.MdmSystemTools.Application.view.components.DropdownOption
 import org.MdmSystemTools.Application.view.components.UiEvent
 import java.io.IOException
 
@@ -41,8 +41,8 @@ class GroupFormViewModel @Inject constructor(
 	private val _uiEvent = MutableSharedFlow<UiEvent>()
 	val uiEvent = _uiEvent.asSharedFlow()
 
-	val projectOptions: StateFlow<List<DropdownOptions>> = repositoryProject.getAll().map { list ->
-		list.map { DropdownOptions(it.id, it.name) }
+	val projectOptions: StateFlow<List<DropdownOption>> = repositoryProject.getAll().map { list ->
+		list.map { DropdownOption(it.id, it.name) }
 	}.stateIn(
 		scope = viewModelScope,
 		started = SharingStarted.WhileSubscribed(5000),
