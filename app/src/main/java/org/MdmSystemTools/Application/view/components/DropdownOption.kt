@@ -1,3 +1,3 @@
 package org.MdmSystemTools.Application.view.components
 
-data class DropdownOption(val id: Int, val name: String)
+data class DropdownOption(val id: Long, val name: String)

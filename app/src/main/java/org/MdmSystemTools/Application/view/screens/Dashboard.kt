@@ -69,11 +69,11 @@ fun Dashboard(
 			TopAppBar(
 				title = { Text("Menu Principal") },
 				navigationIcon = {
-					IconButton(onClick = { /* abrir drawer */ }) {
+					IconButton(onClick = { /* TODO abrir drawer */ }) {
 						Icon(Icons.Default.Menu, contentDescription = "Menu")
 					}
 				},
-				//TODO Implementar tela de perfil do usuario
+//				TODO Implementar tela de perfil do usuario
 //        actions = {
 //          IconButton(onClick = { /* perfil */ }) {
 //            Icon(

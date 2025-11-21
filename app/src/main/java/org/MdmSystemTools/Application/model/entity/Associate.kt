@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.Flow
 @Entity
 data class Associate(
 	@PrimaryKey @ColumnInfo(name = "number_card") var numberCard: String,
-	@ColumnInfo(name = "name") var name: String?,
-	@ColumnInfo(name = "group_id") var groupId: Int?,
+	@ColumnInfo(name = "name") var name: String,
+	@ColumnInfo(name = "group_id") var groupId: Long,
 )
 
 @Dao

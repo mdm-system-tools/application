@@ -13,34 +13,38 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Entity(
-  foreignKeys =
-    [
-      ForeignKey(
-        entity = Project::class,
-        parentColumns = ["id"],
-        childColumns = ["project_id"],
-        onDelete = ForeignKey.CASCADE, // se o projeto for apagado, os grupos também são
-      )
-    ],
-  indices = [Index("project_id")],
+	foreignKeys = [
+		ForeignKey(
+			entity = Project::class,
+			parentColumns = ["id"],
+			childColumns = ["project_id"],
+			onDelete = ForeignKey.CASCADE,
+		)
+	], indices = [Index("project_id")]
 )
 data class Grupo(
-  @PrimaryKey(autoGenerate = true) val id: Int = 0,
-  @ColumnInfo(name = "project_id") val projectId: Int,
-  @ColumnInfo(name = "schedule") var schedule: String,
+	@PrimaryKey(autoGenerate = true) val id: Long = 0,
+	@ColumnInfo(name = "project_id") val projectId: Long,
+	@ColumnInfo(name = "schedule") var schedule: String,
 )
 
 @Dao
 interface GrupoDao {
-  @Query("SELECT * FROM grupo") fun getAll(): Flow<List<Grupo>>
+	@Query("SELECT * FROM grupo")
+	fun getAll(): Flow<List<Grupo>>
 
-  @Delete suspend fun delete(group: Grupo)
+	@Delete
+	suspend fun delete(group: Grupo)
 
-  @Insert suspend fun insert(group: Grupo) : Long
+	@Insert
+	suspend fun insert(group: Grupo): Long
 
-  @Query("SELECT * FROM grupo WHERE grupo.id = :id") suspend fun getByid(id: Int): Grupo
+	@Query("SELECT * FROM grupo WHERE grupo.id = :id")
+	suspend fun getByid(id: Long): Grupo
 
-  @Update suspend fun updateGroup(vararg groups: Grupo)
+	@Update
+	suspend fun updateGroup(vararg groups: Grupo)
 
-  @Query("DELETE FROM grupo WHERE id = :id") suspend fun deleteById(id: Int)
+	@Query("DELETE FROM grupo WHERE id = :id")
+	suspend fun deleteById(id: Long)
 }

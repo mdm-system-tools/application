@@ -11,7 +11,7 @@ class GroupRepositoryImpl(private val dao: GrupoDao) : GroupRepository {
 		return dao.getAll().map { list -> list.map { Grupo(it.id, it.projectId, it.schedule) } }
 	}
 
-	override suspend fun getById(id: Int): Grupo {
+	override suspend fun getById(id: Long): Grupo {
 		return dao.getByid(id)
 	}
 
@@ -19,7 +19,7 @@ class GroupRepositoryImpl(private val dao: GrupoDao) : GroupRepository {
 		return dao.insert(group)
 	}
 
-	override suspend fun delete(id: Int) {
+	override suspend fun delete(id: Long) {
 		dao.deleteById(id)
 	}
 

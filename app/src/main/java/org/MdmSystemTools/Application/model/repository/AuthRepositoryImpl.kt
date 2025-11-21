@@ -41,7 +41,7 @@ class AuthRepositoryImpl : AuthRepository {
       if (existingUser != null) {
         Result.failure(Exception("Este email já está cadastrado"))
       } else {
-        val newRegister = register.copy(id = registeredUsers.size + 1)
+        val newRegister = register.copy(id = registeredUsers.size + 1L)
         registeredUsers.add(newRegister)
         Result.success(newRegister)
       }

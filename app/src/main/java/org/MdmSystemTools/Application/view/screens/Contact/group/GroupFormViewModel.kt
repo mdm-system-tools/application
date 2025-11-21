@@ -58,7 +58,7 @@ class GroupFormViewModel @Inject constructor(
 		}
 	}
 
-	suspend fun getProjectId(id: Int): Project {
+	suspend fun getProjectId(id: Long): Project {
 		try {
 			return repositoryProject.getById(id)
 		} catch (e: Exception) {
@@ -69,13 +69,13 @@ class GroupFormViewModel @Inject constructor(
 	}
 
 	fun save(state: GroupFormUiState) {
-		val projectId = state.projectId.text.toString().toInt()
+		val projectId = state.projectId.text.toString().toLong()
 
 		viewModelScope.launch {
 			val project = getProjectId(projectId)
 			val group: Grupo
 
-			if (project.id == -1) {
+			if (project.id == -1L) {
 				Log.e("ViewModelGroupForm", "projeto não encontrando, valor passado pelo usuario ${state.projectId}, encontrando no banco $project")
 				_uiEvent.emit(UiEvent.Error("Projeto não encontrando"))
 				return@launch

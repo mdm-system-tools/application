@@ -15,5 +15,5 @@ data class ProjectWithGroups(
 interface ProjectWithGroupsDao {
 	@Transaction
 	@Query("SELECT * FROM Project WHERE id = :projectId")
-	suspend fun getProjectWithGroups(projectId: Int): ProjectWithGroups
+	suspend fun getProjectWithGroups(projectId: Long): ProjectWithGroups
 }

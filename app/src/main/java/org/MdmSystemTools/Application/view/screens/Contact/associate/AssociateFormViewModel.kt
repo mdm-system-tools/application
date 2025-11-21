@@ -58,7 +58,7 @@ class AssociateFormViewModel @Inject constructor(
 		}
 	}
 
-	suspend fun getGroupById(id: Int): Grupo {
+	suspend fun getGroupById(id: Long): Grupo {
 		try {
 			return repositoryGroup.getById(id)
 		} catch (e: Exception) {
@@ -69,13 +69,13 @@ class AssociateFormViewModel @Inject constructor(
 	}
 
 	fun save(state: AssociateFormUiState) {
-		val groupId = state.groupId.text.toString().toInt()
+		val groupId = state.groupId.text.toString().toLong()
 		viewModelScope.launch {
 			val group = getGroupById(groupId)
 			val associate: Associate
 
 			try {
-				if (group.id == -1) {
+				if (group.id == -1L) {
 					_uiEvent.emit(UiEvent.Error("Grupo não encontrando"))
 					return@launch
 				}

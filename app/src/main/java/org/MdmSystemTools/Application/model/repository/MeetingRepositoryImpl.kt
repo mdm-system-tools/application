@@ -9,7 +9,7 @@ class MeetingRepositoryImpl(private val dao: MeetingDao) : MeetingRepository {
     return dao.insert(meeting)
   }
 
-  override suspend fun delete(id: Int) {
+  override suspend fun delete(id: Long) {
     dao.delete(id)
   }
 
@@ -21,7 +21,7 @@ class MeetingRepositoryImpl(private val dao: MeetingDao) : MeetingRepository {
     return dao.getAll()
   }
 
-  override suspend fun getById(id: Int): Meeting {
+  override suspend fun getById(id: Long): Meeting {
     return dao.getByid(id)
   }
 }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 @Entity(tableName = "login")
 data class Login(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
     @ColumnInfo(name = "cpf")
     val cpf: String = "",
     @ColumnInfo(name = "password")
@@ -23,7 +23,7 @@ data class Login(
 @Entity(tableName = "register")
 data class Register(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
     @ColumnInfo(name = "name")
     val name: String = "",
     @ColumnInfo(name = "email")
@@ -43,7 +43,7 @@ interface LoginDao {
     suspend fun getByCpf(cpf: String): Login?
 
     @Query("SELECT * FROM login WHERE id = :id")
-    suspend fun getById(id: Int): Login?
+    suspend fun getById(id: Long): Login?
 
     @Insert
     suspend fun insert(login: Login): Long
@@ -55,7 +55,7 @@ interface LoginDao {
     suspend fun delete(login: Login)
 
     @Query("DELETE FROM login WHERE id = :id")
-    suspend fun deleteById(id: Int)
+    suspend fun deleteById(id: Long)
 }
 
 @Dao
@@ -67,7 +67,7 @@ interface RegisterDao {
     suspend fun getByEmail(email: String): Register?
 
     @Query("SELECT * FROM register WHERE id = :id")
-    suspend fun getById(id: Int): Register?
+    suspend fun getById(id: Long): Register?
 
     @Insert
     suspend fun insert(register: Register): Long
@@ -79,5 +79,5 @@ interface RegisterDao {
     suspend fun delete(register: Register)
 
     @Query("DELETE FROM register WHERE id = :id")
-    suspend fun deleteById(id: Int)
+    suspend fun deleteById(id: Long)
 }

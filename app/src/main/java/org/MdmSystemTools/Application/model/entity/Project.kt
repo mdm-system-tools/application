@@ -12,10 +12,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Entity
 data class Project(
-	@PrimaryKey(autoGenerate = true) val id: Int = 0,
+	@PrimaryKey(autoGenerate = true) val id: Long = 0,
 	@ColumnInfo(name = "regiao") var region: String,
 	@ColumnInfo(name = "nome") var name: String,
-	@ColumnInfo(name = "valor") var value: Int,
+	@ColumnInfo(name = "valor") var value: Long,
 )
 
 @Dao
@@ -26,13 +26,13 @@ interface ProjectDao {
 	fun getAll(): Flow<List<Project>>
 
 	@Query("SELECT * FROM project WHERE id = :id")
-	suspend fun getByid(id: Int): Project
+	suspend fun getByid(id: Long): Project
 
 	@Update
 	suspend fun updateGroup(vararg projects: Project)
 
 	@Query("DELETE FROM grupo WHERE id = :id")
-	suspend fun delete(id: Int)
+	suspend fun delete(id: Long)
 	@Delete
 	suspend fun delete(project: Project)
 }

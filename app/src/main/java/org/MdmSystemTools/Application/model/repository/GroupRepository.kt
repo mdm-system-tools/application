@@ -8,9 +8,9 @@ interface GroupRepository {
 
   fun getAll(): Flow<List<Grupo>>
 
-  suspend fun getById(id:Int): Grupo
+  suspend fun getById(id:Long): Grupo
 
-  suspend fun delete(id: Int)
+  suspend fun delete(id: Long)
 
   suspend fun delete(group: Grupo)
 }

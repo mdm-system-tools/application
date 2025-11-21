@@ -46,7 +46,7 @@ constructor(
       Project(
         name = name.text.toString(),
         region = region.text.toString(),
-        value = value.text.toString().toInt(),
+        value = value.text.toString().toLong(),
       )
     } catch (e: NumberFormatException) {
       viewModelScope.launch {
