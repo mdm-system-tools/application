@@ -11,6 +11,8 @@ import org.MdmSystemTools.Application.model.entity.AppDatabase
 import org.MdmSystemTools.Application.model.entity.AssociateDao
 import org.MdmSystemTools.Application.model.entity.GrupoDao
 import org.MdmSystemTools.Application.model.entity.MeetingDao
+import org.MdmSystemTools.Application.model.entity.MeetingWithProject
+import org.MdmSystemTools.Application.model.entity.MeetingWithProjectDao
 import org.MdmSystemTools.Application.model.entity.ProjectDao
 import org.MdmSystemTools.Application.model.entity.ProjectWithGroupsDao
 import org.MdmSystemTools.Application.model.repository.AssociateRepository
@@ -21,8 +23,12 @@ import org.MdmSystemTools.Application.model.repository.GroupRepository
 import org.MdmSystemTools.Application.model.repository.GroupRepositoryImpl
 import org.MdmSystemTools.Application.model.repository.MeetingRepository
 import org.MdmSystemTools.Application.model.repository.MeetingRepositoryImpl
+import org.MdmSystemTools.Application.model.repository.MeetingWithProjectRepository
+import org.MdmSystemTools.Application.model.repository.MeetingWithProjectRepositoryImpl
 import org.MdmSystemTools.Application.model.repository.ProjectRepository
 import org.MdmSystemTools.Application.model.repository.ProjectRepositoryImpl
+import org.MdmSystemTools.Application.model.repository.ProjectWithGroupsRepository
+import org.MdmSystemTools.Application.model.repository.ProjectWithGroupsRepositoryImpl
 import javax.inject.Singleton
 
 @Module
@@ -42,6 +48,10 @@ object NetworkModule {
 
 	@Provides
 	fun provideAssociateDao(db: AppDatabase): AssociateDao = db.associateDao()
+
+	@Provides
+	fun provideMeetingWithProject(db: AppDatabase): MeetingWithProject = db.meetingWithProjectDao()
+
 	@Provides
 	fun provideGroupDao(db: AppDatabase): GrupoDao = db.groupDao()
 
@@ -68,6 +78,13 @@ object NetworkModule {
 	fun provideMeetingRepository(dao: MeetingDao): MeetingRepository = MeetingRepositoryImpl(dao)
 
 	@Provides
-	@Singleton
 	fun provideAuthRepository(): AuthRepository = AuthRepositoryImpl()
+
+	@Provides
+	fun provideProjectWithGroupsRepository(dao: ProjectWithGroupsDao): ProjectWithGroupsRepository =
+		ProjectWithGroupsRepositoryImpl(dao)
+
+	@Provides
+	fun provideMeetingWithProjectRepository(dao: MeetingWithProjectDao): MeetingWithProjectRepository =
+		MeetingWithProjectRepositoryImpl(dao)
 }

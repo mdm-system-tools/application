@@ -13,17 +13,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.GroupOff
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.ButtonDefaults
@@ -32,6 +30,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
@@ -49,6 +48,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,7 +74,7 @@ fun RollCallScreen(
 						Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
 					}
 				},
-				//TODO Implementar tela de perfil do usuario
+//				TODO Implementar tela de perfil do usuario
 //				actions = {
 //					IconButton(onClick = { /* Perfil */ }) {
 //						Icon(
@@ -87,9 +89,9 @@ fun RollCallScreen(
 	) { padding ->
 		Column(
 			modifier = Modifier
-				.padding(padding)
-				.fillMaxSize()
-				.background(Color(0xFFF6F7FF))
+        .padding(padding)
+        .fillMaxSize()
+        .background(Color(0xFFF6F7FF))
 		) {
 			LaunchedEffect(uiState.targetPage) {
 				pagerState.animateScrollToPage(uiState.targetPage)
@@ -104,11 +106,9 @@ fun RollCallScreen(
 				}
 			}
 
-
-
 			HorizontalPager(state = pagerState, modifier = Modifier.weight(1f)) { page ->
 				when (page) {
-					0 -> RollCallTabContent(onStartGroup = onNavigateToStartGroup)
+					0 -> RollCallTabContent(onStartGroup = onNavigateToStartGroup, uiState)
 					1 -> HistoryTabContent(onViewHistoryItem = onViewHistoryItem)
 				}
 			}
@@ -117,56 +117,96 @@ fun RollCallScreen(
 }
 
 @Composable
-fun RollCallTabContent(onStartGroup: (String) -> Unit) {
-	LazyColumn(
-		modifier = Modifier
-			.fillMaxSize()
-			.padding(16.dp)
-	) {
-		items(2) { index ->
+fun RollCallTabContent(onStartGroup: (String) -> Unit, uiState: RollCallUiState) {
+//	LazyColumn(
+//		modifier = Modifier
+//      .fillMaxSize()
+//      .padding(16.dp)
+//	) {
+//		items(uiState.meetingsWithDetails) { meeting ->
+//			Card(
+//				shape = RoundedCornerShape(16.dp),
+//				colors = CardDefaults.cardColors(containerColor = Color.White),
+//				modifier = Modifier
+//          .fillMaxWidth()
+//          .padding(vertical = 8.dp),
+//			) {
+//				Column(Modifier.padding(16.dp)) {
+//					Text("🏁 Reunião do Projeto Vila Nova", fontWeight = FontWeight.Bold)
+//					Spacer(Modifier.height(4.dp))
+//					Row(verticalAlignment = Alignment.CenterVertically) {
+//						Icon(Icons.Default.DateRange, contentDescription = null)
+//						Spacer(Modifier.width(8.dp))
+//						Text("22 de fevereiro de 2025")
+//					}
+//
+//					Divider(Modifier.padding(vertical = 12.dp))
+//
+//					Text("👥 Grupos ${meeting.groups.count()}", fontWeight = FontWeight.Medium)
+//					Spacer(Modifier.height(8.dp))
+//
+//					meeting.groups.forEach { group ->
+//						OutlinedButton(
+//							onClick = {  },
+//							modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(vertical = 4.dp),
+//							border = BorderStroke(1.dp, Color.Black),
+//							colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black),
+//						) {
+//							Row(
+//								modifier = Modifier.fillMaxWidth(),
+//								horizontalArrangement = Arrangement.SpaceBetween,
+//								verticalAlignment = Alignment.CenterVertically,
+//							) {
+//								Text(group.)
+//								Row(verticalAlignment = Alignment.CenterVertically) {
+//									Icon(Icons.Default.PlayArrow, contentDescription = null)
+//									Text("Iniciar")
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+	LazyColumn {
+		items(uiState.meetingsWithDetails) { item ->
 			Card(
-				shape = RoundedCornerShape(16.dp),
-				colors = CardDefaults.cardColors(containerColor = Color.White),
 				modifier = Modifier
 					.fillMaxWidth()
-					.padding(vertical = 8.dp),
+					.padding(8.dp)
 			) {
-				Column(Modifier.padding(16.dp)) {
-					Text("🏁 Reunião do Projeto Vila Nova", fontWeight = FontWeight.Bold)
+				Column(modifier = Modifier.padding(16.dp)) {
+					Text(
+						text = item.meetingTitle,
+						style = MaterialTheme.typography.titleMedium,
+						fontWeight = FontWeight.Bold
+					)
+
 					Spacer(Modifier.height(4.dp))
-					Row(verticalAlignment = Alignment.CenterVertically) {
-						Icon(Icons.Default.DateRange, contentDescription = null)
-						Spacer(Modifier.width(8.dp))
-						Text("22 de fevereiro de 2025")
-					}
 
-					Divider(Modifier.padding(vertical = 12.dp))
+					Text(
+						text = item.meetingDateTime.toBrazilianDateTime(),
+						style = MaterialTheme.typography.bodyMedium,
+						color = Color.Gray
+					)
 
-					Text("👥 Grupos (3)", fontWeight = FontWeight.Medium)
 					Spacer(Modifier.height(8.dp))
 
-					val groups = listOf("Grupo 9:00", "Grupo 10:00", "Grupo 18:00")
-					groups.forEach { group ->
-						OutlinedButton(
-							onClick = { onStartGroup(group) },
-							modifier = Modifier
-								.fillMaxWidth()
-								.padding(vertical = 4.dp),
-							border = BorderStroke(1.dp, Color.Black),
-							colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black),
-						) {
-							Row(
-								modifier = Modifier.fillMaxWidth(),
-								horizontalArrangement = Arrangement.SpaceBetween,
-								verticalAlignment = Alignment.CenterVertically,
-							) {
-								Text(group)
-								Row(verticalAlignment = Alignment.CenterVertically) {
-									Icon(Icons.Default.PlayArrow, contentDescription = null)
-									Text("Iniciar")
-								}
-							}
-						}
+					Text(
+						text = "Projeto: ${item.projectName}",
+						style = MaterialTheme.typography.bodyLarge
+					)
+
+					if (item.groups.isNotEmpty()) {
+						Spacer(Modifier.height(4.dp))
+						Text(
+							text = item.groups.joinToString(", "),
+							style = MaterialTheme.typography.bodyMedium,
+							color = MaterialTheme.colorScheme.primary
+						)
 					}
 				}
 			}
@@ -178,8 +218,8 @@ fun RollCallTabContent(onStartGroup: (String) -> Unit) {
 fun HistoryTabContent(onViewHistoryItem: (String) -> Unit) {
 	Column(
 		modifier = Modifier
-			.fillMaxSize()
-			.padding(16.dp)
+      .fillMaxSize()
+      .padding(16.dp)
 	) {
 		Card(
 			shape = RoundedCornerShape(16.dp),
@@ -268,9 +308,15 @@ fun StatusChip(text: String, color: Color) {
 		contentAlignment = Alignment.Center,
 		modifier =
 			Modifier
-				.background(color.copy(alpha = 0.15f), RoundedCornerShape(8.dp))
-				.padding(horizontal = 8.dp, vertical = 4.dp),
+        .background(color.copy(alpha = 0.15f), RoundedCornerShape(8.dp))
+        .padding(horizontal = 8.dp, vertical = 4.dp),
 	) {
 		Text(text, color = color, fontSize = 12.sp, fontWeight = FontWeight.Bold)
 	}
+}
+
+fun Long.toBrazilianDateTime(): String {
+	return Instant.ofEpochMilli(this)
+		.atZone(ZoneId.of("America/Sao_Paulo"))
+		.format(DateTimeFormatter.ofPattern("dd/MM/yyyy • HH:mm"))
 }

@@ -18,4 +18,5 @@ abstract class AppDatabase : RoomDatabase() {
 	abstract fun projectWithGroups(): ProjectWithGroupsDao
 	abstract fun loginDao(): LoginDao
 	abstract fun registerDao(): RegisterDao
+	abstract fun meetingWithProjectDao(): MeetingWithProject
 }

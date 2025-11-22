@@ -5,6 +5,7 @@ import androidx.room.Embedded
 import androidx.room.Query
 import androidx.room.Relation
 import androidx.room.Transaction
+import kotlinx.coroutines.flow.Flow
 
 data class ProjectWithGroups(
 	@Embedded val project: Project,
@@ -15,5 +16,8 @@ data class ProjectWithGroups(
 interface ProjectWithGroupsDao {
 	@Transaction
 	@Query("SELECT * FROM Project WHERE id = :projectId")
-	suspend fun getProjectWithGroups(projectId: Long): ProjectWithGroups
+	fun getProjectWithGroups(projectId: Long): ProjectWithGroups
+
+	@Query("SELECT * FROM Project")
+	fun getAll(): Flow<List<ProjectWithGroups>>
 }
